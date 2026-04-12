@@ -149,6 +149,7 @@ const INITIAL_CATS = [
   {
     id:"per", label:"Personal", icon:"🏠", color:"#039be5",
     subs:[
+      { id:"per-todo", label:"TO DO", icon:"✅", items:[]},
       { id:"per-kids", label:"Kids", icon:"👶", items:[
         {id:43,text:"Sign permission slip",priority:"high",done:false,loc:"",notes:"Elliott — school permission slip"},
         {id:44,text:"Buy school supplies",priority:"medium",done:false,loc:"Target",notes:""},
@@ -176,7 +177,6 @@ const INITIAL_CATS = [
         {id:41,text:"Pay credit card bill",priority:"high",done:false,loc:"",notes:""},
         {id:42,text:"Review monthly budget",priority:"medium",done:false,loc:"",notes:""},
       ]},
-      { id:"per-errands", label:"Errands", icon:"🏃", items:[]},
     ]
   },
 ];
@@ -1666,7 +1666,7 @@ function PlanView({cats,setDetail}){
             <span style={{fontSize:14}}>🏠</span>
             <div>
               <div style={{fontSize:12,fontWeight:700,color:afterWork||isWeekend?"#0a7a50":"#111122"}}>{isWeekend?"All Day":"After 2:00 PM"} — Personal</div>
-              <div style={{fontSize:9,color:"#999088"}}>Kids, errands, life stuff</div>
+              <div style={{fontSize:9,color:"#999088"}}>To-do, kids, life stuff</div>
             </div>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:4}}>
