@@ -235,8 +235,28 @@ function loadInitialCats(){
   return INITIAL_CATS;
 }
 
+
+
+  /* ── v26 Migration: Rename Errands → TO DO, move before Kids ── */
+  function migrateErrands(catsArr) {
+    const per = catsArr.find(c => c.id === 'per');
+    if (!per || !per.subs) return catsArr;
+    const errIdx = per.subs.findIndex(s => s.id === 'per-errands');
+    if (errIdx === -1) return catsArr; // already migrated
+    const errSub = per.subs[errIdx];
+    errSub.id = 'per-todo';
+    errSub.label = 'TO DO';
+    errSub.icon = '\u2705';
+    per.subs.splice(errIdx, 1); // remove from current position
+    const kidsIdx = per.subs.findIndex(s => s.id === 'per-kids');
+    per.subs.splice(kidsIdx >= 0 ? kidsIdx : 0, 0, errSub); // insert before Kids
+    console.log('CLEO: Migrated Errands → TO DO');
+    fbSave({ cats: catsArr });
+    return [...catsArr];
+  }
+
 function App() {
-  const [cats, setCats] = useState(()=>loadInitialCats());
+  const [cats, setCats] = useState(()=>migrateErrands(loadInitialCats()));
   const [mainTab, setMainTab] = useState("arc");
   const [subTabs, setSubTabs] = useState(()=>lsGet(LS_TABS,{arc:"arc-legal",pp:"pp-ops",amz:"amz-ops",per:"per-tasks"}));
   const [detail, setDetail] = useState(null);
@@ -288,7 +308,7 @@ function App() {
         console.log("CLEO: Local has more items (" + lsCount + " vs " + fbCount + "), pushed local to Firebase");
       } else {
         _skipFbRef.current = true;
-        setCats(fbCats);
+        setCats(migrateErrands(fbCats));
         if(fbData.archived) setArchived(fbData.archived);
         if(fbData.subTabs) setSubTabs(fbData.subTabs);
         if(fbData.nid) _nid = Math.max(_nid, fbData.nid);
@@ -301,7 +321,7 @@ function App() {
       const d = doc.data();
       if(d._lastWriter === _fbWriteId) return;
       _skipFbRef.current = true;
-      if(d.cats) setCats(d.cats);
+      if(d.cats) setCats(migrateErrands(d.cats));
       if(d.archived) setArchived(d.archived);
       if(d.subTabs) setSubTabs(d.subTabs);
       if(d.nid) _nid = Math.max(_nid, d.nid);
