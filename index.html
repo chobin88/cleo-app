@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <title>CLEO</title>
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" onerror="window._fbBlocked=true"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js" onerror="window._fbBlocked=true"></script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#eee9e0;font-family:'Outfit',syhstem-ui,sans-serifh}
 </style>
-<script>if("serviceWorker" in navigator){navigator.serviceWorker.getRegistrations().then(r=>r.forEach(w=>w.unregister()));}</script>
 </head>
 <body>
 <div id="root"></div>
@@ -26,7 +22,7 @@
 </script>
 <script>
 const firebaseConfig = {
-  apiKey: ["AIzaSyA-QJd91z","WI7SqI7XBNeGFwJxsEgsq9LK0"].join(""),
+  apiKey: "AIzaSyA-QJd91zWI7SqI7XBNeGFwJxsEgsq9LK0",
   authDomain: "cleo-app-d601e.firebaseapp.com",
   projectId: "cleo-app-d601e",
   storageBucket: "cleo-app-d601e.firebasestorage.app",
@@ -34,11 +30,86 @@ const firebaseConfig = {
   appId: "1:1018019169499:web:04c7c6b6fc306f7b5ff8fe",
   measurementId: "G-LVBY64LX3E"
 };
-firebase.initializeApp(firebaseConfig);
-window._db = firebase.firestore();
+try {
+  if (typeof firebase !== 'undefined' && !window._fbBlocked) {
+    firebase.initializeApp(firebaseConfig);
+    window._db = firebase.firestore();
+    window._fbAvailable = true;
+  } else {
+    window._db = null;
+    window._fbAvailable = false;
+  }
+} catch(e) {
+  window._db = null;
+  window._fbAvailable = false;
+}
+</script>
+<script>
+/* === PRELOADED FIREBASE DATA FOR PREVIEW MODE === */
+/* Last synced from Firebase: 2026-04-12 */
+window._preloadedCats = [
+{"id":"per","label":"Personal","icon":"🏠","color":"#039be5","subs":[
+  {"id":"per-todo","label":"To Do","icon":"✅","items":[]},
+  {"id":"per-kids","label":"Kids","icon":"👶","items":[
+    {"id":43,"text":"Sign permission slip","done":false,"status":"pending","priority":"high","notes":"Elliott — school permission slip"},
+    {"id":44,"text":"Buy school supplies","done":false,"status":"pending","priority":"medium","loc":"Target"},
+    {"id":45,"text":"Kids dentist appointment","done":false,"status":"pending","priority":"high","notes":"Elliott (7) & Evelyne (4)","loc":"Dentist"}
+  ]},
+  {"id":"per-groc","label":"Groceries","icon":"🛒","items":[]},
+  {"id":"per-health","label":"Health","icon":"💪","items":[]},
+  {"id":"per-fin","label":"Finance","icon":"💰","items":[]}
+]},
+{"id":"cleo","label":"CLEO","icon":"🤖","color":"#7c3aed","subs":[
+  {"id":"cleo-features","label":"Features","icon":"⚡","items":[
+    {"id":205,"text":"MOBILE TASKS","done":false,"status":"done","priority":"medium","notes":"New task — tap to add details"}
+  ]},
+  {"id":"cleo-bugs","label":"Bugs","icon":"🐛","items":[]},
+  {"id":"cleo-ideas","label":"Ideas","icon":"💡","items":[]},
+  {"id":"cleo-changelog","label":"Changelog","icon":"📋","items":[]}
+]},
+{"id":"arc","label":"ARCannabis","icon":"🌿","color":"#d50000","subs":[
+  {"id":"arc-ops","label":"Operations","icon":"⚙️","items":[
+    {"id":202,"text":"Cancel BC Hydro at 438 Richards","done":false,"status":"inprog","priority":"medium","deadline":"Apr 15, 2026","notes":"BC Hydro utility account at 438 Richards St needs to be cancelled.","loc":"438 Richards St"}
+  ]},
+  {"id":"arc-legal","label":"Legal & Licensing","icon":"⚖️","items":[
+    {"id":1,"text":"CITY OF VANCOUVER — 1290 E 12th BL Renewal","done":false,"status":"pending","priority":"high","deadline":"Apr 12, 2026","notes":"CONTACT\nKimberly Li — Property Use Inspector\nPhone: 604.871.6091 | kimberly.li@vancouver.ca","loc":"1290 E 12th Avenue","isEmail":true,"sender":"Kimberly Li","subject":"RE: 1290 E 12th Ave — 2026 Business License Violation"},
+    {"id":2,"text":"1812 WEST 4TH — BOV Renewal → New DP → Land-Use Transfer","done":false,"status":"inprog","priority":"high","deadline":"Apr 13, 2026","notes":"CONTACT\nLouis Ng — Board Secretary, City of Vancouver\nPhone: 604-873-7723 | louis.ng@vancouver.ca","loc":"1812 West 4th Ave","isEmail":true,"sender":"Louis Ng","subject":"BOV Intake Appointment"},
+    {"id":3,"text":"CHATON ENTERPRISES — Building Insurance Renewal","done":false,"status":"pending","priority":"high","notes":"CONTACT\nBetty Lee — Chaton Enterprises\nPhone: 604.322.1966 | info@chatonenterprises.com","loc":"202-7545 Cambie St","isEmail":true,"sender":"Betty Lee","subject":"Annual Building Insurance Renewal — Documents Required"},
+    {"id":52,"text":"438 RICHARDS — Missed Rent Apr 1 (Anoop)","done":false,"status":"pending","priority":"high","deadline":"Apr 14, 2026","notes":"CONTACT\nAnoop — Landlord, 438 Richards St","loc":"438 Richards St","isEmail":true,"sender":"Anoop","subject":"Update Regarding April Rent — 438 Richards"}
+  ]},
+  {"id":"arc-fin","label":"Finance","icon":"💵","items":[]},
+  {"id":"arc-mkt","label":"Marketing","icon":"📣","items":[]},
+  {"id":"arc-sales","label":"Sales","icon":"💰","items":[]},
+  {"id":"arc-ppl","label":"People","icon":"👥","items":[
+    {"id":17,"text":"Louis Ng — City of Vancouver BOV","done":false,"status":"pending","priority":"high","notes":"Phone: 604-873-7723"},
+    {"id":18,"text":"Betty Lee — Chaton Enterprises (landlord)","done":false,"status":"pending","priority":"medium","notes":"Phone: 604.322.1966"},
+    {"id":19,"text":"Kimberly Li — City of Vancouver BL","done":false,"status":"pending","priority":"high","notes":"Phone: 604.871.6091\nRole: Property Use Inspector"},
+    {"id":20,"text":"Insurance Broker — add name + number","done":false,"status":"pending","priority":"high","notes":"Add broker contact here — needed ASAP"},
+    {"id":51,"text":"Anoop — Landlord (Rent / Lease)","done":false,"status":"pending","priority":"high","notes":"Sent rent delay email Apr 10 due to Ministry of Finance PST bank lock."}
+  ]}
+]},
+{"id":"pp","label":"Paper Pals","icon":"📄","color":"#33b679","subs":[
+  {"id":"pp-ops","label":"Operations","icon":"⚙️","items":[]},
+  {"id":"pp-legal","label":"Legal","icon":"⚖️","items":[]},
+  {"id":"pp-fin","label":"Finance","icon":"💵","items":[]},
+  {"id":"pp-mkt","label":"Marketing","icon":"📣","items":[]},
+  {"id":"pp-sales","label":"Sales","icon":"💰","items":[]},
+  {"id":"pp-ppl","label":"People","icon":"👥","items":[]}
+]},
+{"id":"amz","label":"Amazon Seller","icon":"📦","color":"#f6730d","subs":[
+  {"id":"amz-ops","label":"Operations","icon":"⚙️","items":[]},
+  {"id":"amz-legal","label":"Legal","icon":"⚖️","items":[]},
+  {"id":"amz-fin","label":"Finance","icon":"💵","items":[]},
+  {"id":"amz-mkt","label":"Marketing","icon":"📣","items":[]},
+  {"id":"amz-sales","label":"Sales","icon":"💰","items":[]},
+  {"id":"amz-ppl","label":"People","icon":"👥","items":[]}
+]}
+];
 </script>
 <script type="text/babel" data-type="module">
 const { useState, useRef, useEffect } = React;
+
+
 
 
 const INITIAL_CATS = [
@@ -213,8 +284,9 @@ const LS_NID  = "cleo_nid";
 const LS_VER  = "cleo_ver";
 const LS_KEY  = "cleo_api_key";
 let DEFAULT_KEY = "";
+const CURRENT_VER = 33;
+/* Load API key from Firebase (never stored in code) */
 if(window._db) window._db.doc("cleo/config").get().then(d => { if(d.exists && d.data().anthropicKey) DEFAULT_KEY = d.data().anthropicKey; });
-const CURRENT_VER = 26;
 
 function lsGet(key, fallback){
   try{ const v=localStorage.getItem(key); return v?JSON.parse(v):fallback; }
@@ -226,15 +298,18 @@ function lsSet(key, val){
 
 /* ── Firebase sync helpers ── */
 const db = window._db;
-const FB_DOC = db.doc("cleo/state");
+const FB_DOC = db ? db.doc("cleo/state") : null;
 let _fbWriteId = 0;
 function fbSave(data) {
+  if (!FB_DOC) return;
   _fbWriteId = Date.now();
   const payload = { ...data, _lastWriter: _fbWriteId, _lastModified: Date.now() };
   FB_DOC.set(payload, { merge: true }).catch(e => console.warn("Firebase save:", e));
 }
 
 function loadInitialCats(){
+  /* If preloaded Firebase data exists (preview mode), use it */
+  if(window._preloadedCats) return window._preloadedCats;
   /* Try localStorage first; if unavailable (e.g. artifact preview), use hardcoded data */
   const saved = lsGet(LS_CATS, null);
   if(saved){
@@ -266,7 +341,7 @@ function loadInitialCats(){
     const errSub = per.subs[errIdx];
     errSub.id = 'per-todo';
     errSub.label = 'To Do';
-    errSub.icon = '\u2705';
+    errSub.icon = '✅';
     per.subs.splice(errIdx, 1); // remove from current position
     const kidsIdx = per.subs.findIndex(s => s.id === 'per-kids');
     per.subs.splice(kidsIdx >= 0 ? kidsIdx : 0, 0, errSub); // insert before Kids
@@ -362,12 +437,15 @@ function App() {
   }, [subTabs]);
   /* ── Firebase real-time listener + migration ── */
   useEffect(()=>{
+    if (!FB_DOC) { return; }
     FB_DOC.get().then(doc => {
       const fbData = doc.exists ? doc.data() : null;
       const fbCats = fbData && fbData.cats ? fbData.cats : null;
       if(!fbCats) {
+        /* First ever sync — push local to Firebase */
         fbSave({ cats, archived, subTabs, nid: _nid, ver: CURRENT_VER });
       } else {
+        /* ALWAYS trust Firebase as source of truth for multi-device sync */
         _skipFbRef.current = true;
         setCats(migrateReorder(ensureItems(migrateAddCleo(migrateTodoLabel(migrateErrands(fbCats))))));
         if(fbData.archived) setArchived(fbData.archived);
@@ -1127,7 +1205,7 @@ RULES:
           const logs=parsed.logs||[];
           /* Add CLEO reply summary to log */
           const replyShort=reply.length>60?reply.slice(0,60)+"…":reply;
-          logs.push(`🤖 CLEO: ${replyShort}`);
+          logs.push(`$🤖 CLEO: ${replyShort}`);
           updates.logs=logs;
           onBatchUpdate(cat.id,sub.id,item.id,updates);
         }catch(e2){
@@ -1279,7 +1357,7 @@ RULES:
                     marginBottom: isHeader ? 4 : 0,
                     borderTop: isHeader && i>0 ? "1px solid #00000010" : "none",
                     paddingTop: isHeader && i>0 ? 8 : 0,
-                  }}>{clean || "\u00a0"}</div>
+                  }}>{clean || " "}</div>
                 }):<div style={{color:"#b5ac9e",fontStyle:"italic"}}>Tap Edit to add notes...</div>}
               </div>
             )}
