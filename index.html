@@ -266,7 +266,7 @@ function loadInitialCats(){
     const kidsIdx = per.subs.findIndex(s => s.id === 'per-kids');
     per.subs.splice(kidsIdx >= 0 ? kidsIdx : 0, 0, errSub); // insert before Kids
     console.log('CLEO: Migrated Errands → To Do');
-    fbSave({ cats: catsArr });
+    /* fbSave removed - migrations must not write to Firebase */
     return [...catsArr];
   }
 
@@ -278,7 +278,7 @@ function loadInitialCats(){
     if (!todo || todo.label === 'To Do') return catsArr;
     todo.label = 'To Do';
     console.log('CLEO: Fixed To Do label casing');
-    fbSave({ cats: catsArr });
+    /* fbSave removed - migrations must not write to Firebase */
     return [...catsArr];
   }
 
@@ -288,7 +288,7 @@ function loadInitialCats(){
     if (existingCleo) {
       let fixed = false;
       if (existingCleo.subs) existingCleo.subs.forEach(s => { if (!s.items) { s.items = []; fixed = true; } });
-      if (fixed) { console.log('CLEO: Fixed missing items arrays'); fbSave({ cats: catsArr }); return [...catsArr]; }
+      if (fixed) { console.log('CLEO: Fixed missing items arrays'); /* fbSave removed - migrations must not write to Firebase */ return [...catsArr]; }
       return catsArr;
     }
     const ppIdx = catsArr.findIndex(c => c.id === 'pp');
@@ -302,7 +302,7 @@ function loadInitialCats(){
     };
     catsArr.splice(ppIdx >= 0 ? ppIdx : catsArr.length, 0, cleoObj);
     console.log('CLEO: Added CLEO dev category');
-    fbSave({ cats: catsArr });
+    /* fbSave removed - migrations must not write to Firebase */
     return [...catsArr];
   }
 
