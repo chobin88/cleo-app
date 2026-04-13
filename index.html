@@ -78,7 +78,7 @@ const INITIAL_CATS = [
 
            ]
          },
-         notes:"CONTACT\nAnoop — Landlord, 438 Richards St\nPhone: (add number)\nEmail: (add email)\n\nSITUATION\nMissed April 1 rent payment for 438 Richards. BC Ministry of Finance has locked ARCannabis bank account due to outstanding PST tax issues. Cash flow is severely impacted. Need to notify Anoop professionally — maintain trust, show transparency.\n\nSTATUS\nTO DO — email not yet sent. Review drafts below.\n\nNEXT STEPS\n1. Joe reviews both email versions\n2. Joe picks a version or requests changes\n3. Joe sends the email\n4. CLEO moves status to PENDING automatically\n5. Follow up if no reply within 5 business days\n\nIF NO REPLY\nCall Anoop directly — do not go silent. Transparency builds trust."},
+         notes:"CONTACT\nAnoop — Landlord, 438 Richards St\nPhone: (add number)\nEmail: (add email)\n\nSITUATION\nMissed April 1 rent payment for 438 Richards. BC Ministry of Finance has locked ARCannabis bank account due to outstanding PST tax issues. Cash flow is severely impacted. Need to notify Anoop professionally — maintain trust, show transparency.\n\nSTATUS\nTo Do — email not yet sent. Review drafts below.\n\nNEXT STEPS\n1. Joe reviews both email versions\n2. Joe picks a version or requests changes\n3. Joe sends the email\n4. CLEO moves status to PENDING automatically\n5. Follow up if no reply within 5 business days\n\nIF NO REPLY\nCall Anoop directly — do not go silent. Transparency builds trust."},
       ]},
       { id:"arc-fin", label:"Finance", icon:"💵", items:[
         {id:12,text:"Monthly P&L review",priority:"high",done:false,loc:"",notes:""},
@@ -149,7 +149,7 @@ const INITIAL_CATS = [
   {
     id:"per", label:"Personal", icon:"🏠", color:"#039be5",
     subs:[
-      { id:"per-todo", label:"TO DO", icon:"✅", items:[]},
+      { id:"per-todo", label:"To Do", icon:"✅", items:[]},
       { id:"per-kids", label:"Kids", icon:"👶", items:[
         {id:43,text:"Sign permission slip",priority:"high",done:false,loc:"",notes:"Elliott — school permission slip"},
         {id:44,text:"Buy school supplies",priority:"medium",done:false,loc:"Target",notes:""},
@@ -182,7 +182,7 @@ const INITIAL_CATS = [
 ];
 
 const STATUS = {
-  todo:     { label:"TO DO",      color:"#6c5ce7", bg:"#6c5ce718", icon:"○", border:"#6c5ce740" },
+  todo:     { label:"To Do",      color:"#6c5ce7", bg:"#6c5ce718", icon:"○", border:"#6c5ce740" },
   inprog:   { label:"IN PROGRESS",color:"#e68a00", bg:"#ffa50022", icon:"◑", border:"#ffa50050" },
   pending:  { label:"PENDING",    color:"#2979ff", bg:"#2979ff18", icon:"⏳", border:"#2979ff40" },
   done:     { label:"DONE",       color:"#00a86b", bg:"#00a86b18", icon:"✓", border:"#00a86b50" },
@@ -237,7 +237,7 @@ function loadInitialCats(){
 
 
 
-  /* ── v26 Migration: Rename Errands → TO DO, move before Kids ── */
+  /* ── v26 Migration: Rename Errands → To Do, move before Kids ── */
   function migrateErrands(catsArr) {
     const per = catsArr.find(c => c.id === 'per');
     if (!per || !per.subs) return catsArr;
@@ -245,12 +245,12 @@ function loadInitialCats(){
     if (errIdx === -1) return catsArr; // already migrated
     const errSub = per.subs[errIdx];
     errSub.id = 'per-todo';
-    errSub.label = 'TO DO';
+    errSub.label = 'To Do';
     errSub.icon = '\u2705';
     per.subs.splice(errIdx, 1); // remove from current position
     const kidsIdx = per.subs.findIndex(s => s.id === 'per-kids');
     per.subs.splice(kidsIdx >= 0 ? kidsIdx : 0, 0, errSub); // insert before Kids
-    console.log('CLEO: Migrated Errands → TO DO');
+    console.log('CLEO: Migrated Errands → To Do');
     fbSave({ cats: catsArr });
     return [...catsArr];
   }
