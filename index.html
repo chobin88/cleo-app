@@ -39,72 +39,72 @@ const { useState, useRef, useEffect } = React;
 
 const INITIAL_CATS = [
   {
-    id:"per", label:"Personal", icon:"🏠", color:"#039be5",
+    id:"per", label:"Personal", icon:"ð ", color:"#039be5",
     subs:[
-      { id:"per-todo", label:"To Do", icon:"✅", items:[]},
-      { id:"per-kids", label:"Kids", icon:"👶", items:[
-        {id:43,text:"Sign permission slip",priority:"high",done:false,loc:"",notes:"Elliott — school permission slip"},
+      { id:"per-todo", label:"To Do", icon:"â", items:[]},
+      { id:"per-kids", label:"Kids", icon:"ð¶", items:[
+        {id:43,text:"Sign permission slip",priority:"high",done:false,loc:"",notes:"Elliott â school permission slip"},
         {id:44,text:"Buy school supplies",priority:"medium",done:false,loc:"Target",notes:""},
         {id:45,text:"Kids dentist appointment",priority:"high",done:false,loc:"Dentist",notes:"Elliott (7) & Evelyne (4)"},
-        {id:60,text:"Elliot's First Soccer Game",priority:"high",done:false,status:"inprog",deadline:"Apr 11, 2026",loc:"5755 Mountain View Blvd, Ladner BC",notes:"SITUATION\nElliot's first soccer game. Coach wants the team there 30 minutes early at 11:15am for warmup. First time at this field so need extra time to find it. Drive is about 40 minutes from home.\n\nLOCATION\n📍 5755 Mountain View Blvd, Ladner BC\nFirst time here — allow extra time to find the field and parking.\n\nSCHEDULE\n⚽ Game starts: 11:45am\n🏃 Arrive by: 11:15am (30 min early — coach's instructions)\n🚗 Leave home by: 10:35am (40 min drive)\n🔔 Reminders: 1 hour + 15 min before\n\nSTATUS\nIN PROGRESS — Calendar updated, planning complete. Ready to go.\n\nNEXT STEPS\n✅ Location added to Google Calendar\n✅ Leave time calculated — 10:35am (40 min drive)\n✅ Arrival time set — 11:15am (30 min early)\n✅ Reminders configured\n✅ Coach's warmup instructions noted\n• Pack snacks and gear\n• Leave home by 10:35am\n• Find field + parking on arrival",log:["Apr 10 — Task created","Apr 10 — 📅 Added to Google Calendar","Apr 11 — ⏰ Updated leave time to 10:30am + calendar updated","Apr 11 — 💬 Joe: coach wants 30 min early for warmup, arrive 11:15am","Apr 11 — 📝 Notes updated with coach instructions","Apr 11 — 💬 Joe: takes 40 min to get there, need to time departure from home","Apr 11 — 🤖 CLEO: Calculated leave time 10:35am based on 40 min drive to arrive by 11:15am","Apr 11 — 📅 Google Calendar updated — arrive 11:15am, leave 10:35am","Apr 11 — ◑ Status → IN PROGRESS"],chat:[
+        {id:60,text:"Elliot's First Soccer Game",priority:"high",done:false,status:"inprog",deadline:"Apr 11, 2026",loc:"5755 Mountain View Blvd, Ladner BC",notes:"SITUATION\nElliot's first soccer game. Coach wants the team there 30 minutes early at 11:15am for warmup. First time at this field so need extra time to find it. Drive is about 40 minutes from home.\n\nLOCATION\nð 5755 Mountain View Blvd, Ladner BC\nFirst time here â allow extra time to find the field and parking.\n\nSCHEDULE\nâ½ Game starts: 11:45am\nð Arrive by: 11:15am (30 min early â coach's instructions)\nð Leave home by: 10:35am (40 min drive)\nð Reminders: 1 hour + 15 min before\n\nSTATUS\nIN PROGRESS â Calendar updated, planning complete. Ready to go.\n\nNEXT STEPS\nâ Location added to Google Calendar\nâ Leave time calculated â 10:35am (40 min drive)\nâ Arrival time set â 11:15am (30 min early)\nâ Reminders configured\nâ Coach's warmup instructions noted\nâ¢ Pack snacks and gear\nâ¢ Leave home by 10:35am\nâ¢ Find field + parking on arrival",log:["Apr 10 â Task created","Apr 10 â ð Added to Google Calendar","Apr 11 â â° Updated leave time to 10:30am + calendar updated","Apr 11 â ð¬ Joe: coach wants 30 min early for warmup, arrive 11:15am","Apr 11 â ð Notes updated with coach instructions","Apr 11 â ð¬ Joe: takes 40 min to get there, need to time departure from home","Apr 11 â ð¤ CLEO: Calculated leave time 10:35am based on 40 min drive to arrive by 11:15am","Apr 11 â ð Google Calendar updated â arrive 11:15am, leave 10:35am","Apr 11 â â Status â IN PROGRESS"],chat:[
           {from:"joe",text:"5755 mountain view boulevard ladner bc set a calender reminder to leave by 10 45 am at 1145am"},
-          {from:"cleo",text:"Done! I added it to your Google Calendar for tomorrow (Apr 11):\n\n📍 5755 Mountain View Blvd, Ladner BC\n⏰ Leave by 10:45am — Game at 11:45am\n🔔 Reminders set: 1 hour before + 15 min before\n\nYou're all set. Don't forget the snacks! ⚽"},
+          {from:"cleo",text:"Done! I added it to your Google Calendar for tomorrow (Apr 11):\n\nð 5755 Mountain View Blvd, Ladner BC\nâ° Leave by 10:45am â Game at 11:45am\nð Reminders set: 1 hour before + 15 min before\n\nYou're all set. Don't forget the snacks! â½"},
           {from:"joe",text:"update and set reminder to leave at 1030am",ts:"2026-04-11T09:00:00"},
-          {from:"cleo",text:"Done! Updated your leave time to 10:30am and updated the Google Calendar event.\n\n📍 5755 Mountain View Blvd, Ladner BC\n⏰ Leave by 10:30am — Game at 11:45am\n🔔 Reminders still set: 1hr + 15min before\n\nYou've got an extra 15 minutes now. Have fun today! ⚽",ts:"2026-04-11T09:00:05"},
+          {from:"cleo",text:"Done! Updated your leave time to 10:30am and updated the Google Calendar event.\n\nð 5755 Mountain View Blvd, Ladner BC\nâ° Leave by 10:30am â Game at 11:45am\nð Reminders still set: 1hr + 15min before\n\nYou've got an extra 15 minutes now. Have fun today! â½",ts:"2026-04-11T09:00:05"},
           {from:"joe",text:"coach wants to arrive 30 minutes early so we can find the field and do a quick warm up.. so arrive at 1115.. takes 40 minutes to get there to time out when i need to leave from home",ts:"2026-04-11T09:30:00"},
-          {from:"cleo",text:"Updated! Here's your game day plan:\n\n⚽ Game: 11:45am\n🏃 Arrive: 11:15am (30 min early for warmup)\n🚗 Leave home: 10:35am (40 min drive)\n\nI moved your leave time to 10:35am based on the 40 min drive so you hit 11:15am. Calendar is updated too.\n\nSince you've never been to this field, maybe leave at 10:30am to give yourself 5 extra minutes to find parking. Good luck Elliot! ⚽",ts:"2026-04-11T09:30:05"}
+          {from:"cleo",text:"Updated! Here's your game day plan:\n\nâ½ Game: 11:45am\nð Arrive: 11:15am (30 min early for warmup)\nð Leave home: 10:35am (40 min drive)\n\nI moved your leave time to 10:35am based on the 40 min drive so you hit 11:15am. Calendar is updated too.\n\nSince you've never been to this field, maybe leave at 10:30am to give yourself 5 extra minutes to find parking. Good luck Elliot! â½",ts:"2026-04-11T09:30:05"}
         ]},
       ]},
-      { id:"per-groc", label:"Groceries", icon:"🛒", items:[
-        {id:37,text:"Toilet paper — Costco",priority:"high",done:false,loc:"Costco",notes:""},
-        {id:38,text:"Paper towels — Costco",priority:"medium",done:false,loc:"Costco",notes:""},
-        {id:39,text:"Olive oil — Costco",priority:"low",done:false,loc:"Costco",notes:""},
+      { id:"per-groc", label:"Groceries", icon:"ð", items:[
+        {id:37,text:"Toilet paper â Costco",priority:"high",done:false,loc:"Costco",notes:""},
+        {id:38,text:"Paper towels â Costco",priority:"medium",done:false,loc:"Costco",notes:""},
+        {id:39,text:"Olive oil â Costco",priority:"low",done:false,loc:"Costco",notes:""},
         {id:40,text:"Eggs x2 dozen",priority:"high",done:false,loc:"Costco",notes:""},
       ]},
-      { id:"per-health", label:"Health", icon:"💪", items:[
+      { id:"per-health", label:"Health", icon:"ðª", items:[
         {id:35,text:"Morning workout",priority:"high",done:false,loc:"",notes:""},
         {id:36,text:"Schedule doctor checkup",priority:"medium",done:false,loc:"",notes:""},
       ]},
-      { id:"per-fin", label:"Finance", icon:"💰", items:[
+      { id:"per-fin", label:"Finance", icon:"ð°", items:[
         {id:41,text:"Pay credit card bill",priority:"high",done:false,loc:"",notes:""},
         {id:42,text:"Review monthly budget",priority:"medium",done:false,loc:"",notes:""},
       ]},
     ]
   },
   {
-    id:"cleo", label:"CLEO", icon:"🤖", color:"#7c3aed", subs:[
-      {id:"cleo-features", label:"Features", icon:"⚡", items:[]},
-      {id:"cleo-bugs", label:"Bugs", icon:"🐛", items:[]},
-      {id:"cleo-ideas", label:"Ideas", icon:"💡", items:[]},
-      {id:"cleo-changelog", label:"Changelog", icon:"📋", items:[]},
+    id:"cleo", label:"CLEO", icon:"ð¤", color:"#7c3aed", subs:[
+      {id:"cleo-features", label:"Features", icon:"â¡", items:[]},
+      {id:"cleo-bugs", label:"Bugs", icon:"ð", items:[]},
+      {id:"cleo-ideas", label:"Ideas", icon:"ð¡", items:[]},
+      {id:"cleo-changelog", label:"Changelog", icon:"ð", items:[]},
     ]
   },
   {
-    id:"arc", label:"ARCannabis", icon:"🌿", color:"#d50000",
+    id:"arc", label:"ARCannabis", icon:"ð¿", color:"#d50000",
     subs:[
-      { id:"arc-ops", label:"Operations", icon:"⚙️", items:[
-        {id:202,text:"Cancel BC Hydro at 438 Richards",done:false,priority:"medium",loc:"438 Richards St",notes:"SITUATION\nBC Hydro utility account at 438 Richards St needs to be cancelled. This is an operations task to shut down the utility service at this location.\n\nSTATUS\nDeadline set for April 15, 2026. Task is in progress — cancellation needs to be completed by that date.\n\nNEXT STEPS\n• Call BC Hydro customer service to initiate account cancellation for 438 Richards St\n• Confirm final meter reading and any outstanding balance\n• Get cancellation confirmation number\n• Verify no early termination fees apply\n\nIF NO REPLY\nFollow up with BC Hydro by Apr 14 to ensure cancellation is processed before the Apr 15 deadline.",deadline:"Apr 15, 2026",isEmail:false,status:"inprog",files:[],requiredFiles:[],log:["Apr 10 — Task created","Apr 11 — CLEO moved from Legal to Operations","Apr 10 — Deadline set to Apr 15","Apr 10 — 📅 Added to Google Calendar"],chat:[{from:"joe",text:"set this to be done on april 15 and add it to my calender",ts:"2026-04-10T22:00:00"},{from:"cleo",text:"Done! I've set the deadline to April 15 and added it to your Google Calendar. I also updated your notes with structured next steps — you'll want to call BC Hydro to initiate the cancellation before that date. Let me know if you need the phone number or anything else.",ts:"2026-04-10T22:00:05"}]},
+      { id:"arc-ops", label:"Operations", icon:"âï¸", items:[
+        {id:202,text:"Cancel BC Hydro at 438 Richards",done:false,priority:"medium",loc:"438 Richards St",notes:"SITUATION\nBC Hydro utility account at 438 Richards St needs to be cancelled. This is an operations task to shut down the utility service at this location.\n\nSTATUS\nDeadline set for April 15, 2026. Task is in progress â cancellation needs to be completed by that date.\n\nNEXT STEPS\nâ¢ Call BC Hydro customer service to initiate account cancellation for 438 Richards St\nâ¢ Confirm final meter reading and any outstanding balance\nâ¢ Get cancellation confirmation number\nâ¢ Verify no early termination fees apply\n\nIF NO REPLY\nFollow up with BC Hydro by Apr 14 to ensure cancellation is processed before the Apr 15 deadline.",deadline:"Apr 15, 2026",isEmail:false,status:"inprog",files:[],requiredFiles:[],log:["Apr 10 â Task created","Apr 11 â CLEO moved from Legal to Operations","Apr 10 â Deadline set to Apr 15","Apr 10 â ð Added to Google Calendar"],chat:[{from:"joe",text:"set this to be done on april 15 and add it to my calender",ts:"2026-04-10T22:00:00"},{from:"cleo",text:"Done! I've set the deadline to April 15 and added it to your Google Calendar. I also updated your notes with structured next steps â you'll want to call BC Hydro to initiate the cancellation before that date. Let me know if you need the phone number or anything else.",ts:"2026-04-10T22:00:05"}]},
       ]},
-      { id:"arc-legal", label:"Legal & Licensing", icon:"⚖️", items:[
-        {id:1,text:"CITY OF VANCOUVER — 1290 E 12th BL Renewal",files:[],requiredFiles:[],priority:"high",done:false,status:"pending",loc:"1290 E 12th Avenue",isEmail:true,deadline:"Apr 12, 2026",subject:"RE: 1290 E 12th Ave — 2026 Business License Violation",sender:"Kimberly Li",senderEmail:"kimberly.li@vancouver.ca",dateReceived:"Apr 10",
-         log:["Apr 10 10:33am — Email sent to Kimberly Li requesting extension to Apr 17","Apr 10 — Visa payment made, funds clearing in ~5 business days","⏳ Step 3: Kimberly Li to confirm Apr 17 extension","⏳ Step 4: Visa clears ~Apr 15 → pay license fee immediately","⏳ Step 5: Send payment copy to Kimberly Li","⏳ Step 6: Add Google Calendar reminder 'Pay 1290 BL fee' for Apr 15"],
-         notes:"CONTACT\nKimberly Li — Property Use Inspector\nPhone: 604.871.6091 | kimberly.li@vancouver.ca\nCC: Gage.Bonneville@vancouver.ca\n\nSITUATION\nARCannabis at 1290 E 12th operating without valid 2026 Business License. Violation of Licence Bylaw #4450. Fine: $1,000/day if not resolved.\n\nSTATUS\nExtension to Apr 17 requested — AWAITING CONFIRMATION\n\nNEXT STEPS\n1. Wait for Kimberly to confirm Apr 17 extension\n2. Visa clears ~Apr 15 → pay license fee immediately\n3. Send payment copy to Kimberly\n4. Task complete → mark DONE\n\nIF NO REPLY BY APR 13 9AM\nCall: 604.871.6091\nCC Gage if no response: Gage.Bonneville@vancouver.ca"},
-        {id:2,text:"1812 WEST 4TH — BOV Renewal → New DP → Land-Use Transfer",files:[],requiredFiles:[],priority:"high",done:false,status:"inprog",loc:"City Hall, Unit #112, Cambie & West 12th",isEmail:true,deadline:"Apr 13, 2026",subject:"RE: 1812 West 4th — BOV Intake Appointment Confirmed Apr 13",sender:"Louis Ng",senderEmail:"louis.ng@vancouver.ca",dateReceived:"Apr 10",
-         log:["Apr 10 10:04am — Louis Ng emailed: intake appointment confirmed for Mon Apr 13 @ 4:45pm","Apr 10 11:20am — ✅ Joe replied confirming attendance","⏳ TODO — Get cheque for $3,071.25 payable to BOV Panel","⏳ TODO — Gather all BOV filing documents before Monday 4:45pm"],
-         notes:"CONTACT\nLouis Ng — Board Secretary, City of Vancouver\nPhone: 604-873-7723 | louis.ng@vancouver.ca\nCity Hall, ground floor, Unit #112\n\nSITUATION\n1812 West 4th BOV must be renewed. This is the MOST CRITICAL legal task — if BOV expires, ARCannabis loses cannabis land-use entirely. This is a 3-phase process: (1) BOV renewal, (2) new Development Permit for other site, (3) land-use transfer appeal.\n\nSTATUS\nPHASE 1 — IN PROGRESS — BOV intake appointment Apr 13 @ 4:45pm\n\nNEXT STEPS\nPHASE 1 — BOV RENEWAL (NOW)\n1. Get cheque for $3,071.25 payable to BOV Panel\n2. Gather all BOV filing documents before Monday 4:45pm\n3. Attend intake appointment — City Hall, Unit #112\n4. Wait for BOV approval (June 16 meeting)\n\nPHASE 2 — NEW DEVELOPMENT PERMIT (AFTER BOV APPROVED)\n5. Once BOV confirmed → begin new DP application\n6. Gather all required documents for new site\n7. Submit DP application to City of Vancouver\n\nPHASE 3 — LAND-USE TRANSFER (AFTER NEW DP APPROVED)\n8. File appeal to transfer cannabis land-use from 1812 West 4th to new location\n9. Attend hearing / submit documentation\n10. Confirm transfer complete\n\nIF NO REPLY\nCall Louis Ng: 604-873-7723 | louis.ng@vancouver.ca"},
-        {id:3,text:"CHATON ENTERPRISES — Building Insurance Renewal",priority:"high",done:false,status:"pending",loc:"202-7545 Cambie St",isEmail:true,deadline:"",subject:"Annual Building Insurance Renewal — Documents Required",sender:"Betty Lee",senderEmail:"info@chatonenterprises.com",dateReceived:"Apr 10",files:[{label:"Business License — City of Vancouver",name:"450229-3 (1).pdf",size:0},{label:"Business License — Province of BC",name:"225 SE MARINE (1).pdf",size:0}],requiredFiles:["Business License — City of Vancouver","Business License — Province of BC","Insurance Policy — Melvin @ TSN Insurance (225)"],
-         log:["Apr 10 — Email received from Betty Lee requesting business license + insurance cert","✅ Step 1: City of Vancouver business license — ATTACHED","✅ Step 2: Province of BC business license — ATTACHED","✅ Step 3: Apr 10 1:59pm — Joe emailed Melvin Johal requesting 225 Marine insurance policy","⏳ Step 4: Waiting on Melvin to send policy → CLEO attaches when received","⏳ Step 5: All 3 files ready → CLEO drafts email to Betty Lee","⏳ Step 6: Joe reviews + sends"],
-         notes:"CONTACT\nBetty Lee — Office Manager, Chaton Enterprises (landlord)\nPhone: 604.322.1966 | Fax: 604.322.0969\nEmail: info@chatonenterprises.com\n\nINSURANCE BROKER\nMelvin Johal\nEmail: (from Outlook sent items)\nPolicy: 225 Marine\nLocation: 225 SE Marine Drive, Vancouver, BC V5X 2S4\n\nSITUATION\nAnnual building insurance renewal. Betty requires 3 documents: (1) City of Vancouver business license, (2) Province of BC business license, and (3) current insurance policy from broker Melvin @ TSN Insurance. Required every year for all recreational marijuana dispensaries.\n\nSTATUS\nPENDING — 2 of 3 files attached. Emailed Melvin Johal Apr 10 @ 1:59pm requesting 225 Marine insurance policy. Waiting for reply.\n\nNEXT STEPS\n1. ✅ City of Vancouver business license — DONE\n2. ✅ Province of BC business license — DONE\n3. ✅ Emailed Melvin Johal — requested 225 Marine insurance policy (Apr 10)\n4. Melvin sends policy → CLEO downloads + attaches\n5. All 3 files ready → CLEO drafts email to Betty Lee\n6. Joe reviews, approves, clicks send\n7. Confirm with Betty Lee that all documents received\n\nIF NO REPLY\nBetty Lee: 604.322.1966\nMelvin @ TSN Insurance: (add number) — this is blocking the renewal"},
-        {id:52,text:"438 RICHARDS — Missed Rent Apr 1 (Anoop)",files:[],requiredFiles:[],priority:"high",done:false,status:"pending",loc:"438 Richards St",isEmail:true,deadline:"Apr 14, 2026",subject:"Update Regarding April Rent — 438 Richards",sender:"Anoop",senderEmail:"",dateReceived:"",
-         log:["Apr 10 — CLEO created task: missed April 1 rent, need to notify landlord Anoop","Apr 10 — Joe reviewed V1 (Balanced) and V2 (Clean Exit)","Apr 10 — Joe edited V2 with CLEO: removed bankruptcy mention, focused on clean transition","✅ Apr 10 — Email draft confirmed (V2: Clean Exit — Mutual Transition)","Apr 10 — Joe: send this Monday instead","✅ Apr 10 — CLEO set deadline to Mon Apr 13 + updated Google Calendar","Apr 10 — Joe: move to Tuesday instead","✅ Apr 10 — CLEO moved deadline to Tue Apr 14 + updated Google Calendar","⏳ Tue Apr 14 — Send email to Anoop from Outlook","⏳ After send → CLEO moves to IN PROGRESS","⏳ If no reply within 5 business days → CLEO reminds Joe to follow up"],
+      { id:"arc-legal", label:"Legal & Licensing", icon:"âï¸", items:[
+        {id:1,text:"CITY OF VANCOUVER â 1290 E 12th BL Renewal",files:[],requiredFiles:[],priority:"high",done:false,status:"pending",loc:"1290 E 12th Avenue",isEmail:true,deadline:"Apr 12, 2026",subject:"RE: 1290 E 12th Ave â 2026 Business License Violation",sender:"Kimberly Li",senderEmail:"kimberly.li@vancouver.ca",dateReceived:"Apr 10",
+         log:["Apr 10 10:33am â Email sent to Kimberly Li requesting extension to Apr 17","Apr 10 â Visa payment made, funds clearing in ~5 business days","â³ Step 3: Kimberly Li to confirm Apr 17 extension","â³ Step 4: Visa clears ~Apr 15 â pay license fee immediately","â³ Step 5: Send payment copy to Kimberly Li","â³ Step 6: Add Google Calendar reminder 'Pay 1290 BL fee' for Apr 15"],
+         notes:"CONTACT\nKimberly Li â Property Use Inspector\nPhone: 604.871.6091 | kimberly.li@vancouver.ca\nCC: Gage.Bonneville@vancouver.ca\n\nSITUATION\nARCannabis at 1290 E 12th operating without valid 2026 Business License. Violation of Licence Bylaw #4450. Fine: $1,000/day if not resolved.\n\nSTATUS\nExtension to Apr 17 requested â AWAITING CONFIRMATION\n\nNEXT STEPS\n1. Wait for Kimberly to confirm Apr 17 extension\n2. Visa clears ~Apr 15 â pay license fee immediately\n3. Send payment copy to Kimberly\n4. Task complete â mark DONE\n\nIF NO REPLY BY APR 13 9AM\nCall: 604.871.6091\nCC Gage if no response: Gage.Bonneville@vancouver.ca"},
+        {id:2,text:"1812 WEST 4TH â BOV Renewal â New DP â Land-Use Transfer",files:[],requiredFiles:[],priority:"high",done:false,status:"inprog",loc:"City Hall, Unit #112, Cambie & West 12th",isEmail:true,deadline:"Apr 13, 2026",subject:"RE: 1812 West 4th â BOV Intake Appointment Confirmed Apr 13",sender:"Louis Ng",senderEmail:"louis.ng@vancouver.ca",dateReceived:"Apr 10",
+         log:["Apr 10 10:04am â Louis Ng emailed: intake appointment confirmed for Mon Apr 13 @ 4:45pm","Apr 10 11:20am â â Joe replied confirming attendance","â³ TODO â Get cheque for $3,071.25 payable to BOV Panel","â³ TODO â Gather all BOV filing documents before Monday 4:45pm"],
+         notes:"CONTACT\nLouis Ng â Board Secretary, City of Vancouver\nPhone: 604-873-7723 | louis.ng@vancouver.ca\nCity Hall, ground floor, Unit #112\n\nSITUATION\n1812 West 4th BOV must be renewed. This is the MOST CRITICAL legal task â if BOV expires, ARCannabis loses cannabis land-use entirely. This is a 3-phase process: (1) BOV renewal, (2) new Development Permit for other site, (3) land-use transfer appeal.\n\nSTATUS\nPHASE 1 â IN PROGRESS â BOV intake appointment Apr 13 @ 4:45pm\n\nNEXT STEPS\nPHASE 1 â BOV RENEWAL (NOW)\n1. Get cheque for $3,071.25 payable to BOV Panel\n2. Gather all BOV filing documents before Monday 4:45pm\n3. Attend intake appointment â City Hall, Unit #112\n4. Wait for BOV approval (June 16 meeting)\n\nPHASE 2 â NEW DEVELOPMENT PERMIT (AFTER BOV APPROVED)\n5. Once BOV confirmed â begin new DP application\n6. Gather all required documents for new site\n7. Submit DP application to City of Vancouver\n\nPHASE 3 â LAND-USE TRANSFER (AFTER NEW DP APPROVED)\n8. File appeal to transfer cannabis land-use from 1812 West 4th to new location\n9. Attend hearing / submit documentation\n10. Confirm transfer complete\n\nIF NO REPLY\nCall Louis Ng: 604-873-7723 | louis.ng@vancouver.ca"},
+        {id:3,text:"CHATON ENTERPRISES â Building Insurance Renewal",priority:"high",done:false,status:"pending",loc:"202-7545 Cambie St",isEmail:true,deadline:"",subject:"Annual Building Insurance Renewal â Documents Required",sender:"Betty Lee",senderEmail:"info@chatonenterprises.com",dateReceived:"Apr 10",files:[{label:"Business License â City of Vancouver",name:"450229-3 (1).pdf",size:0},{label:"Business License â Province of BC",name:"225 SE MARINE (1).pdf",size:0}],requiredFiles:["Business License â City of Vancouver","Business License â Province of BC","Insurance Policy â Melvin @ TSN Insurance (225)"],
+         log:["Apr 10 â Email received from Betty Lee requesting business license + insurance cert","â Step 1: City of Vancouver business license â ATTACHED","â Step 2: Province of BC business license â ATTACHED","â Step 3: Apr 10 1:59pm â Joe emailed Melvin Johal requesting 225 Marine insurance policy","â³ Step 4: Waiting on Melvin to send policy â CLEO attaches when received","â³ Step 5: All 3 files ready â CLEO drafts email to Betty Lee","â³ Step 6: Joe reviews + sends"],
+         notes:"CONTACT\nBetty Lee â Office Manager, Chaton Enterprises (landlord)\nPhone: 604.322.1966 | Fax: 604.322.0969\nEmail: info@chatonenterprises.com\n\nINSURANCE BROKER\nMelvin Johal\nEmail: (from Outlook sent items)\nPolicy: 225 Marine\nLocation: 225 SE Marine Drive, Vancouver, BC V5X 2S4\n\nSITUATION\nAnnual building insurance renewal. Betty requires 3 documents: (1) City of Vancouver business license, (2) Province of BC business license, and (3) current insurance policy from broker Melvin @ TSN Insurance. Required every year for all recreational marijuana dispensaries.\n\nSTATUS\nPENDING â 2 of 3 files attached. Emailed Melvin Johal Apr 10 @ 1:59pm requesting 225 Marine insurance policy. Waiting for reply.\n\nNEXT STEPS\n1. â City of Vancouver business license â DONE\n2. â Province of BC business license â DONE\n3. â Emailed Melvin Johal â requested 225 Marine insurance policy (Apr 10)\n4. Melvin sends policy â CLEO downloads + attaches\n5. All 3 files ready â CLEO drafts email to Betty Lee\n6. Joe reviews, approves, clicks send\n7. Confirm with Betty Lee that all documents received\n\nIF NO REPLY\nBetty Lee: 604.322.1966\nMelvin @ TSN Insurance: (add number) â this is blocking the renewal"},
+        {id:52,text:"438 RICHARDS â Missed Rent Apr 1 (Anoop)",files:[],requiredFiles:[],priority:"high",done:false,status:"pending",loc:"438 Richards St",isEmail:true,deadline:"Apr 14, 2026",subject:"Update Regarding April Rent â 438 Richards",sender:"Anoop",senderEmail:"",dateReceived:"",
+         log:["Apr 10 â CLEO created task: missed April 1 rent, need to notify landlord Anoop","Apr 10 â Joe reviewed V1 (Balanced) and V2 (Clean Exit)","Apr 10 â Joe edited V2 with CLEO: removed bankruptcy mention, focused on clean transition","â Apr 10 â Email draft confirmed (V2: Clean Exit â Mutual Transition)","Apr 10 â Joe: send this Monday instead","â Apr 10 â CLEO set deadline to Mon Apr 13 + updated Google Calendar","Apr 10 â Joe: move to Tuesday instead","â Apr 10 â CLEO moved deadline to Tue Apr 14 + updated Google Calendar","â³ Tue Apr 14 â Send email to Anoop from Outlook","â³ After send â CLEO moves to IN PROGRESS","â³ If no reply within 5 business days â CLEO reminds Joe to follow up"],
          chat:[{from:"joe",text:"i notice in my calendar this is for monday... can you move it to tuesday"},{from:"cleo",text:"Done. Moved the deadline and Google Calendar event to Tuesday Apr 14 at 9:30am. You will get a reminder 30 min before."}],
          drafts:{
-           subject:"Update Regarding April Rent — 438 Richards",
+           subject:"Update Regarding April Rent â 438 Richards",
            chosen:"v2",
            v1:"Hi Anoop,\n\nI wanted to reach out directly and be upfront with you about where things stand.\n\nWe are currently dealing with a situation with the BC Ministry of Finance that has temporarily restricted access to our operating account. This has put us in a difficult cash flow position, and as a result, we were unable to make our April 1 rent payment on time.\n\nWe are actively working with the appropriate parties to get this resolved as quickly as possible. This is a top priority for us.\n\nI did not want to leave you in the dark. As soon as we have clarity on the timeline, I will update you immediately.\n\nI appreciate your patience and understanding while we work through this.\n\nThank you,\nJoe Le\nCo-Founder, ARCannabis Store\n(778) 858-9591\njoe@arcannabis.ca",
            v2:"Hi Anoop,\n\nI am writing to give you an honest update on our situation at 438 Richards.\n\nDue to an ongoing matter with the BC Ministry of Finance, our business is in serious financial distress. As a result, we will not be able to continue with rent payments moving forward.\n\nI want to be upfront with you rather than let this situation drag on. Given where things stand, I believe it makes sense for us to work toward a clean and orderly transition of the unit so you can move forward as quickly as possible.\n\nI am open to discussing what that could look like and finding a reasonable solution for both sides.\n\nPlease let me know your thoughts.\n\nThank you,\nJoe Le",
-           v1Label:"BALANCED — Joe's Tone",
-           v2Label:"CLEAN EXIT — Mutual Transition",
+           v1Label:"BALANCED â Joe's Tone",
+           v2Label:"CLEAN EXIT â Mutual Transition",
            chat:[
              {from:"joe",text:"basically we need to exit cleanly with respects, we cant pay him anymore. not sure if we should tell him everything but he might sue, tony is on personal guarantee. we owe a lot of tax to the province and seriously facing bankruptcy. best to come up with a solution to exit cleanly. need help to come up with something proper to resolve this matter."},
              {from:"cleo",text:"Got it Joe. I rewrote V2 completely. Here's my approach: I kept it honest but strategic. We are NOT mentioning bankruptcy, tax debt, or Tony's personal guarantee. That's your leverage and legal position, not something to hand over in an email. Instead, the new draft focuses on: (1) being transparent about the financial difficulty, (2) showing respect by not going silent, (3) proposing a conversation about options like a payment plan or transition timeline. This positions you as someone trying to do the right thing, which makes it much harder for him to escalate aggressively. Read V2 above and let me know if you want changes."},
@@ -119,81 +119,81 @@ const INITIAL_CATS = [
 
            ]
          },
-         notes:"CONTACT\nAnoop — Landlord, 438 Richards St\nPhone: (add number)\nEmail: (add email)\n\nSITUATION\nMissed April 1 rent payment for 438 Richards. BC Ministry of Finance has locked ARCannabis bank account due to outstanding PST tax issues. Cash flow is severely impacted. Need to notify Anoop professionally — maintain trust, show transparency.\n\nSTATUS\nTo Do — email not yet sent. Review drafts below.\n\nNEXT STEPS\n1. Joe reviews both email versions\n2. Joe picks a version or requests changes\n3. Joe sends the email\n4. CLEO moves status to PENDING automatically\n5. Follow up if no reply within 5 business days\n\nIF NO REPLY\nCall Anoop directly — do not go silent. Transparency builds trust."},
+         notes:"CONTACT\nAnoop â Landlord, 438 Richards St\nPhone: (add number)\nEmail: (add email)\n\nSITUATION\nMissed April 1 rent payment for 438 Richards. BC Ministry of Finance has locked ARCannabis bank account due to outstanding PST tax issues. Cash flow is severely impacted. Need to notify Anoop professionally â maintain trust, show transparency.\n\nSTATUS\nTo Do â email not yet sent. Review drafts below.\n\nNEXT STEPS\n1. Joe reviews both email versions\n2. Joe picks a version or requests changes\n3. Joe sends the email\n4. CLEO moves status to PENDING automatically\n5. Follow up if no reply within 5 business days\n\nIF NO REPLY\nCall Anoop directly â do not go silent. Transparency builds trust."},
       ]},
-      { id:"arc-fin", label:"Finance", icon:"💵", items:[
+      { id:"arc-fin", label:"Finance", icon:"ðµ", items:[
         {id:12,text:"Monthly P&L review",priority:"high",done:false,loc:"",notes:""},
         {id:13,text:"Pay supplier invoices",priority:"medium",done:false,loc:"",notes:""},
         {id:14,text:"Review cash flow for BOV renewal costs",priority:"high",done:false,loc:"",notes:""},
       ]},
-      { id:"arc-mkt", label:"Marketing", icon:"📣", items:[
+      { id:"arc-mkt", label:"Marketing", icon:"ð£", items:[
         {id:15,text:"Post on social media",priority:"low",done:false,loc:"",notes:""},
         {id:16,text:"Update website menu",priority:"medium",done:false,loc:"",notes:""},
       ]},
-      { id:"arc-sales", label:"Sales", icon:"💰", items:[]},
-      { id:"arc-ppl", label:"People", icon:"👥", items:[
-        {id:17,text:"Louis Ng — City of Vancouver BOV",priority:"high",done:false,loc:"City Hall Unit #112",notes:"Phone: 604-873-7723\nEmail: louis.ng@vancouver.ca\nRole: Board Secretary & FOI Officer"},
-        {id:18,text:"Betty Lee — Chaton Enterprises (landlord)",priority:"medium",done:false,loc:"202-7545 Cambie St",notes:"Phone: 604.322.1966\nFax: 604.322.0969"},
-        {id:19,text:"Kimberly Li — City of Vancouver BL",priority:"high",done:false,loc:"",notes:"Phone: 604.871.6091\nEmail: kimberly.li@vancouver.ca\nRole: Property Use Inspector"},
-        {id:20,text:"Insurance Broker — add name + number",priority:"high",done:false,loc:"",notes:"Add broker contact here — needed ASAP"},
-        {id:51,text:"Anoop — Landlord (Rent / Lease)",priority:"high",done:false,loc:"",notes:"Phone: (add number)\nEmail: (add email)\nRole: Landlord — ARCannabis location\n\nNote: Sent rent delay email Apr 10 due to Ministry of Finance PST bank lock."},
+      { id:"arc-sales", label:"Sales", icon:"ð°", items:[]},
+      { id:"arc-ppl", label:"People", icon:"ð¥", items:[
+        {id:17,text:"Louis Ng â City of Vancouver BOV",priority:"high",done:false,loc:"City Hall Unit #112",notes:"Phone: 604-873-7723\nEmail: louis.ng@vancouver.ca\nRole: Board Secretary & FOI Officer"},
+        {id:18,text:"Betty Lee â Chaton Enterprises (landlord)",priority:"medium",done:false,loc:"202-7545 Cambie St",notes:"Phone: 604.322.1966\nFax: 604.322.0969"},
+        {id:19,text:"Kimberly Li â City of Vancouver BL",priority:"high",done:false,loc:"",notes:"Phone: 604.871.6091\nEmail: kimberly.li@vancouver.ca\nRole: Property Use Inspector"},
+        {id:20,text:"Insurance Broker â add name + number",priority:"high",done:false,loc:"",notes:"Add broker contact here â needed ASAP"},
+        {id:51,text:"Anoop â Landlord (Rent / Lease)",priority:"high",done:false,loc:"",notes:"Phone: (add number)\nEmail: (add email)\nRole: Landlord â ARCannabis location\n\nNote: Sent rent delay email Apr 10 due to Ministry of Finance PST bank lock."},
       ]},
     ]
   },
   {
-    id:"pp", label:"Paper Pals", icon:"📄", color:"#33b679",
+    id:"pp", label:"Paper Pals", icon:"ð", color:"#33b679",
     subs:[
-      { id:"pp-ops", label:"Operations", icon:"⚙️", items:[
+      { id:"pp-ops", label:"Operations", icon:"âï¸", items:[
         {id:22,text:"Fix website blank space (Elementor)",priority:"high",done:false,loc:"",notes:""},
         {id:220,text:"Set up email capture + follow-up sequence",priority:"high",done:false,loc:"",notes:""},
       ]},
-      { id:"pp-legal", label:"Legal", icon:"⚖️", items:[]},
-      { id:"pp-fin", label:"Finance", icon:"💵", items:[
+      { id:"pp-legal", label:"Legal", icon:"âï¸", items:[]},
+      { id:"pp-fin", label:"Finance", icon:"ðµ", items:[
         {id:23,text:"Track manufacturing costs vs revenue",priority:"medium",done:false,loc:"",notes:""},
       ]},
-      { id:"pp-mkt", label:"Marketing", icon:"📣", items:[
+      { id:"pp-mkt", label:"Marketing", icon:"ð£", items:[
         {id:24,text:"Launch free sample campaign",priority:"high",done:false,loc:"",notes:""},
         {id:240,text:"Find 5-10 micro-influencers (eco/zero-waste)",priority:"medium",done:false,loc:"",notes:""},
       ]},
-      { id:"pp-sales", label:"Sales", icon:"💰", items:[
+      { id:"pp-sales", label:"Sales", icon:"ð°", items:[
         {id:250,text:"Get first paying customer on paperpals.io",priority:"high",done:false,loc:"",notes:""},
       ]},
-      { id:"pp-ppl", label:"People", icon:"👥", items:[]},
+      { id:"pp-ppl", label:"People", icon:"ð¥", items:[]},
     ]
   },
   {
-    id:"amz", label:"Amazon Seller", icon:"📦", color:"#f6730d",
+    id:"amz", label:"Amazon Seller", icon:"ð¦", color:"#f6730d",
     subs:[
-      { id:"amz-ops", label:"Operations", icon:"⚙️", items:[
-        {id:27,text:"Check stock levels — 124 rolls in FBA",priority:"high",done:false,loc:"",notes:""},
+      { id:"amz-ops", label:"Operations", icon:"âï¸", items:[
+        {id:27,text:"Check stock levels â 124 rolls in FBA",priority:"high",done:false,loc:"",notes:""},
         {id:28,text:"Ship more inventory to FBA",priority:"medium",done:false,loc:"",notes:""},
         {id:29,text:"Process pending returns",priority:"medium",done:false,loc:"",notes:""},
         {id:30,text:"Respond to customer messages",priority:"high",done:false,loc:"",notes:""},
       ]},
-      { id:"amz-legal", label:"Legal", icon:"⚖️", items:[]},
-      { id:"amz-fin", label:"Finance", icon:"💵", items:[
+      { id:"amz-legal", label:"Legal", icon:"âï¸", items:[]},
+      { id:"amz-fin", label:"Finance", icon:"ðµ", items:[
         {id:31,text:"Review monthly sales report",priority:"high",done:false,loc:"",notes:""},
         {id:32,text:"Check ad spend vs revenue (target ACoS <25%)",priority:"medium",done:false,loc:"",notes:""},
       ]},
-      { id:"amz-mkt", label:"Marketing", icon:"📣", items:[
-        {id:33,text:"Resume PPC campaigns — all 12 paused",priority:"high",done:false,loc:"",notes:""},
+      { id:"amz-mkt", label:"Marketing", icon:"ð£", items:[
+        {id:33,text:"Resume PPC campaigns â all 12 paused",priority:"high",done:false,loc:"",notes:""},
         {id:34,text:"Update product listings",priority:"low",done:false,loc:"",notes:""},
         {id:340,text:"Run ads for 5-sheet envelope (49% margin)",priority:"medium",done:false,loc:"",notes:""},
       ]},
-      { id:"amz-sales", label:"Sales", icon:"💰", items:[
-        {id:350,text:"Get reviews up from 2.5 stars — need 4+",priority:"high",done:false,loc:"",notes:""},
+      { id:"amz-sales", label:"Sales", icon:"ð°", items:[
+        {id:350,text:"Get reviews up from 2.5 stars â need 4+",priority:"high",done:false,loc:"",notes:""},
         {id:360,text:"Target 7 units/day for $500/mo profit",priority:"high",done:false,loc:"",notes:""},
       ]},
-      { id:"amz-ppl", label:"People", icon:"👥", items:[]},
+      { id:"amz-ppl", label:"People", icon:"ð¥", items:[]},
     ]
   },
 ];
 
 const STATUS = {
-  todo:     { label:"To Do",      color:"#6c5ce7", bg:"#6c5ce718", icon:"○", border:"#6c5ce740" },
-  inprog:   { label:"IN PROGRESS",color:"#e68a00", bg:"#ffa50022", icon:"◑", border:"#ffa50050" },
-  pending:  { label:"PENDING",    color:"#2979ff", bg:"#2979ff18", icon:"⏳", border:"#2979ff40" },
-  done:     { label:"DONE",       color:"#00a86b", bg:"#00a86b18", icon:"✓", border:"#00a86b50" },
+  todo:     { label:"To Do",      color:"#6c5ce7", bg:"#6c5ce718", icon:"â", border:"#6c5ce740" },
+  inprog:   { label:"IN PROGRESS",color:"#e68a00", bg:"#ffa50022", icon:"â", border:"#ffa50050" },
+  pending:  { label:"PENDING",    color:"#2979ff", bg:"#2979ff18", icon:"â³", border:"#2979ff40" },
+  done:     { label:"DONE",       color:"#00a86b", bg:"#00a86b18", icon:"â", border:"#00a86b50" },
 };
 const PRI = { high:{label:"HIGH",bg:"#ff335520",color:"#ff4455"}, medium:{label:"MED",bg:"#ffcc4420",color:"#ffcc44"}, low:{label:"LOW",bg:"#4faaff20",color:"#4faaff"} };
 function safeStatus(s){ return STATUS[s] || STATUS.todo; }
@@ -201,7 +201,7 @@ function safeStatus(s){ return STATUS[s] || STATUS.todo; }
 let _nid = (()=>{ try{ const v=localStorage.getItem("cleo_nid"); return v?Math.max(JSON.parse(v),200):200; }catch(e){return 200;} })();
 function uid(){ return ++_nid; }
 
-/* ── localStorage helpers ── */
+/* ââ localStorage helpers ââ */
 const LS_CATS = "cleo_cats";
 const LS_ARCH = "cleo_archived";
 const LS_TABS = "cleo_tabs";
@@ -210,7 +210,7 @@ const LS_VER  = "cleo_ver";
 const LS_KEY  = "cleo_api_key";
 let DEFAULT_KEY = "";
 if(window._db) window._db.doc("cleo/config").get().then(d => { if(d.exists && d.data().anthropicKey) DEFAULT_KEY = d.data().anthropicKey; });
-const CURRENT_VER = 25;
+const CURRENT_VER = 26;
 
 function lsGet(key, fallback){
   try{ const v=localStorage.getItem(key); return v?JSON.parse(v):fallback; }
@@ -220,7 +220,7 @@ function lsSet(key, val){
   try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){}
 }
 
-/* ── Firebase sync helpers ── */
+/* ââ Firebase sync helpers ââ */
 const db = window._db;
 const FB_DOC = db.doc("cleo/state");
 let _fbWriteId = 0;
@@ -237,7 +237,7 @@ function loadInitialCats(){
     const savedVer = lsGet(LS_VER, 0);
     if(savedVer >= CURRENT_VER) return saved;
   }
-  /* First load or version bump — use latest hardcoded data */
+  /* First load or version bump â use latest hardcoded data */
   lsSet(LS_VER, CURRENT_VER);
   lsSet(LS_CATS, INITIAL_CATS);
   lsSet(LS_ARCH, []);
@@ -246,8 +246,8 @@ function loadInitialCats(){
 
 
 
-  /* ── v26 Migration: Rename Errands → To Do, move before Kids ── */
-  /* ── Safety: ensure all subs have items arrays ── */
+  /* ââ v26 Migration: Rename Errands â To Do, move before Kids ââ */
+  /* ââ Safety: ensure all subs have items arrays ââ */
   function ensureItems(catsArr) {
     if (!Array.isArray(catsArr)) return catsArr;
     catsArr.forEach(c => { if (c.subs) c.subs.forEach(s => { if (!s.items) s.items = []; }); });
@@ -266,12 +266,12 @@ function loadInitialCats(){
     per.subs.splice(errIdx, 1); // remove from current position
     const kidsIdx = per.subs.findIndex(s => s.id === 'per-kids');
     per.subs.splice(kidsIdx >= 0 ? kidsIdx : 0, 0, errSub); // insert before Kids
-    console.log('CLEO: Migrated Errands → To Do');
+    console.log('CLEO: Migrated Errands â To Do');
     /* fbSave removed - migrations must not write to Firebase */
     return [...catsArr];
   }
 
-  /* ── v28 Migration: Fix To Do label casing ── */
+  /* ââ v28 Migration: Fix To Do label casing ââ */
   function migrateTodoLabel(catsArr) {
     const per = catsArr.find(c => c.id === 'per');
     if (!per || !per.subs) return catsArr;
@@ -283,7 +283,7 @@ function loadInitialCats(){
     return [...catsArr];
   }
 
-  /* ── v30 Migration: Add CLEO category between ARCannabis and Paper Pals ── */
+  /* ââ v30 Migration: Add CLEO category between ARCannabis and Paper Pals ââ */
   function migrateAddCleo(catsArr) {
     const existingCleo = catsArr.find(c => c.id === 'cleo');
     if (existingCleo) {
@@ -295,11 +295,11 @@ function loadInitialCats(){
     }
     const ppIdx = catsArr.findIndex(c => c.id === 'pp');
     const cleoObj = {
-      id:"cleo", label:"CLEO", icon:"🤖", color:"#7c3aed", subs:[
-        {id:"cleo-features", label:"Features", icon:"⚡", items:[]},
-        {id:"cleo-bugs", label:"Bugs", icon:"🐛", items:[]},
-        {id:"cleo-ideas", label:"Ideas", icon:"💡", items:[]},
-        {id:"cleo-changelog", label:"Changelog", icon:"📋", items:[]},
+      id:"cleo", label:"CLEO", icon:"ð¤", color:"#7c3aed", subs:[
+        {id:"cleo-features", label:"Features", icon:"â¡", items:[]},
+        {id:"cleo-bugs", label:"Bugs", icon:"ð", items:[]},
+        {id:"cleo-ideas", label:"Ideas", icon:"ð¡", items:[]},
+        {id:"cleo-changelog", label:"Changelog", icon:"ð", items:[]},
       ]
     };
     catsArr.splice(ppIdx >= 0 ? ppIdx : catsArr.length, 0, cleoObj);
@@ -308,7 +308,7 @@ function loadInitialCats(){
     return [...catsArr];
   }
 
-  /* v32 Migration: Reorder categories — Personal first, then CLEO, then rest */
+  /* v32 Migration: Reorder categories â Personal first, then CLEO, then rest */
   function migrateReorder(catsArr) {
     if (!Array.isArray(catsArr) || catsArr.length < 2) return catsArr;
     const desired = ["per","cleo","arc","pp","amz"];
@@ -317,7 +317,7 @@ function loadInitialCats(){
     desired.forEach(id => { const c = catsArr.find(x => x.id === id); if (c) sorted.push(c); });
     catsArr.forEach(c => { if (!desired.includes(c.id)) sorted.push(c); });
     if (sorted.length !== catsArr.length) return catsArr;
-    console.log("CLEO: Reordered categories — Personal first");
+    console.log("CLEO: Reordered categories â Personal first");
     return sorted;
   }
 
@@ -337,7 +337,7 @@ function App() {
   const [deadlinesOpen, setDeadlinesOpen] = useState(true);
   const [cleoMenuOpen, setCleoMenuOpen] = useState(false);
 
-  /* ── Auto-save to localStorage + Firebase ── */
+  /* ââ Auto-save to localStorage + Firebase ââ */
   const _skipFbRef = useRef(false);
   const _fbTimer = useRef(null);
   useEffect(()=>{
@@ -356,30 +356,22 @@ function App() {
     lsSet(LS_TABS, subTabs);
     if(!_skipFbRef.current) fbSave({ subTabs });
   }, [subTabs]);
-  /* ── Firebase real-time listener + migration ── */
+  /* ââ Firebase real-time listener + migration ââ */
   useEffect(()=>{
-    // Count total items to determine richness
-    const countItems = (c) => c ? c.reduce((n, cat) => n + cat.subs.reduce((m, s) => m + (s.items ? s.items.length : 0), 0), 0) : 0;
     FB_DOC.get().then(doc => {
       const fbData = doc.exists ? doc.data() : null;
       const fbCats = fbData && fbData.cats ? fbData.cats : null;
-      const lsCats = cats;
-      const fbCount = countItems(fbCats);
-      const lsCount = countItems(lsCats);
       if(!fbCats) {
+        /* First ever sync — push local to Firebase */
         fbSave({ cats, archived, subTabs, nid: _nid, ver: CURRENT_VER });
-        console.log("CLEO: Migrated localStorage to Firebase (" + lsCount + " items)");
-      } else if(lsCount > fbCount) {
-        fbSave({ cats, archived, subTabs, nid: _nid, ver: CURRENT_VER });
-        console.log("CLEO: Local has more items (" + lsCount + " vs " + fbCount + "), pushed local to Firebase");
       } else {
+        /* ALWAYS trust Firebase as source of truth for multi-device sync */
         _skipFbRef.current = true;
         setCats(migrateReorder(ensureItems(migrateAddCleo(migrateTodoLabel(migrateErrands(fbCats))))));
         if(fbData.archived) setArchived(fbData.archived);
         if(fbData.subTabs) setSubTabs(fbData.subTabs);
         if(fbData.nid) _nid = Math.max(_nid, fbData.nid);
-        setTimeout(()=>{ _skipFbRef.current = false; }, 500);
-        console.log("CLEO: Loaded from Firebase (" + fbCount + " items, local had " + lsCount + ")");
+        setTimeout(()=>{ _skipFbRef.current = false; }, 1500);
       }
     }).catch(e => console.warn("Firebase load:", e));
     const unsub = FB_DOC.onSnapshot(doc => {
@@ -394,7 +386,7 @@ function App() {
       if(d.cats) lsSet(LS_CATS, d.cats);
       if(d.archived) lsSet(LS_ARCH, d.archived);
       if(d.subTabs) lsSet(LS_TABS, d.subTabs);
-      setTimeout(()=>{ _skipFbRef.current = false; }, 500);
+      setTimeout(()=>{ _skipFbRef.current = false; }, 1500);
     });
     return () => unsub();
   }, []);
@@ -426,13 +418,13 @@ function App() {
     if(!undoStack.length){showToast("Nothing to undo");return;}
     setRedoStack(r=>[...r,JSON.stringify(cats)]);
     setUndoStack(s=>{const prev=s[s.length-1];setCats(JSON.parse(prev));return s.slice(0,-1);});
-    showToast("↩ Undone!");
+    showToast("â© Undone!");
   }
   function redo(){
     if(!redoStack.length){showToast("Nothing to redo");return;}
     setUndoStack(s=>[...s,JSON.stringify(cats)]);
     setRedoStack(r=>{const next=r[r.length-1];setCats(JSON.parse(next));return r.slice(0,-1);});
-    showToast("↪ Redone!");
+    showToast("âª Redone!");
   }
 
   const curCat = cats.find(c=>c.id===mainTab);
@@ -446,15 +438,15 @@ function App() {
     const sub=cat?.subs.find(s=>s.id===sid);
     const item=sub?.items.find(i=>i.id===iid);
     const short=item?item.text.slice(0,30):"item";
-    snap("✅ Completed: "+short);
+    snap("â Completed: "+short);
     if(item&&!item.done){
-      /* Marking done → move to archive as completed */
+      /* Marking done â move to archive as completed */
       const now=new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});
       setArchived(prev=>[{...item,done:true,_type:"done",_deletedFrom:{catId:cid,catLabel:cat.label,catColor:cat.color,catIcon:cat.icon,subId:sid,subLabel:sub.label},_deletedAt:now},...prev]);
       setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.filter(i=>i.id!==iid)})}));
-      showToast("✅ Done! Moved to Completed");
+      showToast("â Done! Moved to Completed");
     } else if(item&&item.done){
-      /* Already done in list (legacy) — just toggle back */
+      /* Already done in list (legacy) â just toggle back */
       setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,done:false})})}));
     }
   }
@@ -463,32 +455,32 @@ function App() {
     const sub=cat?.subs.find(s=>s.id===sid);
     const item=sub?.items.find(i=>i.id===iid);
     const short=item?item.text.slice(0,30):"item";
-    snap("🗑 Deleted: "+short);
+    snap("ð Deleted: "+short);
     if(item){
       const now=new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});
       setArchived(prev=>[{...item,_type:"deleted",_deletedFrom:{catId:cid,catLabel:cat.label,catColor:cat.color,catIcon:cat.icon,subId:sid,subLabel:sub.label},_deletedAt:now},...prev]);
     }
     setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.filter(i=>i.id!==iid)})}));
-    showToast("Moved to Trash — tap Undo to restore");
+    showToast("Moved to Trash â tap Undo to restore");
   }
   function restoreItem(archivedItem){
-    snap("↩ Restored: "+archivedItem.text.slice(0,30));
+    snap("â© Restored: "+archivedItem.text.slice(0,30));
     const {_deletedFrom,_deletedAt,_type,...item}=archivedItem;
     const restored = _type==="done" ? {...item,done:false,status:"todo"} : item;
     setCats(prev=>prev.map(c=>c.id!==_deletedFrom.catId?c:{...c,subs:c.subs.map(s=>s.id!==_deletedFrom.subId?s:{...s,items:[...s.items,restored]})}));
     setArchived(prev=>prev.filter(a=>a.id!==archivedItem.id));
-    showToast("↩ Restored to "+_deletedFrom.catLabel+" → "+_deletedFrom.subLabel);
+    showToast("â© Restored to "+_deletedFrom.catLabel+" â "+_deletedFrom.subLabel);
   }
   function setStatus(cid,sid,iid,status){
-    snap("📋 Status → "+status);
+    snap("ð Status â "+status);
     setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,status})})}));
   }
   function addLog(cid,sid,iid,entry){
-    snap("📝 Log added");
+    snap("ð Log added");
     const now = new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"});
-    setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,log:[...(i.log||[]),`${now} — ${entry}`]})})}));
+    setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,log:[...(i.log||[]),`${now} â ${entry}`]})})}));
   }
-  /* ── Smart auto-sort rules ── */
+  /* ââ Smart auto-sort rules ââ */
   const SORT_RULES = [
     {kw:/hydro|fortis|telus|shaw|internet|phone bill|utilities|cancel.*service|staff|inventory|supplier|schedule.*meet|shift|store hours|restock/i, sub:"ops"},
     {kw:/license|permit|bov|bylaw|city of|violation|renewal|legal|compliance|zoning|land.?use|development permit/i, sub:"legal"},
@@ -522,17 +514,17 @@ function App() {
     else if(/!low/i.test(text)){priority="low";text=text.replace(/!low/gi,"").trim();}
     const lm=text.match(/@(\S+)/); if(lm){loc=lm[1];text=text.replace(/@\S+/,"").trim();}
     const routed=smartRoute(text, cid, sid);
-    snap("➕ Added: "+text.slice(0,30));
+    snap("â Added: "+text.slice(0,30));
     const now=new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"});
-    const newItem={id:uid(),text,done:false,priority,loc,notes:"New task — tap to add details",deadline:"",isEmail:false,status:"todo",files:[],requiredFiles:[],log:[`${now} — Task created`],chat:[]};
+    const newItem={id:uid(),text,done:false,priority,loc,notes:"New task â tap to add details",deadline:"",isEmail:false,status:"todo",files:[],requiredFiles:[],log:[`${now} â Task created`],chat:[]};
     setCats(prev=>prev.map(c=>c.id!==routed.cid?c:{...c,subs:c.subs.map(s=>s.id!==routed.sid?s:{...s,items:[...s.items,newItem]})}));
     setAddText(t=>({...t,[key]:""}));
     if(routed.sid!==sid){
       const destSub=cats.find(c=>c.id===routed.cid)?.subs.find(s=>s.id===routed.sid);
-      showToast(`Task added → ${destSub?.label||"?"} ✓`);
+      showToast(`Task added â ${destSub?.label||"?"} â`);
       setSubTabs(t=>({...t,[routed.cid]:routed.sid}));
     } else {
-      showToast("Task added ✓");
+      showToast("Task added â");
     }
   }
 
@@ -559,15 +551,15 @@ function App() {
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
           <button onClick={()=>setCleoMenuOpen(o=>!o)} style={{background:"none",border:"none",cursor:"pointer",padding:0,display:"flex",alignItems:"center",gap:6}}>
             <div style={{fontFamily:"'Syne',sans-serif",fontSize:20,fontWeight:800,background:"linear-gradient(90deg,#0a8a5c,#1a6fcc,#cc1a4f)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>CLEO</div>
-            <span style={{fontSize:10,color:"#999088",transition:"transform 0.2s",transform:cleoMenuOpen?"rotate(180deg)":"rotate(0deg)",display:"inline-block"}}>▼</span>
+            <span style={{fontSize:10,color:"#999088",transition:"transform 0.2s",transform:cleoMenuOpen?"rotate(180deg)":"rotate(0deg)",display:"inline-block"}}>â¼</span>
           </button>
           <div style={{display:"flex",alignItems:"center",gap:4}}>
-            <button onClick={undo} style={{background:undoStack.length?"#ece7de":"#f5f1ea",border:"1px solid #00000015",borderRadius:9,color:undoStack.length?"#665e52":"#ccc5b8",fontSize:11,fontWeight:600,padding:"6px 10px",cursor:undoStack.length?"pointer":"default",display:"flex",alignItems:"center",gap:3}}>↩{undoStack.length>0&&<span style={{fontSize:9,fontWeight:700}}>{undoStack.length}</span>}</button>
-            <button onClick={redo} style={{background:redoStack.length?"#ece7de":"#f5f1ea",border:"1px solid #00000015",borderRadius:9,color:redoStack.length?"#665e52":"#ccc5b8",fontSize:11,fontWeight:600,padding:"6px 10px",cursor:redoStack.length?"pointer":"default",display:"flex",alignItems:"center",gap:3}}>↪{redoStack.length>0&&<span style={{fontSize:9,fontWeight:700}}>{redoStack.length}</span>}</button>
+            <button onClick={undo} style={{background:undoStack.length?"#ece7de":"#f5f1ea",border:"1px solid #00000015",borderRadius:9,color:undoStack.length?"#665e52":"#ccc5b8",fontSize:11,fontWeight:600,padding:"6px 10px",cursor:undoStack.length?"pointer":"default",display:"flex",alignItems:"center",gap:3}}>â©{undoStack.length>0&&<span style={{fontSize:9,fontWeight:700}}>{undoStack.length}</span>}</button>
+            <button onClick={redo} style={{background:redoStack.length?"#ece7de":"#f5f1ea",border:"1px solid #00000015",borderRadius:9,color:redoStack.length?"#665e52":"#ccc5b8",fontSize:11,fontWeight:600,padding:"6px 10px",cursor:redoStack.length?"pointer":"default",display:"flex",alignItems:"center",gap:3}}>âª{redoStack.length>0&&<span style={{fontSize:9,fontWeight:700}}>{redoStack.length}</span>}</button>
           </div>
         </div>
         {cleoMenuOpen&&<div style={{marginTop:10,background:"#f5f1ea",border:"1px solid #ddd8cf",borderRadius:12,padding:"8px",display:"flex",flexDirection:"column",gap:4}}>
-          <button onClick={()=>{setShowArchive("done");setCleoMenuOpen(false);}} style={{display:"flex",alignItems:"center",gap:8,background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:9,color:"#665e52",fontSize:12,fontWeight:600,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>🗂 Archive{archived.length>0&&<span style={{background:"#ff445520",color:"#ff4455",fontSize:10,fontWeight:700,borderRadius:8,padding:"2px 7px",marginLeft:"auto"}}>{archived.length}</span>}</button>
+          <button onClick={()=>{setShowArchive("done");setCleoMenuOpen(false);}} style={{display:"flex",alignItems:"center",gap:8,background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:9,color:"#665e52",fontSize:12,fontWeight:600,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>ð Archive{archived.length>0&&<span style={{background:"#ff445520",color:"#ff4455",fontSize:10,fontWeight:700,borderRadius:8,padding:"2px 7px",marginLeft:"auto"}}>{archived.length}</span>}</button>
           {actionHistory.length>0&&<div style={{background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:9,padding:"8px 12px",maxHeight:150,overflowY:"auto"}}>
             <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:6,fontWeight:700}}>RECENT ACTIONS</div>
             {actionHistory.map((a,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"4px 0",borderBottom:i<actionHistory.length-1?"1px solid #00000008":"none"}}>
@@ -578,21 +570,21 @@ function App() {
           <button onClick={async()=>{
             const syncData={_syncTime:new Date().toISOString(),cats,archived};
             const txt=JSON.stringify(syncData);
-            try{await navigator.clipboard.writeText(txt);setSyncMsg("✅ Copied! Paste in Claude chat");setTimeout(()=>setSyncMsg(""),3000);}
+            try{await navigator.clipboard.writeText(txt);setSyncMsg("â Copied! Paste in Claude chat");setTimeout(()=>setSyncMsg(""),3000);}
             catch(e){
               const ta=document.createElement("textarea");ta.value=txt;ta.style.cssText="position:fixed;top:0;left:0;opacity:0";document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);
-              setSyncMsg("✅ Copied! Paste in Claude chat");setTimeout(()=>setSyncMsg(""),3000);
+              setSyncMsg("â Copied! Paste in Claude chat");setTimeout(()=>setSyncMsg(""),3000);
             }
             setCleoMenuOpen(false);
-          }} style={{display:"flex",alignItems:"center",gap:8,background:"linear-gradient(135deg,#0a8a5c,#1a6fcc)",border:"none",borderRadius:9,color:"#fff",fontSize:12,fontWeight:600,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>📋 Sync to Cowork</button>
-          <button onClick={()=>{const cur=(lsGet(LS_KEY,"")||DEFAULT_KEY);const k=window.prompt(cur?"API key set ✓ — paste new key to change, or clear to remove:":"Enter Anthropic API key for CLEO AI chat:",cur);if(k!==null)lsSet(LS_KEY,k.trim());setCleoMenuOpen(false);}} style={{display:"flex",alignItems:"center",gap:8,background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:9,color:(lsGet(LS_KEY,"")||DEFAULT_KEY)?"#0a8a5c":"#665e52",fontSize:12,fontWeight:600,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>{(lsGet(LS_KEY,"")||DEFAULT_KEY)?"🔑 API Key (Connected)":"⚙️ Connect API Key"}</button>
+          }} style={{display:"flex",alignItems:"center",gap:8,background:"linear-gradient(135deg,#0a8a5c,#1a6fcc)",border:"none",borderRadius:9,color:"#fff",fontSize:12,fontWeight:600,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>ð Sync to Cowork</button>
+          <button onClick={()=>{const cur=(lsGet(LS_KEY,"")||DEFAULT_KEY);const k=window.prompt(cur?"API key set â â paste new key to change, or clear to remove:":"Enter Anthropic API key for CLEO AI chat:",cur);if(k!==null)lsSet(LS_KEY,k.trim());setCleoMenuOpen(false);}} style={{display:"flex",alignItems:"center",gap:8,background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:9,color:(lsGet(LS_KEY,"")||DEFAULT_KEY)?"#0a8a5c":"#665e52",fontSize:12,fontWeight:600,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>{(lsGet(LS_KEY,"")||DEFAULT_KEY)?"ð API Key (Connected)":"âï¸ Connect API Key"}</button>
         </div>}
         {syncMsg&&<div style={{background:"#0a8a5c",color:"#fff",textAlign:"center",padding:"6px",borderRadius:8,fontSize:11,fontWeight:600,marginTop:6}}>{syncMsg}</div>}
       </div>
 
       {/* Tasks / Plan / AI */}
       <div style={{margin:"8px 14px 0",background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:14,padding:"6px",display:"flex",gap:5,boxShadow:"0 1px 4px #00000008",flexShrink:0}}>
-        {[{id:"tasks",l:"📋 Tasks"},{id:"plan",l:"⚡ Plan"},{id:"ai",l:"🧠 AI"},{id:"alerts",l:"🔔 Alerts"}].map(t=>{
+        {[{id:"tasks",l:"ð Tasks"},{id:"plan",l:"â¡ Plan"},{id:"ai",l:"ð§  AI"},{id:"alerts",l:"ð Alerts"}].map(t=>{
           const isAlerts = t.id==="alerts";
           const urgentAlerts = isAlerts ? 0 : allItems.filter(i=>!i.done&&i.priority==="high"&&i.deadline).length;
           return (
@@ -605,11 +597,11 @@ function App() {
         })}
       </div>
 
-      {/* DEADLINE BANNER — collapsible */}
+      {/* DEADLINE BANNER â collapsible */}
       {deadlinesWithContext.length>0&&(
         <div style={{background:"#fff0f2",border:"1px solid #ffcccc",borderRadius:14,padding:"10px 14px",margin:"6px 14px",flexShrink:0}}>
           <div onClick={()=>setDeadlinesOpen(o=>!o)} style={{display:"flex",alignItems:"center",gap:6,cursor:"pointer",userSelect:"none"}}>
-            <span style={{fontSize:11,fontWeight:800,color:"#ff4455",letterSpacing:"0.08em",transition:"transform 0.2s",transform:deadlinesOpen?"rotate(90deg)":"rotate(0deg)",display:"inline-block"}}>▶</span>
+            <span style={{fontSize:11,fontWeight:800,color:"#ff4455",letterSpacing:"0.08em",transition:"transform 0.2s",transform:deadlinesOpen?"rotate(90deg)":"rotate(0deg)",display:"inline-block"}}>â¶</span>
             <span style={{fontSize:11,fontWeight:800,color:"#ff4455",letterSpacing:"0.08em"}}>DEADLINES</span>
             <span style={{background:"#ff4455",color:"#fff",fontSize:9,fontWeight:800,borderRadius:10,padding:"1px 7px",minWidth:14,textAlign:"center"}}>{deadlinesWithContext.length}</span>
           </div>
@@ -618,14 +610,14 @@ function App() {
               <div key={i.id} onClick={()=>setDetail({item:i,cat:i._cat,sub:i._sub})} style={{display:"flex",alignItems:"center",gap:9,padding:"4px 0",fontSize:13,cursor:"pointer",borderRadius:8}} className="trow">
                 <span style={{background:i._cat.color,color:"#fff",fontSize:10,fontWeight:800,padding:"3px 9px",borderRadius:20,flexShrink:0}}>{i.deadline}</span>
                 <span style={{color:"#333344",flex:1,fontWeight:600,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{i.text}</span>
-                <span style={{color:i._cat.color,fontSize:11,flexShrink:0}}>→</span>
+                <span style={{color:i._cat.color,fontSize:11,flexShrink:0}}>â</span>
               </div>
             ))}
           </div>}
         </div>
       )}
 
-      {/* NAV ROW 1 — Businesses */}
+      {/* NAV ROW 1 â Businesses */}
       <div style={{margin:"8px 14px 0",background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:14,padding:"6px",flexShrink:0,boxShadow:"0 1px 4px #00000008"}}>
       <div className="cat-carousel" ref={catDrag.ref}
         onMouseDown={catDrag.start} onMouseLeave={catDrag.end} onMouseUp={catDrag.end} onMouseMove={catDrag.move}
@@ -640,7 +632,7 @@ function App() {
       </div>
       </div>
 
-      {/* NAV ROW 2 — Sub tabs */}
+      {/* NAV ROW 2 â Sub tabs */}
       {curCat&&(
         <div style={{margin:"8px 14px 0",background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:14,padding:"5px 6px",flexShrink:0,boxShadow:"0 1px 4px #00000008"}}>
         <div className="cat-carousel" ref={subDrag.ref}
@@ -678,18 +670,18 @@ function App() {
         const liveItem=liveSub?.items.find(i=>i.id===detail.item.id);
         if(!liveCat||!liveSub||!liveItem) return null;
         return <DetailSheet item={{item:liveItem,cat:liveCat,sub:liveSub}} cats={cats} onClose={()=>setDetail(null)} onToggle={toggleItem} onSetStatus={setStatus} onAddLog={addLog}
-          onEditTitle={(cid,sid,iid,val)=>{ snap("✏️ Renamed: "+val.slice(0,25)); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,text:val})})})); }}
-          onEditNotes={(cid,sid,iid,val)=>{ snap("📝 Notes edited"); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,notes:val})})})); }}
-          onAttachFile={(cid,sid,iid,file)=>{ snap("📎 File attached"); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,files:[...(i.files||[]),file]})})})); }}
-          onRemoveFile={(cid,sid,iid,label)=>{ snap("🗑 File removed"); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,files:(i.files||[]).filter(f=>f.label!==label)})})})); }}
-          onChooseDraft={(cid,sid,iid,drafts)=>{ snap("📄 Draft updated"); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,drafts})})})); }}
+          onEditTitle={(cid,sid,iid,val)=>{ snap("âï¸ Renamed: "+val.slice(0,25)); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,text:val})})})); }}
+          onEditNotes={(cid,sid,iid,val)=>{ snap("ð Notes edited"); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,notes:val})})})); }}
+          onAttachFile={(cid,sid,iid,file)=>{ snap("ð File attached"); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,files:[...(i.files||[]),file]})})})); }}
+          onRemoveFile={(cid,sid,iid,label)=>{ snap("ð File removed"); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,files:(i.files||[]).filter(f=>f.label!==label)})})})); }}
+          onChooseDraft={(cid,sid,iid,drafts)=>{ snap("ð Draft updated"); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,drafts})})})); }}
           onChatMsg={(cid,sid,iid,msgs)=>{ setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>i.id!==iid?i:{...i,chat:msgs})})})); }}
-          onBatchUpdate={(cid,sid,iid,updates)=>{ snap("🔄 Task updated"); const now=new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"}); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>{if(i.id!==iid)return i; const u={...i}; if(updates.notes!==undefined)u.notes=updates.notes; if(updates.status)u.status=updates.status; if(updates.deadline)u.deadline=updates.deadline; if(updates.priority)u.priority=updates.priority; if(updates.location)u.loc=updates.location; if(updates.logs)u.log=[...(u.log||[]),...updates.logs.map(l=>`${now} — ${l}`)]; return u;})})})); }}
+          onBatchUpdate={(cid,sid,iid,updates)=>{ snap("ð Task updated"); const now=new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"}); setCats(prev=>prev.map(c=>c.id!==cid?c:{...c,subs:c.subs.map(s=>s.id!==sid?s:{...s,items:s.items.map(i=>{if(i.id!==iid)return i; const u={...i}; if(updates.notes!==undefined)u.notes=updates.notes; if(updates.status)u.status=updates.status; if(updates.deadline)u.deadline=updates.deadline; if(updates.priority)u.priority=updates.priority; if(updates.location)u.loc=updates.location; if(updates.logs)u.log=[...(u.log||[]),...updates.logs.map(l=>`${now} â ${l}`)]; return u;})})})); }}
           onDelete={delItem}
         />;
       })()}
 
-      {/* ARCHIVE MODAL — Done & Deleted, grouped by category */}
+      {/* ARCHIVE MODAL â Done & Deleted, grouped by category */}
       {showArchive&&(()=>{
         const doneItems=archived.filter(a=>a._type==="done");
         const deletedItems=archived.filter(a=>a._type!=="done");
@@ -700,7 +692,7 @@ function App() {
         const grouped={};
         items.forEach(a=>{
           const key=a._deletedFrom?.catId||"other";
-          if(!grouped[key])grouped[key]={label:a._deletedFrom?.catLabel||"Other",color:a._deletedFrom?.catColor||"#999",icon:a._deletedFrom?.catIcon||"📋",items:[]};
+          if(!grouped[key])grouped[key]={label:a._deletedFrom?.catLabel||"Other",color:a._deletedFrom?.catColor||"#999",icon:a._deletedFrom?.catIcon||"ð",items:[]};
           grouped[key].items.push(a);
         });
         return (
@@ -708,19 +700,19 @@ function App() {
           <div style={{background:"#ffffff",width:"100%",height:"100%",display:"flex",flexDirection:"column"}}>
             <div style={{display:"none"}}/>
             <div style={{display:"flex",alignItems:"center",gap:10,padding:"13px 16px",borderBottom:"1px solid #00000010"}}>
-              <button onClick={()=>setShowArchive(false)} style={{background:"none",border:"none",cursor:"pointer",color:"#777066",fontSize:18,lineHeight:1,padding:"4px",flexShrink:0}}>←</button>
-              <div style={{fontSize:14,fontWeight:800,color:"#111122",flex:1}}>🗂 Archive</div>
-              <button onClick={()=>setShowArchive(false)} style={{background:"none",border:"none",cursor:"pointer",color:"#777066",fontSize:22,lineHeight:1}}>×</button>
+              <button onClick={()=>setShowArchive(false)} style={{background:"none",border:"none",cursor:"pointer",color:"#777066",fontSize:18,lineHeight:1,padding:"4px",flexShrink:0}}>â</button>
+              <div style={{fontSize:14,fontWeight:800,color:"#111122",flex:1}}>ð Archive</div>
+              <button onClick={()=>setShowArchive(false)} style={{background:"none",border:"none",cursor:"pointer",color:"#777066",fontSize:22,lineHeight:1}}>Ã</button>
             </div>
             {/* Tabs: Done / Deleted */}
             <div style={{display:"flex",gap:4,padding:"8px 16px",borderBottom:"1px solid #00000008"}}>
               <button onClick={()=>setShowArchive("done")}
                 style={{flex:1,padding:"8px",borderRadius:10,border:"none",background:activeTab==="done"?"#0a7a5015":"transparent",color:activeTab==="done"?"#0a7a50":"#999088",fontSize:12,fontWeight:700,cursor:"pointer"}}>
-                ✅ Completed ({doneItems.length})
+                â Completed ({doneItems.length})
               </button>
               <button onClick={()=>setShowArchive("deleted")}
                 style={{flex:1,padding:"8px",borderRadius:10,border:"none",background:activeTab==="deleted"?"#ff445515":"transparent",color:activeTab==="deleted"?"#ff4455":"#999088",fontSize:12,fontWeight:700,cursor:"pointer"}}>
-                🗑 Deleted ({deletedItems.length})
+                ð Deleted ({deletedItems.length})
               </button>
             </div>
             <div style={{overflowY:"auto",padding:"12px 16px"}}>
@@ -739,16 +731,16 @@ function App() {
                         {a.deadline&&<span style={{background:group.color,color:"#fff",fontSize:8,fontWeight:800,padding:"2px 6px",borderRadius:20}}>{a.deadline}</span>}
                       </div>
                       <div style={{fontSize:10,color:"#999088",marginBottom:8}}>
-                        {a._deletedFrom.subLabel} · {activeTab==="done"?"Completed":"Deleted"} {a._deletedAt}
+                        {a._deletedFrom.subLabel} Â· {activeTab==="done"?"Completed":"Deleted"} {a._deletedAt}
                       </div>
                       <div style={{display:"flex",gap:6}}>
                         <button onClick={()=>{restoreItem(a);const remaining=archived.filter(x=>x.id!==a.id);if(remaining.length===0)setShowArchive(false);}}
                           style={{background:activeTab==="done"?"#0a7a50":"#665e52",border:"none",borderRadius:8,color:"#fff",fontWeight:700,fontSize:11,padding:"6px 14px",cursor:"pointer"}}>
-                          ↩ {activeTab==="done"?"Reopen":"Restore"}
+                          â© {activeTab==="done"?"Reopen":"Restore"}
                         </button>
                         <button onClick={()=>{setArchived(prev=>prev.filter(x=>x.id!==a.id));const remaining=archived.filter(x=>x.id!==a.id);if(remaining.length===0)setShowArchive(false);showToast("Permanently deleted");}}
                           style={{background:"none",border:"1px solid #ff445530",borderRadius:8,color:"#ff4455",fontWeight:700,fontSize:11,padding:"6px 14px",cursor:"pointer"}}>
-                          🗑 Delete Forever
+                          ð Delete Forever
                         </button>
                       </div>
                     </div>
@@ -785,7 +777,7 @@ function TasksOverview({cats,setMainTab,setSub}){
                 <div style={{height:"100%",width:pct+"%",background:c.color,transition:"width .4s"}}/>
               </div>
               <span style={{fontSize:10,color:"#999088",margin:"0 4px"}}>{done}/{items.length}</span>
-              <span style={{fontSize:10,color:c.color}}>→</span>
+              <span style={{fontSize:10,color:c.color}}>â</span>
             </button>
             {urgent.length>0&&(
               <div style={{borderTop:`1px solid #0000000a`,padding:"6px 14px 10px"}}>
@@ -815,7 +807,7 @@ function SubView({cat,sub,onToggle,onDel,onAdd,addText,setAddText,onOpenDetail})
         <div style={{fontSize:10,color:"#999088"}}>{done}/{sub.items.length} done</div>
       </div>
       <div style={{background:"#ffffff",border:`1px solid ${cat.color}18`,borderRadius:14,overflow:"hidden",marginBottom:10}}>
-        {sub.items.length===0&&<div style={{padding:20,textAlign:"center",color:"#b5ac9e",fontSize:12}}>Nothing here yet — add below</div>}
+        {sub.items.length===0&&<div style={{padding:20,textAlign:"center",color:"#b5ac9e",fontSize:12}}>Nothing here yet â add below</div>}
         {sub.items.map(i=>i.isEmail
           ? <EmailCard key={i.id} item={i} cat={cat} sub={sub} onToggle={onToggle} onDel={onDel} onOpen={onOpenDetail}/>
           : <TaskRow key={i.id} item={i} cat={cat} sub={sub} onToggle={onToggle} onDel={onDel} onOpen={onOpenDetail}/>
@@ -835,8 +827,8 @@ function SubView({cat,sub,onToggle,onDel,onAdd,addText,setAddText,onOpenDetail})
 function TaskRow({item,cat,sub,onToggle,onDel,onOpen}){
   const p=PRI[item.priority];
   const st=safeStatus(item.status||"todo");
-  /* Extract steps: numbered (1. 2.) or bullets (• ✅) */
-  const steps=(item.notes||"").split("\n").filter(l=>/^\d+\.\s|^\s*[•·\-]\s|^\s*✅\s/.test(l.trim())).slice(0,4);
+  /* Extract steps: numbered (1. 2.) or bullets (â¢ â) */
+  const steps=(item.notes||"").split("\n").filter(l=>/^\d+\.\s|^\s*[â¢Â·\-]\s|^\s*â\s/.test(l.trim())).slice(0,4);
   const hasSteps=steps.length>0;
   const hasRichContent=hasSteps||item.deadline||item.status;
 
@@ -846,11 +838,11 @@ function TaskRow({item,cat,sub,onToggle,onDel,onOpen}){
       <div className="trow" style={{display:"flex",alignItems:"center",gap:8,padding:"8px 12px",borderBottom:"1px solid #00000008",opacity:item.done?0.4:1,cursor:"pointer"}} onClick={()=>onOpen({item,cat,sub})}>
         <button onClick={e=>{e.stopPropagation();onToggle(cat.id,sub.id,item.id);}}
           style={{width:20,height:20,borderRadius:6,border:item.done?"none":"1.5px solid #00000035",background:item.done?"#2effa8":"none",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:900,color:"#08080f"}}>
-          {item.done?"✓":""}
+          {item.done?"â":""}
         </button>
         <span style={{flex:1,fontSize:12,textDecoration:item.done?"line-through":"none",color:"#111122"}}>{item.text}</span>
         <span style={{background:p.bg,color:p.color,fontSize:8,fontWeight:700,padding:"2px 5px",borderRadius:20,letterSpacing:"0.05em",flexShrink:0}}>{p.label}</span>
-        <button className="delbtn" onClick={e=>{e.stopPropagation();onDel(cat.id,sub.id,item.id);}} style={{background:"none",border:"none",cursor:"pointer",color:"#ccc5b8",fontSize:15,padding:"0 2px",lineHeight:1}}>×</button>
+        <button className="delbtn" onClick={e=>{e.stopPropagation();onDel(cat.id,sub.id,item.id);}} style={{background:"none",border:"none",cursor:"pointer",color:"#ccc5b8",fontSize:15,padding:"0 2px",lineHeight:1}}>Ã</button>
       </div>
     );
   }
@@ -870,18 +862,18 @@ function TaskRow({item,cat,sub,onToggle,onDel,onOpen}){
       {hasSteps&&(
         <div style={{padding:"0 12px 8px"}}>
           {steps.map((l,i)=>{
-            const isDone=/^\s*✅/.test(l);
-            const cleaned=l.trim().replace(/^[•·\-]\s*/,"").replace(/^✅\s*/,"").replace(/^\d+\.\s*/,"");
+            const isDone=/^\s*â/.test(l);
+            const cleaned=l.trim().replace(/^[â¢Â·\-]\s*/,"").replace(/^â\s*/,"").replace(/^\d+\.\s*/,"");
             return <div key={i} style={{display:"flex",gap:7,padding:"2px 0",fontSize:11,color:isDone?"#0a7a50":"#665e52",opacity:isDone?0.6:1}}>
-              <span style={{flexShrink:0,fontSize:10}}>{isDone?"✅":"◻️"}</span>
+              <span style={{flexShrink:0,fontSize:10}}>{isDone?"â":"â»ï¸"}</span>
               <span style={{textDecoration:isDone?"line-through":"none"}}>{cleaned}</span>
             </div>;
           })}
         </div>
       )}
       <div style={{display:"flex",gap:6,padding:"7px 10px",borderTop:"1px solid #00000008"}} onClick={e=>e.stopPropagation()}>
-        <button onClick={()=>onToggle(cat.id,sub.id,item.id)} style={{flex:1,background:item.done?"#0000000a":cat.color+"20",border:`1px solid ${item.done?"#00000012":cat.color+"40"}`,borderRadius:8,color:item.done?"#777066":cat.color,fontSize:11,fontWeight:600,padding:"5px",cursor:"pointer"}}>{item.done?"✓ Done":"Mark Done"}</button>
-        <button onClick={()=>onOpen({item,cat,sub})} style={{flex:1,background:"#0000000a",border:"1px solid #00000008",borderRadius:8,color:"#777066",fontSize:11,padding:"5px",cursor:"pointer"}}>Full Details →</button>
+        <button onClick={()=>onToggle(cat.id,sub.id,item.id)} style={{flex:1,background:item.done?"#0000000a":cat.color+"20",border:`1px solid ${item.done?"#00000012":cat.color+"40"}`,borderRadius:8,color:item.done?"#777066":cat.color,fontSize:11,fontWeight:600,padding:"5px",cursor:"pointer"}}>{item.done?"â Done":"Mark Done"}</button>
+        <button onClick={()=>onOpen({item,cat,sub})} style={{flex:1,background:"#0000000a",border:"1px solid #00000008",borderRadius:8,color:"#777066",fontSize:11,padding:"5px",cursor:"pointer"}}>Full Details â</button>
         <button onClick={()=>onDel(cat.id,sub.id,item.id)} style={{background:"none",border:"1px solid #ff445520",borderRadius:8,color:"#ff4455",fontSize:11,padding:"5px 10px",cursor:"pointer"}}>Del</button>
       </div>
     </div>
@@ -895,16 +887,16 @@ function EmailCard({item,cat,sub,onToggle,onDel,onOpen}){
   return (
     <div className="ecard" style={{margin:"8px 10px 4px",background:"#ece7de",borderRadius:12,overflow:"hidden",border:`1px solid ${cat.color}25`,cursor:"pointer"}} onClick={()=>onOpen({item,cat,sub})}>
       <div style={{display:"flex",alignItems:"center",gap:8,padding:"10px 12px"}}>
-        <span style={{background:cat.color+"20",color:cat.color,fontSize:9,fontWeight:700,padding:"2px 7px",borderRadius:20,flexShrink:0}}>📧 EMAIL</span>
+        <span style={{background:cat.color+"20",color:cat.color,fontSize:9,fontWeight:700,padding:"2px 7px",borderRadius:20,flexShrink:0}}>ð§ EMAIL</span>
         <span style={{flex:1,fontSize:12,fontWeight:700,color:"#111122",lineHeight:1.35}}>{item.text}</span>
         {item.deadline&&<span style={{background:"#d50000",color:"#fff",fontSize:8,fontWeight:800,padding:"2px 6px",borderRadius:20,flexShrink:0}}>{item.deadline}</span>}
       </div>
       <div style={{display:"flex",alignItems:"center",gap:6,padding:"0 12px 8px"}}>
         <span style={{background:st.bg,color:st.color,fontSize:9,fontWeight:700,padding:"2px 8px",borderRadius:20,letterSpacing:"0.05em"}}>{st.icon} {st.label}</span>
-        {item.subject&&<div style={{fontSize:11,color:"#665e52",padding:"0 12px 4px",fontStyle:"italic",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>📧 {item.subject}</div>}
+        {item.subject&&<div style={{fontSize:11,color:"#665e52",padding:"0 12px 4px",fontStyle:"italic",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>ð§ {item.subject}</div>}
       {(item.sender||item.dateReceived)&&<div style={{fontSize:10,color:"#999088",padding:"0 12px 6px",display:"flex",gap:10}}>
-        {item.sender&&<span>👤 {item.sender}</span>}
-        {item.dateReceived&&<span>📅 {item.dateReceived}</span>}
+        {item.sender&&<span>ð¤ {item.sender}</span>}
+        {item.dateReceived&&<span>ð {item.dateReceived}</span>}
       </div>}
       {item.log&&item.log.length>0&&<span style={{fontSize:10,color:"#999088",flex:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",padding:"0 12px 4px"}}>Latest: {item.log[item.log.length-1]}</span>}
       </div>
@@ -920,8 +912,8 @@ function EmailCard({item,cat,sub,onToggle,onDel,onOpen}){
         </div>
       )}
       <div style={{display:"flex",gap:6,padding:"7px 10px",borderTop:"1px solid #0000000a"}} onClick={e=>e.stopPropagation()}>
-        <button onClick={()=>onToggle(cat.id,sub.id,item.id)} style={{flex:1,background:item.done?"#0000000a":cat.color+"20",border:`1px solid ${item.done?"#00000012":cat.color+"40"}`,borderRadius:8,color:item.done?"#777066":cat.color,fontSize:11,fontWeight:600,padding:"5px",cursor:"pointer"}}>{item.done?"✓ Done":"Mark Done"}</button>
-        <button onClick={()=>onOpen({item,cat,sub})} style={{flex:1,background:"#0000000a",border:"1px solid #00000012",borderRadius:8,color:"#777066",fontSize:11,padding:"5px",cursor:"pointer"}}>Full Details →</button>
+        <button onClick={()=>onToggle(cat.id,sub.id,item.id)} style={{flex:1,background:item.done?"#0000000a":cat.color+"20",border:`1px solid ${item.done?"#00000012":cat.color+"40"}`,borderRadius:8,color:item.done?"#777066":cat.color,fontSize:11,fontWeight:600,padding:"5px",cursor:"pointer"}}>{item.done?"â Done":"Mark Done"}</button>
+        <button onClick={()=>onOpen({item,cat,sub})} style={{flex:1,background:"#0000000a",border:"1px solid #00000012",borderRadius:8,color:"#777066",fontSize:11,padding:"5px",cursor:"pointer"}}>Full Details â</button>
         <button onClick={()=>onDel(cat.id,sub.id,item.id)} style={{background:"none",border:"1px solid #ff445520",borderRadius:8,color:"#ff4455",fontSize:11,padding:"5px 10px",cursor:"pointer"}}>Del</button>
       </div>
     </div>
@@ -973,19 +965,19 @@ function DetailSheet({item:di,cats,onClose,onToggle,onSetStatus,onAddLog,onEditT
     const prevChat=item.chat||[];
     const fileNames=chatFiles.map(f=>f.name);
     const previews=chatFiles.filter(f=>f.preview).map(f=>f.preview);
-    const fullMsg=fileNames.length>0?msg+"\n📎 Attached: "+fileNames.join(", "):msg;
+    const fullMsg=fileNames.length>0?msg+"\nð Attached: "+fileNames.join(", "):msg;
     if(chatFiles.length>0){
       chatFiles.forEach(f=>onAttachFile(cat.id,sub.id,item.id,{label:f.name,name:f.name,size:f.size,preview:f.preview||null}));
       setChatFiles([]);
     }
     const newChat=[...prevChat,{from:"joe",text:fullMsg,ts:new Date().toISOString(),previews:previews.length>0?previews:undefined}];
     onChatMsg(cat.id,sub.id,item.id,newChat);
-    const shortMsg=msg.length>60?msg.slice(0,60)+"…":msg;
-    onAddLog(cat.id,sub.id,item.id,`💬 Joe: ${shortMsg}`);
+    const shortMsg=msg.length>60?msg.slice(0,60)+"â¦":msg;
+    onAddLog(cat.id,sub.id,item.id,`ð¬ Joe: ${shortMsg}`);
 
     const key=(lsGet(LS_KEY,"")||DEFAULT_KEY);
     if(!key){
-      const cleoReply=[...newChat,{from:"cleo",text:"Got it — saved your update. I'll process this when you sync with Cowork. 💬",ts:new Date().toISOString()}];
+      const cleoReply=[...newChat,{from:"cleo",text:"Got it â saved your update. I'll process this when you sync with Cowork. ð¬",ts:new Date().toISOString()}];
       onChatMsg(cat.id,sub.id,item.id,cleoReply);
       return;
     }
@@ -1008,12 +1000,12 @@ function DetailSheet({item:di,cats,onClose,onToggle,onSetStatus,onAddLog,onEditT
         return {role,content:m.text};
       });
 
-      /* ── STEP 1: Chat reply ── */
+      /* ââ STEP 1: Chat reply ââ */
       const r=await fetch("https://api.anthropic.com/v1/messages",{
         method:"POST",headers:hdrs,
         body:JSON.stringify({
           model:"claude-sonnet-4-20250514",max_tokens:600,
-          system:`You are CLEO, Joe's AI executive assistant. You help manage tasks across his businesses (ARCannabis, Paper Pals, Amazon Seller, Personal). Today: ${new Date().toDateString()}.\n\nCurrent task context:\n${taskCtx}\nCurrent notes:\n${item.notes||"(none)"}\n\nRULES:\n- Be concise, warm, actionable. 2-4 sentences max.\n- When Joe asks to update something, CONFIRM what you changed (deadline, status, reminder, notes).\n- If Joe mentions a date/deadline, confirm the exact date.\n- If Joe says something is done, confirm you're marking it done.\n- If Joe mentions a person or contact, acknowledge you're saving it.\n- Always end with what happens next or what Joe needs to do.\n- Never say "I can't do that" — you update everything.\n- MESSY INPUT: Joe types fast and messy. He also copy/pastes messages from other people (like Lily, his partner, or friends). When you see pasted text from someone else, acknowledge it naturally ("Got it, added Lily's items to the list" or "Noted — I pulled the details from that message").\n- SMART FORMAT: For grocery/shopping tasks, confirm how many items you added to the list. For business tasks, confirm what you updated in the notes.\n- CHECKLIST TASKS: If this is clearly a list task (groceries, shopping, supplies, packing), keep responses short: "Added X items to your list. Y items total now." Don't over-explain.\n- SCREENSHOTS: Joe may paste screenshots of emails, documents, or messages. When you see an image, READ IT CAREFULLY — extract all key details (names, account numbers, amounts, dates, addresses, deadlines) and confirm what you found. Build structured notes from the screenshot content.`,
+          system:`You are CLEO, Joe's AI executive assistant. You help manage tasks across his businesses (ARCannabis, Paper Pals, Amazon Seller, Personal). Today: ${new Date().toDateString()}.\n\nCurrent task context:\n${taskCtx}\nCurrent notes:\n${item.notes||"(none)"}\n\nRULES:\n- Be concise, warm, actionable. 2-4 sentences max.\n- When Joe asks to update something, CONFIRM what you changed (deadline, status, reminder, notes).\n- If Joe mentions a date/deadline, confirm the exact date.\n- If Joe says something is done, confirm you're marking it done.\n- If Joe mentions a person or contact, acknowledge you're saving it.\n- Always end with what happens next or what Joe needs to do.\n- Never say "I can't do that" â you update everything.\n- MESSY INPUT: Joe types fast and messy. He also copy/pastes messages from other people (like Lily, his partner, or friends). When you see pasted text from someone else, acknowledge it naturally ("Got it, added Lily's items to the list" or "Noted â I pulled the details from that message").\n- SMART FORMAT: For grocery/shopping tasks, confirm how many items you added to the list. For business tasks, confirm what you updated in the notes.\n- CHECKLIST TASKS: If this is clearly a list task (groceries, shopping, supplies, packing), keep responses short: "Added X items to your list. Y items total now." Don't over-explain.\n- SCREENSHOTS: Joe may paste screenshots of emails, documents, or messages. When you see an image, READ IT CAREFULLY â extract all key details (names, account numbers, amounts, dates, addresses, deadlines) and confirm what you found. Build structured notes from the screenshot content.`,
           messages:chatHistory
         })
       });
@@ -1027,7 +1019,7 @@ function DetailSheet({item:di,cats,onClose,onToggle,onSetStatus,onAddLog,onEditT
       const finalChat=[...newChat,{from:"cleo",text:reply}];
       onChatMsg(cat.id,sub.id,item.id,finalChat);
 
-      /* ── STEP 2: Auto-rebuild notes + extract structured updates ── */
+      /* ââ STEP 2: Auto-rebuild notes + extract structured updates ââ */
       const allMsgs=finalChat.map(m=>`${m.from==="joe"?"Joe":"CLEO"}: ${m.text}`).join("\n");
       const r2=await fetch("https://api.anthropic.com/v1/messages",{
         method:"POST",headers:hdrs,
@@ -1044,74 +1036,74 @@ function DetailSheet({item:di,cats,onClose,onToggle,onSetStatus,onAddLog,onEditT
   "location": "Full address if mentioned (e.g. '5755 Mountain View Blvd, Ladner BC') or null if no location"
 }
 
-STEP 1 — DETECT FORMAT:
+STEP 1 â DETECT FORMAT:
 Look at the task title, category, and conversation. Pick the RIGHT format:
 
-FORMAT A — CHECKLIST (use for grocery lists, shopping lists, packing lists, to-do lists, supplies, errands, any list of items to buy/get/do):
-Notes should be a bullet list using • for each item. Group items if logical. Example:
-• Milk
-• Eggs x2 dozen
-• Bread — whole wheat
-• Chicken thighs (family pack)
+FORMAT A â CHECKLIST (use for grocery lists, shopping lists, packing lists, to-do lists, supplies, errands, any list of items to buy/get/do):
+Notes should be a bullet list using â¢ for each item. Group items if logical. Example:
+â¢ Milk
+â¢ Eggs x2 dozen
+â¢ Bread â whole wheat
+â¢ Chicken thighs (family pack)
 
-If Joe or someone else sends a messy list (even copy/pasted texts), clean it up into neat • bullet items. Combine duplicates. Add quantities if mentioned.
+If Joe or someone else sends a messy list (even copy/pasted texts), clean it up into neat â¢ bullet items. Combine duplicates. Add quantities if mentioned.
 
-FORMAT B — STRUCTURED NOTES (use for business tasks, legal matters, emails, contacts, meetings, anything that needs context/status/steps):
+FORMAT B â STRUCTURED NOTES (use for business tasks, legal matters, emails, contacts, meetings, anything that needs context/status/steps):
 
 CONTACT
-[Name, role, phone, email — each on its own line]
+[Name, role, phone, email â each on its own line]
 
 SITUATION
-[Point form — short scannable lines. NOT paragraphs. Each key fact on its own line:]
+[Point form â short scannable lines. NOT paragraphs. Each key fact on its own line:]
 Account #12201166
 Service at 438 Richards St, Vancouver BC V6B 2Z3
-Missed payment — $40.12 overdue
-Account being cancelled — deadline Apr 15
-[Pull out every key detail: account numbers, amounts, addresses, dates, names, reference numbers — each gets its own line. Joe needs to scan this in 3 seconds.]
+Missed payment â $40.12 overdue
+Account being cancelled â deadline Apr 15
+[Pull out every key detail: account numbers, amounts, addresses, dates, names, reference numbers â each gets its own line. Joe needs to scan this in 3 seconds.]
 
 STATUS
-[One line — what's the current state]
+[One line â what's the current state]
 
 NEXT STEPS
-• [Bullet list — use • for incomplete, ✅ for done steps]
+â¢ [Bullet list â use â¢ for incomplete, â for done steps]
 
 CONTACT
-[Name, phone, email — each on own line. Only if there's contact info.]
+[Name, phone, email â each on own line. Only if there's contact info.]
 
 IF NO REPLY
-[Escalation plan — only if relevant]
+[Escalation plan â only if relevant]
 
 FORMATTING RULES:
 - NEVER write paragraphs. Everything is short point-form lines.
 - Each fact gets its own line
-- Numbers, amounts, dates, account numbers — always pull them out visibly
+- Numbers, amounts, dates, account numbers â always pull them out visibly
 - Joe scans, he doesn't read. Format for scanning.
-- Use ONLY sections that apply — don't include empty sections
-- USE SMART CONTEXTUAL HEADERS — don't always use the same headers. Pick headers that fit the task:
-  - Soccer game? → GAME DETAILS, TRAVEL, SCHEDULE, WHAT TO BRING
-  - Email/business? → SITUATION, STATUS, NEXT STEPS, CONTACT
-  - Legal matter? → SITUATION, DOCUMENTS NEEDED, DEADLINE, CONTACT
-  - Shopping/errands? → Just bullet checklist, no headers needed
-  - Meeting? → AGENDA, KEY DETAILS, FOLLOW UP
-  - Invoice/payment? → ACCOUNT DETAILS, AMOUNT, DEADLINE
+- Use ONLY sections that apply â don't include empty sections
+- USE SMART CONTEXTUAL HEADERS â don't always use the same headers. Pick headers that fit the task:
+  - Soccer game? â GAME DETAILS, TRAVEL, SCHEDULE, WHAT TO BRING
+  - Email/business? â SITUATION, STATUS, NEXT STEPS, CONTACT
+  - Legal matter? â SITUATION, DOCUMENTS NEEDED, DEADLINE, CONTACT
+  - Shopping/errands? â Just bullet checklist, no headers needed
+  - Meeting? â AGENDA, KEY DETAILS, FOLLOW UP
+  - Invoice/payment? â ACCOUNT DETAILS, AMOUNT, DEADLINE
 - Headers should be ALL CAPS on their own line. Content below in point form.
-- If task has a location/address, DO NOT put the address in the notes. Instead ONLY set it in the "location" field in the JSON response. The app has a dedicated clickable Google Maps card for the location — no need to duplicate it in the notes. You can mention the place NAME in the notes (e.g. "Dugald Morrison Park") but NOT the full street address — that goes in the location field only.
+- If task has a location/address, DO NOT put the address in the notes. Instead ONLY set it in the "location" field in the JSON response. The app has a dedicated clickable Google Maps card for the location â no need to duplicate it in the notes. You can mention the place NAME in the notes (e.g. "Dugald Morrison Park") but NOT the full street address â that goes in the location field only.
 
-STEP 2 — HANDLE MESSY INPUT:
+STEP 2 â HANDLE MESSY INPUT:
 Joe types fast and messy. He also copy/pastes messages from other people (like Lily, his partner). When you see pasted messages:
 - Extract the useful info (items, requests, details)
 - Clean it up and merge into the existing notes
-- Don't lose any items — if Lily says "get diapers and wipes" those become bullet items
+- Don't lose any items â if Lily says "get diapers and wipes" those become bullet items
 - If someone asks for multiple things, each becomes its own bullet
 
 RULES:
-- Keep Joe's facts from existing notes — don't drop info the chat didn't contradict
-- Clean up language but keep Joe's tone — professional, not stiff
+- Keep Joe's facts from existing notes â don't drop info the chat didn't contradict
+- Clean up language but keep Joe's tone â professional, not stiff
 - Do NOT invent information
-- MERGE new info with existing notes — don't replace everything, ADD to what's there
+- MERGE new info with existing notes â don't replace everything, ADD to what's there
 - For checklists: keep existing items, add new ones at the bottom
-- For "logs": summarize what CLEO just did (e.g. "Updated deadline to Apr 15", "Status → IN PROGRESS", "Added 5 items to grocery list"). Always include at least one log entry.
-- For "status": if Joe says something is done → "done". If work is happening → "inprog". If waiting on someone → "pending". If no signal → null.
+- For "logs": summarize what CLEO just did (e.g. "Updated deadline to Apr 15", "Status â IN PROGRESS", "Added 5 items to grocery list"). Always include at least one log entry.
+- For "status": if Joe says something is done â "done". If work is happening â "inprog". If waiting on someone â "pending". If no signal â null.
 - For "deadline": only set if Joe explicitly mentions a date. Format as "Mon DD, YYYY" (e.g. "Apr 15, 2026"). ALWAYS include the year. null if no change.
 - For "priority": only change if Joe explicitly says urgent/high/low. null if no change.`,
           messages:[{role:"user",content:`Task: ${item.text}\nCategory: ${cat.label} > ${sub.label}\nCurrent status: ${item.status||"todo"}\nCurrent deadline: ${item.deadline||"none"}\nCurrent priority: ${item.priority}\n\nExisting notes:\n${item.notes||"(none)"}\n\nFull chat history:\n${allMsgs}`}]
@@ -1121,7 +1113,7 @@ RULES:
       if(!d2.error){
         const raw=d2.content?.find(b=>b.type==="text")?.text||"";
         try{
-          /* Parse JSON — handle markdown code fences if present */
+          /* Parse JSON â handle markdown code fences if present */
           const cleaned=raw.replace(/```json\s*/g,"").replace(/```\s*/g,"").trim();
           const parsed=JSON.parse(cleaned);
           const updates={};
@@ -1132,17 +1124,17 @@ RULES:
           if(parsed.location&&parsed.location.trim()) updates.location=parsed.location.trim();
           const logs=parsed.logs||[];
           /* Add CLEO reply summary to log */
-          const replyShort=reply.length>60?reply.slice(0,60)+"…":reply;
-          logs.push(`🤖 CLEO: ${replyShort}`);
+          const replyShort=reply.length>60?reply.slice(0,60)+"â¦":reply;
+          logs.push(`ð¤ CLEO: ${replyShort}`);
           updates.logs=logs;
           onBatchUpdate(cat.id,sub.id,item.id,updates);
         }catch(e2){
-          /* JSON parse failed — fall back to just updating notes as raw text */
+          /* JSON parse failed â fall back to just updating notes as raw text */
           if(raw.trim()) onEditNotes(cat.id,sub.id,item.id,raw.trim());
         }
       }
     }catch(e){
-      onChatMsg(cat.id,sub.id,item.id,[...newChat,{from:"cleo",text:"Connection error — check your internet and try again."}]);
+      onChatMsg(cat.id,sub.id,item.id,[...newChat,{from:"cleo",text:"Connection error â check your internet and try again."}]);
     }
     setChatLoading(false);
   }
@@ -1153,17 +1145,17 @@ RULES:
       <div style={{background:"#ffffff",width:"100%",height:"100%",maxHeight:"95%",display:"flex",flexDirection:"column",borderRadius:18,border:"1px solid #ddd8cf",boxShadow:"0 8px 32px #00000020",overflow:"hidden"}}>
         <div style={{display:"none"}}/>
         <div style={{display:"flex",alignItems:"center",gap:10,padding:"13px 16px",borderBottom:"1px solid #00000010"}}>
-          <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",color:"#777066",fontSize:18,lineHeight:1,padding:"4px",flexShrink:0}}>←</button>
-          <span style={{fontSize:18}}>{item.done?"✅":item.priority==="high"?"🔴":item.priority==="medium"?"🟡":"🔵"}</span>
+          <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",color:"#777066",fontSize:18,lineHeight:1,padding:"4px",flexShrink:0}}>â</button>
+          <span style={{fontSize:18}}>{item.done?"â":item.priority==="high"?"ð´":item.priority==="medium"?"ð¡":"ðµ"}</span>
           <div style={{flex:1}}>
             {editingTitle===true
               ?<input value={titleVal} onChange={e=>setTitleVal(e.target.value)} onBlur={saveTitle} onKeyDown={e=>{if(e.key==="Enter")saveTitle();if(e.key==="Escape"){setTitleVal(item.text);setEditingTitle(false);}}} autoFocus
                 style={{fontSize:13,fontWeight:700,lineHeight:1.35,width:"100%",background:"#f5f1ea",border:"1px solid #ccccdd",borderRadius:6,padding:"4px 8px",color:"#111122",outline:"none"}}/>
               :<div onClick={()=>setEditingTitle(true)} style={{fontSize:13,fontWeight:700,lineHeight:1.35,cursor:"text",borderBottom:"1px dashed #ccccdd",paddingBottom:2}} title="Click to edit">{item.text}</div>
             }
-            <div style={{fontSize:10,color:"#999088",marginTop:2}}>{cat.label} → {sub.label} · {p.label} priority</div>
+            <div style={{fontSize:10,color:"#999088",marginTop:2}}>{cat.label} â {sub.label} Â· {p.label} priority</div>
           </div>
-          <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",color:"#777066",fontSize:22,lineHeight:1,flexShrink:0}}>×</button>
+          <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",color:"#777066",fontSize:22,lineHeight:1,flexShrink:0}}>Ã</button>
         </div>
         {/* SMART REMINDER BANNER */}
         {(()=>{
@@ -1186,26 +1178,26 @@ RULES:
             if(diff>60)return null;
             if(diff<=0)return(
               <div style={{background:"#d50000",padding:"10px 14px",display:"flex",alignItems:"center",gap:8}}>
-                <span style={{fontSize:18}}>🚨</span>
+                <span style={{fontSize:18}}>ð¨</span>
                 <div style={{color:"#fff",fontSize:12,fontWeight:700,flex:1}}>You should have left already! GO GO GO!</div>
               </div>
             );
             if(diff<=10)return(
               <div style={{background:"#ff4455",padding:"10px 14px",display:"flex",alignItems:"center",gap:8}}>
-                <span style={{fontSize:18}}>🏃</span>
-                <div style={{color:"#fff",fontSize:12,fontWeight:700,flex:1}}>Leave NOW — {diff} min until departure time!</div>
+                <span style={{fontSize:18}}>ð</span>
+                <div style={{color:"#fff",fontSize:12,fontWeight:700,flex:1}}>Leave NOW â {diff} min until departure time!</div>
               </div>
             );
             if(diff<=30)return(
               <div style={{background:"#ff8800",padding:"10px 14px",display:"flex",alignItems:"center",gap:8}}>
-                <span style={{fontSize:18}}>⏰</span>
-                <div style={{color:"#fff",fontSize:12,fontWeight:700,flex:1}}>Heads up — leave in {diff} minutes! Start getting ready.</div>
+                <span style={{fontSize:18}}>â°</span>
+                <div style={{color:"#fff",fontSize:12,fontWeight:700,flex:1}}>Heads up â leave in {diff} minutes! Start getting ready.</div>
               </div>
             );
             return(
               <div style={{background:"#1a6fcc",padding:"10px 14px",display:"flex",alignItems:"center",gap:8}}>
-                <span style={{fontSize:18}}>🚗</span>
-                <div style={{color:"#fff",fontSize:12,fontWeight:700,flex:1}}>Leaving in {diff} min — you've got time.</div>
+                <span style={{fontSize:18}}>ð</span>
+                <div style={{color:"#fff",fontSize:12,fontWeight:700,flex:1}}>Leaving in {diff} min â you've got time.</div>
               </div>
             );
           }
@@ -1213,13 +1205,13 @@ RULES:
         })()}
         <div style={{overflowY:"auto",padding:"14px 16px",display:"flex",flexDirection:"column",gap:12}}>
           {item.deadline&&<div>
-            <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:4}}>⏰ DEADLINE</div>
+            <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:4}}>â° DEADLINE</div>
             <div style={{background:"#ff445510",border:"1px solid #ff445530",borderRadius:10,padding:"9px 12px",color:"#ff4455",fontSize:14,fontWeight:700}}>{item.deadline}</div>
           </div>}
           {<div>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:4}}>
-              <div onClick={()=>setNotesOpen(!notesOpen)} style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",cursor:"pointer",display:"flex",alignItems:"center",gap:6,userSelect:"none"}}><span style={{display:"inline-block",transition:"transform 0.2s",transform:notesOpen?"rotate(90deg)":"rotate(0deg)",fontSize:10}}>▶</span>📝 NOTES & DETAILS</div>
-              {notesOpen&&<button onClick={()=>setEditingTitle(prev=>prev==="notes"?false:"notes")} style={{background:"none",border:"1px solid #ccccdd",borderRadius:6,color:"#999088",fontSize:10,padding:"2px 8px",cursor:"pointer"}}>{editingTitle==="notes"?"Done":"✏️ Edit"}</button>}
+              <div onClick={()=>setNotesOpen(!notesOpen)} style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",cursor:"pointer",display:"flex",alignItems:"center",gap:6,userSelect:"none"}}><span style={{display:"inline-block",transition:"transform 0.2s",transform:notesOpen?"rotate(90deg)":"rotate(0deg)",fontSize:10}}>â¶</span>ð NOTES & DETAILS</div>
+              {notesOpen&&<button onClick={()=>setEditingTitle(prev=>prev==="notes"?false:"notes")} style={{background:"none",border:"1px solid #ccccdd",borderRadius:6,color:"#999088",fontSize:10,padding:"2px 8px",cursor:"pointer"}}>{editingTitle==="notes"?"Done":"âï¸ Edit"}</button>}
             </div>
             {notesOpen&&(editingTitle==="notes"
               ?<textarea value={item.notes||""} onChange={e=>onEditNotes(cat.id,sub.id,item.id,e.target.value)}
@@ -1230,48 +1222,48 @@ RULES:
                 {item.notes?item.notes.split("\n").map((line,i)=>{
                   const clean = line.replace(/^\*\*(.+?)\*\*$/, "$1").trim();
                   const isHeader = /^[A-Z][A-Z0-9 &\-\/]+:?\s*$/.test(clean) && clean.length>=3 && clean.length<=40;
-                  const isBullet = /^[•·\-]\s/.test(clean);
-                  const isChecked = /^✅\s/.test(clean);
-                  const isDone = isChecked || /^[\d]+\.\s*✅/.test(clean);
-                  const isWaiting = /^[\d]+\.\s*⏳/.test(clean) || clean.startsWith("⏳");
+                  const isBullet = /^[â¢Â·\-]\s/.test(clean);
+                  const isChecked = /^â\s/.test(clean);
+                  const isDone = isChecked || /^[\d]+\.\s*â/.test(clean);
+                  const isWaiting = /^[\d]+\.\s*â³/.test(clean) || clean.startsWith("â³");
                   const toggleStep = ()=>{
                     if(!isBullet && !isChecked) return;
                     const lines = item.notes.split("\n");
-                    const stepText = bulletText.length>50 ? bulletText.slice(0,50)+"…" : bulletText;
+                    const stepText = bulletText.length>50 ? bulletText.slice(0,50)+"â¦" : bulletText;
                     const logs = [];
                     let newStatus = null;
                     if(isChecked){
-                      lines[i] = lines[i].replace(/✅\s*/, "• ");
-                      logs.push(`↩️ Reopened: ${stepText}`);
+                      lines[i] = lines[i].replace(/â\s*/, "â¢ ");
+                      logs.push(`â©ï¸ Reopened: ${stepText}`);
                       /* If unchecking, move back to in-progress */
                       if((item.status||"todo")==="done") newStatus="inprog";
                     } else {
-                      lines[i] = lines[i].replace(/^(\s*)[•·\-]\s*/, "$1✅ ");
-                      logs.push(`✅ Done: ${stepText}`);
+                      lines[i] = lines[i].replace(/^(\s*)[â¢Â·\-]\s*/, "$1â ");
+                      logs.push(`â Done: ${stepText}`);
                       /* Check if ALL bullets are now done */
                       const updatedNotes = lines.join("\n");
-                      const allBullets = updatedNotes.split("\n").filter(l=>/^\s*[•·\-]\s|^\s*✅\s/.test(l));
-                      const allDone = allBullets.length>0 && allBullets.every(l=>/^\s*✅/.test(l));
+                      const allBullets = updatedNotes.split("\n").filter(l=>/^\s*[â¢Â·\-]\s|^\s*â\s/.test(l));
+                      const allDone = allBullets.length>0 && allBullets.every(l=>/^\s*â/.test(l));
                       if(allDone){
                         newStatus="done";
-                        logs.push("🎉 All steps complete — marked DONE");
+                        logs.push("ð All steps complete â marked DONE");
                       } else if((item.status||"todo")==="todo"){
                         newStatus="inprog";
-                        logs.push("◑ Auto → IN PROGRESS");
+                        logs.push("â Auto â IN PROGRESS");
                       }
                     }
                     const update = {notes:lines.join("\n"), logs};
                     if(newStatus) update.status=newStatus;
                     onBatchUpdate(cat.id, sub.id, item.id, update);
                   };
-                  const bulletText = isBullet ? clean.replace(/^[•·\-]\s*/, "") : isChecked ? clean.replace(/^✅\s*/, "") : clean;
+                  const bulletText = isBullet ? clean.replace(/^[â¢Â·\-]\s*/, "") : isChecked ? clean.replace(/^â\s*/, "") : clean;
                   if(isBullet || isChecked) return <div key={i} onClick={toggleStep} style={{
                     display:"flex",alignItems:"flex-start",gap:8,cursor:"pointer",
                     padding:"4px 0",marginLeft:4,
                     opacity: isChecked ? 0.5 : 1,
                     transition:"all 0.2s",
                   }}>
-                    <span style={{fontSize:14,lineHeight:"18px",flexShrink:0,marginTop:1}}>{isChecked?"✅":"◻️"}</span>
+                    <span style={{fontSize:14,lineHeight:"18px",flexShrink:0,marginTop:1}}>{isChecked?"â":"â»ï¸"}</span>
                     <span style={{fontSize:12,lineHeight:1.6,color:isChecked?"#0a7a50":"#333344",
                       textDecoration:isChecked?"line-through":"none"}}>{bulletText}</span>
                   </div>;
@@ -1291,37 +1283,37 @@ RULES:
             )}
           </div>}
           {item.loc&&<div>
-            <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:4}}>📍 LOCATION</div>
+            <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:4}}>ð LOCATION</div>
             <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.loc)}`} target="_blank" rel="noopener noreferrer"
               style={{display:"block",background:"linear-gradient(135deg,#1a6fcc15,#0a8a5c15)",border:"1px solid #1a6fcc30",borderRadius:10,padding:"10px 12px",fontSize:13,color:"#1a6fcc",fontWeight:600,textDecoration:"none",cursor:"pointer"}}>
               <div style={{display:"flex",alignItems:"center",gap:8}}>
-                <span style={{fontSize:18}}>📍</span>
+                <span style={{fontSize:18}}>ð</span>
                 <div style={{flex:1}}>
                   <div style={{fontSize:13,fontWeight:600,color:"#1a6fcc"}}>{item.loc}</div>
-                  <div style={{fontSize:10,color:"#999088",marginTop:2}}>Tap to open in Google Maps →</div>
+                  <div style={{fontSize:10,color:"#999088",marginTop:2}}>Tap to open in Google Maps â</div>
                 </div>
-                <span style={{fontSize:16,color:"#1a6fcc"}}>↗</span>
+                <span style={{fontSize:16,color:"#1a6fcc"}}>â</span>
               </div>
             </a>
           </div>}
           {/* FILES SECTION */}
           <div>
-            <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:6}}>📎 FILES</div>
+            <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:6}}>ð FILES</div>
             <div style={{display:"flex",flexDirection:"column",gap:6}}>
               {(item.requiredFiles||[]).map((req,i)=>{
                 const attached=(item.files||[]).find(f=>f.label===req);
                 return (
                   <div key={i} style={{borderRadius:10,border:`2px solid ${attached?"#2effa8":"#ddd8cf"}`,background:attached?"#e8fff5":"#fafafa",padding:"10px 12px"}}>
                     <div style={{display:"flex",alignItems:"center",gap:8}}>
-                      <span style={{fontSize:16}}>{attached?"✅":"📋"}</span>
+                      <span style={{fontSize:16}}>{attached?"â":"ð"}</span>
                       <div style={{flex:1}}>
                         <div style={{fontSize:11,fontWeight:700,color:"#333344"}}>{req}</div>
-                        {attached&&<div style={{fontSize:11,color:"#0a7a50",marginTop:2,fontWeight:600}}>📎 {attached.name}</div>}
+                        {attached&&<div style={{fontSize:11,color:"#0a7a50",marginTop:2,fontWeight:600}}>ð {attached.name}</div>}
                         {!attached&&<div style={{fontSize:10,color:"#b5ac9e",marginTop:1}}>No file attached yet</div>}
                       </div>
                       {attached
                         ?<button onClick={()=>onRemoveFile(cat.id,sub.id,item.id,req)}
-                           style={{background:"#ff445515",border:"1px solid #ff445540",borderRadius:20,color:"#ff4455",fontSize:12,fontWeight:700,width:28,height:28,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+                           style={{background:"#ff445515",border:"1px solid #ff445540",borderRadius:20,color:"#ff4455",fontSize:12,fontWeight:700,width:28,height:28,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>â</button>
                         :<label style={{background:"#111122",color:"#fff",fontSize:11,fontWeight:700,padding:"6px 14px",borderRadius:20,cursor:"pointer",flexShrink:0,whiteSpace:"nowrap"}}>
                            + Attach
                            <input type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style={{display:"none"}} onChange={e=>{
@@ -1336,17 +1328,17 @@ RULES:
               })}
               {(item.files||[]).filter(f=>!(item.requiredFiles||[]).includes(f.label)).map((f,i)=>(
                 <div key={i} style={{borderRadius:10,border:"2px solid #2effa8",background:"#e8fff5",padding:"10px 12px",display:"flex",alignItems:"center",gap:8}}>
-                  <span style={{fontSize:16}}>✅</span>
+                  <span style={{fontSize:16}}>â</span>
                   <div style={{flex:1}}>
-                    <div style={{fontSize:11,fontWeight:700,color:"#0a7a50"}}>📎 {f.name}</div>
+                    <div style={{fontSize:11,fontWeight:700,color:"#0a7a50"}}>ð {f.name}</div>
                     <div style={{fontSize:10,color:"#0a5a3a"}}>Extra attachment</div>
                   </div>
                   <button onClick={()=>onRemoveFile(cat.id,sub.id,item.id,f.label)}
-                    style={{background:"#ff445515",border:"1px solid #ff445540",borderRadius:20,color:"#ff4455",fontSize:12,fontWeight:700,width:28,height:28,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+                    style={{background:"#ff445515",border:"1px solid #ff445540",borderRadius:20,color:"#ff4455",fontSize:12,fontWeight:700,width:28,height:28,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>â</button>
                 </div>
               ))}
               <label style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,cursor:"pointer",fontSize:11,color:"#777066",background:"#fff",border:"1px dashed #ccccdd",borderRadius:10,padding:"9px",marginTop:2}}>
-                📎 Attach extra file
+                ð Attach extra file
                 <input type="file" style={{display:"none"}} onChange={e=>{
                   const file=e.target.files[0];if(!file)return;
                   onAttachFile(cat.id,sub.id,item.id,{label:file.name,name:file.name,size:file.size});
@@ -1356,16 +1348,16 @@ RULES:
             </div>
             {(item.requiredFiles||[]).length>0 && (item.requiredFiles||[]).every(r=>(item.files||[]).find(f=>f.label===r)) && (
               <div style={{background:"#e8fff5",border:"2px solid #2effa8",borderRadius:10,padding:"12px",marginTop:8,fontSize:13,color:"#0a5a3a",fontWeight:700,textAlign:"center"}}>
-                ✅ All files ready — Joe, review and confirm send!
+                â All files ready â Joe, review and confirm send!
               </div>
             )}
           </div>
 
           {/* EMAIL DRAFT SECTION */}
           {item.drafts&&<div>
-            <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:6}}>📧 EMAIL DRAFT — {item.drafts.subject}</div>
+            <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:6}}>ð§ EMAIL DRAFT â {item.drafts.subject}</div>
 
-            {/* BOTH VERSIONS — picking stage */}
+            {/* BOTH VERSIONS â picking stage */}
             {!item.drafts.chosen&&!focusedDraft&&["v1","v2"].map((vk,vi)=>{
               const vNum=vi+1;
               const subtitle=vk==="v1"?item.drafts.v1Label||"":item.drafts.v2Label||"";
@@ -1382,18 +1374,18 @@ RULES:
                       onChooseDraft(cat.id,sub.id,item.id,updated);
                     }}
                       style={{flex:1,background:vi===0?"#d50000":"#665e52",border:"none",borderRadius:9,color:"#fff",fontWeight:700,fontSize:12,padding:"10px",cursor:"pointer"}}>
-                      ✓ Use Version {vNum}
+                      â Use Version {vNum}
                     </button>
                     <button onClick={()=>{setFocusedDraft(vk);setDraftFeedback("");setFeedbackHistory([]);}}
                       style={{flex:1,background:"none",border:"2px solid #ffe0a0",borderRadius:9,color:"#aa7700",fontWeight:700,fontSize:12,padding:"10px",cursor:"pointer"}}>
-                      ✏️ Edit Version {vNum}
+                      âï¸ Edit Version {vNum}
                     </button>
                   </div>
                 </div>
               );
             })}
 
-            {/* FOCUSED VERSION — editing back and forth with CLEO */}
+            {/* FOCUSED VERSION â editing back and forth with CLEO */}
             {!item.drafts.chosen&&focusedDraft&&(()=>{
               const vk=focusedDraft;
               const vNum=vk==="v1"?1:2;
@@ -1403,10 +1395,10 @@ RULES:
                 <div>
                   <div style={{background:"#fff",border:"2px solid #d5000030",borderRadius:12,padding:"12px 14px",marginBottom:10}}>
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
-                      <span style={{fontSize:11,fontWeight:700,color:"#d50000"}}>{subtitle||"VERSION "+vNum} — EDITING</span>
+                      <span style={{fontSize:11,fontWeight:700,color:"#d50000"}}>{subtitle||"VERSION "+vNum} â EDITING</span>
                       <button onClick={()=>{setFocusedDraft(null);setDraftFeedback("");setFeedbackHistory([]);}}
                         style={{background:"none",border:"1px solid #ccccdd",borderRadius:6,color:"#999088",fontSize:10,fontWeight:600,padding:"3px 10px",cursor:"pointer"}}>
-                        ← Back to both
+                        â Back to both
                       </button>
                     </div>
                     <div style={{fontSize:12,color:"#333344",lineHeight:1.75,whiteSpace:"pre-wrap",maxHeight:300,overflowY:"auto",marginBottom:10,padding:"8px 10px",background:"#f5f1ea",borderRadius:8}}>{item.drafts[vk]}</div>
@@ -1414,7 +1406,7 @@ RULES:
 
                   {/* CHAT THREAD */}
                   <div style={{background:"#f5f1ea",border:"1px solid #ddd8cf",borderRadius:12,padding:"10px",marginBottom:10}}>
-                    <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:8}}>💬 CHAT WITH CLEO</div>
+                    <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:8}}>ð¬ CHAT WITH CLEO</div>
                     <div style={{maxHeight:200,overflowY:"auto",display:"flex",flexDirection:"column",gap:6,marginBottom:8}}>
                       {/* Hardcoded chat history from drafts.chat */}
                       {chatMsgs.map((msg,mi)=>(
@@ -1448,7 +1440,7 @@ RULES:
                           padding:"8px 11px",fontSize:12,lineHeight:1.5
                         }}>
                           <div style={{fontSize:9,fontWeight:700,color:"#aa7700",marginBottom:3}}>CLEO</div>
-                          Got it — I'm rewriting the draft now. One moment...
+                          Got it â I'm rewriting the draft now. One moment...
                         </div>
                       )}
                       {chatMsgs.length===0&&feedbackHistory.length===0&&(
@@ -1464,7 +1456,7 @@ RULES:
                       <button onClick={()=>{if(draftFeedback.trim()){setFeedbackHistory(h=>[...h,draftFeedback.trim()]);setDraftFeedback("");}}}
                         disabled={!draftFeedback.trim()}
                         style={{background:draftFeedback.trim()?"#aa7700":"#dddddd",border:"none",borderRadius:10,color:"#fff",fontWeight:700,fontSize:18,width:38,height:38,cursor:draftFeedback.trim()?"pointer":"default",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                        ↑
+                        â
                       </button>
                     </div>
                   </div>
@@ -1476,17 +1468,17 @@ RULES:
                     setFocusedDraft(null);
                   }}
                     style={{width:"100%",background:"#0a7a50",border:"none",borderRadius:10,color:"#fff",fontWeight:700,fontSize:13,padding:"12px",cursor:"pointer",marginBottom:6}}>
-                    ✓ Use This Version
+                    â Use This Version
                   </button>
                 </div>
               );
             })()}
 
-            {/* CONFIRMED — ready to send */}
+            {/* CONFIRMED â ready to send */}
             {item.drafts.chosen&&(
               <div>
                 <div style={{background:"#fff",border:"2px solid #2effa8",borderRadius:12,padding:"12px 14px",marginBottom:10}}>
-                  <div style={{fontSize:11,fontWeight:700,color:"#0a7a50",marginBottom:8}}>✅ FINAL EMAIL</div>
+                  <div style={{fontSize:11,fontWeight:700,color:"#0a7a50",marginBottom:8}}>â FINAL EMAIL</div>
                   <div style={{fontSize:12,color:"#333344",lineHeight:1.75,whiteSpace:"pre-wrap",padding:"8px 10px",background:"#f0fff5",borderRadius:8}}>{item.drafts[item.drafts.chosen]}</div>
                 </div>
                 <div style={{display:"flex",gap:8}}>
@@ -1494,7 +1486,7 @@ RULES:
                     navigator.clipboard.writeText(item.drafts[item.drafts.chosen]);
                   }}
                     style={{flex:1,background:"#111122",border:"none",borderRadius:10,color:"#fff",fontWeight:700,fontSize:13,padding:"12px",cursor:"pointer"}}>
-                    📋 Copy Email
+                    ð Copy Email
                   </button>
                   <button onClick={()=>{
                     const updated={...item.drafts,chosen:null};
@@ -1502,7 +1494,7 @@ RULES:
                     setFocusedDraft(null);setFeedbackHistory([]);
                   }}
                     style={{flex:1,background:"none",border:"2px solid #ccccdd",borderRadius:10,color:"#777066",fontWeight:700,fontSize:13,padding:"12px",cursor:"pointer"}}>
-                    ↩ Edit Again
+                    â© Edit Again
                   </button>
                 </div>
                 <div style={{background:"#e8fff5",border:"1px solid #2effa830",borderRadius:10,padding:"10px 12px",marginTop:8,textAlign:"center",fontSize:11,color:"#0a5a3a",lineHeight:1.5}}>
@@ -1519,7 +1511,7 @@ RULES:
               {Object.entries(STATUS).map(([k,v])=>(
                 <button key={k} onClick={()=>{
                   if((item.status||"todo")!==k){
-                    onAddLog(cat.id,sub.id,item.id,`${v.icon} Status → ${v.label}`);
+                    onAddLog(cat.id,sub.id,item.id,`${v.icon} Status â ${v.label}`);
                   }
                   onSetStatus(cat.id,sub.id,item.id,k);
                 }}
@@ -1532,8 +1524,8 @@ RULES:
           {/* CHAT WITH CLEO */}
           <div style={{background:"#f5f1ea",border:"1px solid #ddd8cf",borderRadius:12,padding:"10px"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
-              <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em"}}>💬 CHAT WITH CLEO</div>
-              {chatLoading&&<div style={{fontSize:9,color:"#aa7700",fontWeight:600}}>⏳ thinking...</div>}
+              <div style={{fontSize:9,color:"#999088",letterSpacing:"0.08em"}}>ð¬ CHAT WITH CLEO</div>
+              {chatLoading&&<div style={{fontSize:9,color:"#aa7700",fontWeight:600}}>â³ thinking...</div>}
             </div>
             <div style={{maxHeight:220,overflowY:"auto",display:"flex",flexDirection:"column",gap:6,marginBottom:8}}>
               {(item.chat||[]).map((msg,mi)=>(
@@ -1571,9 +1563,9 @@ RULES:
                     ?<img src={f.preview} alt={f.name} style={{width:80,height:60,objectFit:"cover",borderRadius:"10px 10px 0 0"}}/>
                     :null}
                   <div style={{display:"flex",alignItems:"center",gap:3,padding:"3px 8px",fontSize:9,color:"#1a6fcc"}}>
-                    <span>{f.preview?"📷":"📎"} {f.name.length>15?f.name.slice(0,12)+"…":f.name}</span>
+                    <span>{f.preview?"ð·":"ð"} {f.name.length>15?f.name.slice(0,12)+"â¦":f.name}</span>
                   </div>
-                  <button onClick={()=>setChatFiles(prev=>prev.filter((_,i)=>i!==fi))} style={{position:"absolute",top:2,right:2,background:"#00000060",border:"none",cursor:"pointer",color:"#fff",fontSize:10,borderRadius:"50%",width:16,height:16,display:"flex",alignItems:"center",justifyContent:"center",padding:0,lineHeight:1}}>×</button>
+                  <button onClick={()=>setChatFiles(prev=>prev.filter((_,i)=>i!==fi))} style={{position:"absolute",top:2,right:2,background:"#00000060",border:"none",cursor:"pointer",color:"#fff",fontSize:10,borderRadius:"50%",width:16,height:16,display:"flex",alignItems:"center",justifyContent:"center",padding:0,lineHeight:1}}>Ã</button>
                 </div>
               ))}
             </div>}
@@ -1589,30 +1581,30 @@ RULES:
                 onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChatMsg();}}}
                 style={{flex:1,background:"#fff",border:"1px solid #ddd8cf",borderRadius:10,padding:"9px 11px",fontSize:12,color:"#333344",lineHeight:1.4,resize:"none",minHeight:38,maxHeight:80,fontFamily:"inherit",outline:"none",boxSizing:"border-box"}}/>
               <button onClick={()=>chatFileRef.current?.click()} title="Attach file"
-                style={{background:"#f5f1ea",border:"1px solid #ddd8cf",borderRadius:10,color:"#999088",fontSize:16,width:38,height:38,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",padding:0}}>📎</button>
+                style={{background:"#f5f1ea",border:"1px solid #ddd8cf",borderRadius:10,color:"#999088",fontSize:16,width:38,height:38,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",padding:0}}>ð</button>
               <button onClick={sendChatMsg}
                 disabled={!taskChat.trim()||chatLoading}
                 style={{background:taskChat.trim()&&!chatLoading?"#111122":"#dddddd",border:"none",borderRadius:10,color:"#fff",fontWeight:700,fontSize:18,width:38,height:38,cursor:taskChat.trim()&&!chatLoading?"pointer":"default",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                ↑
+                â
               </button>
             </div>
           </div>
 
           {/* ACTIVITY LOG */}
           {item.log&&item.log.length>0&&<div>
-            <div onClick={()=>setLogOpen(!logOpen)} style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:6,cursor:"pointer",display:"flex",alignItems:"center",gap:6,userSelect:"none"}}><span style={{display:"inline-block",transition:"transform 0.2s",transform:logOpen?"rotate(90deg)":"rotate(0deg)",fontSize:10}}>▶</span>📋 ACTIVITY LOG <span style={{fontSize:9,color:"#bbb0a4"}}>({item.log.length})</span></div>
+            <div onClick={()=>setLogOpen(!logOpen)} style={{fontSize:9,color:"#999088",letterSpacing:"0.08em",marginBottom:6,cursor:"pointer",display:"flex",alignItems:"center",gap:6,userSelect:"none"}}><span style={{display:"inline-block",transition:"transform 0.2s",transform:logOpen?"rotate(90deg)":"rotate(0deg)",fontSize:10}}>â¶</span>ð ACTIVITY LOG <span style={{fontSize:9,color:"#bbb0a4"}}>({item.log.length})</span></div>
             {logOpen&&<div style={{background:"#ece7de",border:"1px solid #00000010",borderRadius:11,padding:"10px 12px",display:"flex",flexDirection:"column",gap:6}}>
               {item.log.map((entry,i)=>(
                 <div key={i} style={{display:"flex",gap:8,fontSize:11,lineHeight:1.5}}>
-                  <span style={{color:entry.startsWith("⏳")?"#b07800":entry.startsWith("✅")?"#0a7a50":"#444455",flexShrink:0,fontSize:12}}>{entry.startsWith("⏳")?"⏳":entry.startsWith("✅")?"✅":"•"}</span>
-                  <span style={{color:entry.startsWith("⏳")?"#7a5500":entry.startsWith("✅")?"#0a5a3a":"#222233"}}>{entry.replace(/^[⏳✅]\s*/,"")}</span>
+                  <span style={{color:entry.startsWith("â³")?"#b07800":entry.startsWith("â")?"#0a7a50":"#444455",flexShrink:0,fontSize:12}}>{entry.startsWith("â³")?"â³":entry.startsWith("â")?"â":"â¢"}</span>
+                  <span style={{color:entry.startsWith("â³")?"#7a5500":entry.startsWith("â")?"#0a5a3a":"#222233"}}>{entry.replace(/^[â³â]\s*/,"")}</span>
                 </div>
               ))}
             </div>}
           </div>}
 
           <div style={{display:"flex",gap:8,paddingTop:4}}>
-            <button onClick={()=>{onToggle(cat.id,sub.id,item.id);onClose();}} style={{flex:1,padding:11,borderRadius:11,border:`1px solid ${item.done?"#00000018":cat.color+"50"}`,background:item.done?"#0000000a":cat.color+"15",color:item.done?"#777066":cat.color,fontSize:13,fontWeight:700,cursor:"pointer"}}>{item.done?"↩ Mark Incomplete":"✓ Mark Done"}</button>
+            <button onClick={()=>{onToggle(cat.id,sub.id,item.id);onClose();}} style={{flex:1,padding:11,borderRadius:11,border:`1px solid ${item.done?"#00000018":cat.color+"50"}`,background:item.done?"#0000000a":cat.color+"15",color:item.done?"#777066":cat.color,fontSize:13,fontWeight:700,cursor:"pointer"}}>{item.done?"â© Mark Incomplete":"â Mark Done"}</button>
             <button onClick={()=>{onDelete(cat.id,sub.id,item.id);onClose();}} style={{padding:"11px 14px",borderRadius:11,border:"1px solid #ff445530",background:"#ff445510",color:"#ff4455",fontSize:12,fontWeight:700,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",gap:4}}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff4455" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
             </button>
@@ -1656,10 +1648,10 @@ function PlanView({cats,setDetail}){
 
   /* Build 10-2 work blocks (1 hour each) */
   const workBlocks=[
-    {label:"10:00 – 11:00",start:600,end:660,icon:"🔥",desc:"Most urgent — deadlines & high priority"},
-    {label:"11:00 – 12:00",start:660,end:720,icon:"⚡",desc:"Important tasks — keep momentum"},
-    {label:"12:00 – 1:00",start:720,end:780,icon:"📋",desc:"Follow-ups, emails, medium tasks"},
-    {label:"1:00 – 2:00",start:780,end:840,icon:"✅",desc:"Quick wins, low priority, wrap up"}
+    {label:"10:00 â 11:00",start:600,end:660,icon:"ð¥",desc:"Most urgent â deadlines & high priority"},
+    {label:"11:00 â 12:00",start:660,end:720,icon:"â¡",desc:"Important tasks â keep momentum"},
+    {label:"12:00 â 1:00",start:720,end:780,icon:"ð",desc:"Follow-ups, emails, medium tasks"},
+    {label:"1:00 â 2:00",start:780,end:840,icon:"â",desc:"Quick wins, low priority, wrap up"}
   ];
 
   /* Distribute work tasks across 4 blocks */
@@ -1668,7 +1660,7 @@ function PlanView({cats,setDetail}){
     b.tasks=workTasks.slice(i*perBlock,(i+1)*perBlock);
   });
 
-  const PRI2={high:{label:"HIGH",bg:"#ff335520",color:"#ff4455",dot:"🔴"},medium:{label:"MED",bg:"#ffcc4420",color:"#cc8800",dot:"🟡"},low:{label:"LOW",bg:"#4faaff20",color:"#4faaff",dot:"🔵"}};
+  const PRI2={high:{label:"HIGH",bg:"#ff335520",color:"#ff4455",dot:"ð´"},medium:{label:"MED",bg:"#ffcc4420",color:"#cc8800",dot:"ð¡"},low:{label:"LOW",bg:"#4faaff20",color:"#4faaff",dot:"ðµ"}};
 
   const openTask=(t)=>{setDetail({item:t,cat:t._cat,sub:t._sub});};
 
@@ -1682,7 +1674,7 @@ function PlanView({cats,setDetail}){
     <div>
       {/* Header */}
       <div style={{background:"linear-gradient(135deg,#1a1a2e,#16213e)",borderRadius:14,marginBottom:10,padding:"14px 16px",color:"#fff"}}>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:15,fontWeight:800}}>⚡ {isWeekend?"WEEKEND":"TODAY'S GAME PLAN"}</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:15,fontWeight:800}}>â¡ {isWeekend?"WEEKEND":"TODAY'S GAME PLAN"}</div>
         <div style={{fontSize:11,color:"#ffffff88",marginTop:3}}>{dayLabel}</div>
         {!isWeekend&&<div style={{display:"flex",gap:12,marginTop:10}}>
           <div style={{background:"#ffffff15",borderRadius:8,padding:"6px 10px",fontSize:11}}>
@@ -1702,15 +1694,15 @@ function PlanView({cats,setDetail}){
 
       {/* Time status bar */}
       {!isWeekend&&<div style={{background:beforeWork?"#fff8ee":afterWork?"#f0fff4":"#eef6ff",border:"1px solid "+(beforeWork?"#ffcc4430":afterWork?"#0a8a5c30":"#4faaff30"),borderRadius:10,padding:"8px 12px",marginBottom:10,fontSize:11,color:beforeWork?"#cc8800":afterWork?"#0a7a50":"#1a6fcc",fontWeight:600}}>
-        {beforeWork&&`⏰ Work block starts at 10:00 AM — ${Math.floor((600-nowMin)/60)}h ${(600-nowMin)%60}m from now`}
-        {currentBlock>=0&&`🟢 You're in Block ${currentBlock+1} — ${workBlocks[currentBlock].label}`}
-        {afterWork&&"✅ Work block done! Personal time now."}
-        {!beforeWork&&currentBlock<0&&!afterWork&&`⏳ Between blocks — ${fmt(nowMin)}`}
+        {beforeWork&&`â° Work block starts at 10:00 AM â ${Math.floor((600-nowMin)/60)}h ${(600-nowMin)%60}m from now`}
+        {currentBlock>=0&&`ð¢ You're in Block ${currentBlock+1} â ${workBlocks[currentBlock].label}`}
+        {afterWork&&"â Work block done! Personal time now."}
+        {!beforeWork&&currentBlock<0&&!afterWork&&`â³ Between blocks â ${fmt(nowMin)}`}
       </div>}
 
-      {/* Weekend — no extra banner needed */}
+      {/* Weekend â no extra banner needed */}
 
-      {/* WORK BLOCKS — 10am to 2pm (weekdays only) */}
+      {/* WORK BLOCKS â 10am to 2pm (weekdays only) */}
       {!isWeekend&&workBlocks.map((b,bi)=>{
         const isActive=bi===currentBlock;
         const isPast=nowMin>=b.end;
@@ -1737,21 +1729,21 @@ function PlanView({cats,setDetail}){
               <span style={{fontSize:12}}>{PRI2[t.priority].dot}</span>
               <div style={{flex:1,minWidth:0}}>
                 <div style={{fontSize:11,fontWeight:600,color:"#111122",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.text}</div>
-                <div style={{fontSize:9,color:"#999088"}}>{t._catIcon} {t._catLabel} · {t.status==="inprog"?"In Progress":t.status==="pending"?"Pending":"To Do"}{t.deadline?" · ⏰ "+t.deadline:""}</div>
+                <div style={{fontSize:9,color:"#999088"}}>{t._catIcon} {t._catLabel} Â· {t.status==="inprog"?"In Progress":t.status==="pending"?"Pending":"To Do"}{t.deadline?" Â· â° "+t.deadline:""}</div>
               </div>
-              <span style={{fontSize:12,color:"#ccc5b8"}}>›</span>
+              <span style={{fontSize:12,color:"#ccc5b8"}}>âº</span>
             </button>
           ))}
         </div>
       );})}
 
-      {/* PERSONAL BLOCK — After 2pm */}
+      {/* PERSONAL BLOCK â After 2pm */}
       <div style={{background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:14,marginBottom:8,overflow:"hidden",opacity:(!isWeekend&&!afterWork)?0.5:1}}>
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",background:afterWork||isWeekend?"#f0fff4":"#f9f7f3"}}>
           <div style={{display:"flex",alignItems:"center",gap:6}}>
-            <span style={{fontSize:14}}>🏠</span>
+            <span style={{fontSize:14}}>ð </span>
             <div>
-              <div style={{fontSize:12,fontWeight:700,color:afterWork||isWeekend?"#0a7a50":"#111122"}}>{isWeekend?"All Day":"After 2:00 PM"} — Personal</div>
+              <div style={{fontSize:12,fontWeight:700,color:afterWork||isWeekend?"#0a7a50":"#111122"}}>{isWeekend?"All Day":"After 2:00 PM"} â Personal</div>
               <div style={{fontSize:9,color:"#999088"}}>To-do, kids, life stuff</div>
             </div>
           </div>
@@ -1760,29 +1752,29 @@ function PlanView({cats,setDetail}){
             <span style={{fontSize:10,color:"#999088",fontWeight:600}}>{personalTasks.length}</span>
           </div>
         </div>
-        {personalTasks.length===0&&<div style={{padding:"12px 14px",fontSize:11,color:"#b5ac9e",textAlign:"center"}}>Nothing personal today 🎉</div>}
+        {personalTasks.length===0&&<div style={{padding:"12px 14px",fontSize:11,color:"#b5ac9e",textAlign:"center"}}>Nothing personal today ð</div>}
         {personalTasks.map(t=>(
           <button key={t.id} onClick={()=>openTask(t)} style={{width:"100%",display:"flex",alignItems:"center",gap:8,padding:"9px 14px",borderTop:"1px solid #00000008",background:"none",border:"none",cursor:"pointer",textAlign:"left"}}>
             <span style={{fontSize:12}}>{PRI2[t.priority].dot}</span>
             <div style={{flex:1,minWidth:0}}>
               <div style={{fontSize:11,fontWeight:600,color:"#111122",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.text}</div>
-              <div style={{fontSize:9,color:"#999088"}}>{t._catIcon} {t._catLabel}{t.deadline?" · ⏰ "+t.deadline:""}</div>
+              <div style={{fontSize:9,color:"#999088"}}>{t._catIcon} {t._catLabel}{t.deadline?" Â· â° "+t.deadline:""}</div>
             </div>
-            <span style={{fontSize:12,color:"#ccc5b8"}}>›</span>
+            <span style={{fontSize:12,color:"#ccc5b8"}}>âº</span>
           </button>
         ))}
       </div>
 
       {/* Footer tip */}
       {!isWeekend&&<div style={{background:"#f5f1ea",borderRadius:10,padding:"10px 14px",fontSize:10,color:"#999088",lineHeight:1.7,marginTop:4}}>
-        💡 CLEO auto-sorts by deadline → priority → status. Tap any task to open details. Most urgent items always go in the 10–11 block.
+        ð¡ CLEO auto-sorts by deadline â priority â status. Tap any task to open details. Most urgent items always go in the 10â11 block.
       </div>}
     </div>
   );
 }
 
 function AIView({cats}){
-  const [msgs,setMsgs]=useState([{role:"a",text:`Hey Joe! I can see all your tasks across ARCannabis, Paper Pals, Amazon Seller, and Personal.\n\n⚠️ Most urgent: 1290 E 12th BL deadline Apr 12 — call Kimberly Li if no reply Monday.\n\nWhat do you need?`}]);
+  const [msgs,setMsgs]=useState([{role:"a",text:`Hey Joe! I can see all your tasks across ARCannabis, Paper Pals, Amazon Seller, and Personal.\n\nâ ï¸ Most urgent: 1290 E 12th BL deadline Apr 12 â call Kimberly Li if no reply Monday.\n\nWhat do you need?`}]);
   const [inp,setInp]=useState("");
   const [loading,setLoading]=useState(false);
   const ref=useRef(null);
@@ -1801,16 +1793,16 @@ function AIView({cats}){
     try{
       const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:`You are CLEO, Joe's personal AI assistant. Be concise, warm, mobile-friendly. Use short paragraphs, not bullet lists. Today: ${new Date().toDateString()}.\n\n${ctx}`,messages:newMsgs.map(m=>({role:m.role==="u"?"user":"assistant",content:m.text}))})});
       const d=await r.json();
-      if(d.error&&d.error.type==="authentication_error"){lsSet(LS_KEY,"");setMsgs(p=>[...p,{role:"a",text:"API key invalid — send another message and I'll ask for a new key."}]);}
+      if(d.error&&d.error.type==="authentication_error"){lsSet(LS_KEY,"");setMsgs(p=>[...p,{role:"a",text:"API key invalid â send another message and I'll ask for a new key."}]);}
       else{const reply=d.content?.find(b=>b.type==="text")?.text||"Try again.";setMsgs(p=>[...p,{role:"a",text:reply}]);}
-    }catch(e){setMsgs(p=>[...p,{role:"a",text:"Connection error — check internet and try again."}]);}
+    }catch(e){setMsgs(p=>[...p,{role:"a",text:"Connection error â check internet and try again."}]);}
     setLoading(false);
   }
   return (
     <div style={{display:"flex",flexDirection:"column",gap:10}}>
       <div style={{background:"#ffffff",border:"1px solid #b060ff25",borderRadius:14,overflow:"hidden"}}>
         <div style={{background:"#f5f0ff",padding:"12px 14px",display:"flex",alignItems:"center",gap:10,borderBottom:"1px solid #00000010"}}>
-          <div style={{width:32,height:32,borderRadius:"50%",background:"linear-gradient(135deg,#b060ff,#4faaff)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16}}>🧠</div>
+          <div style={{width:32,height:32,borderRadius:"50%",background:"linear-gradient(135deg,#b060ff,#4faaff)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16}}>ð§ </div>
           <div><div style={{fontFamily:"'Syne',sans-serif",fontSize:13,fontWeight:800,color:"#b060ff"}}>MASTER AI</div><div style={{fontSize:9,color:"#999088"}}>Knows all your tasks</div></div>
           <div style={{marginLeft:"auto",width:7,height:7,borderRadius:"50%",background:"#2effa8",boxShadow:"0 0 6px #2effa8"}}/>
         </div>
@@ -1832,7 +1824,7 @@ function AIView({cats}){
         </div>
         <div style={{display:"flex",gap:7,padding:"10px 12px",borderTop:"1px solid #00000010"}}>
           <input value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Ask anything..." style={{flex:1,background:"#0000000a",border:"1px solid #00000015",borderRadius:10,padding:"9px 12px",color:"#111122",fontSize:12,outline:"none"}}/>
-          <button onClick={()=>send()} disabled={loading} style={{background:"linear-gradient(135deg,#b060ff,#4faaff)",border:"none",borderRadius:10,color:"#fff",fontWeight:900,fontSize:17,width:42,cursor:loading?"not-allowed":"pointer",opacity:loading?.6:1}}>↑</button>
+          <button onClick={()=>send()} disabled={loading} style={{background:"linear-gradient(135deg,#b060ff,#4faaff)",border:"none",borderRadius:10,color:"#fff",fontWeight:900,fontSize:17,width:42,cursor:loading?"not-allowed":"pointer",opacity:loading?.6:1}}>â</button>
         </div>
       </div>
       <style>{`@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}`}</style>
@@ -1860,14 +1852,14 @@ function AlertsView({cats, setMainTab, setDetail}){
   // Build smart alerts
   const alerts = [];
 
-  // OVERDUE — deadline passed
+  // OVERDUE â deadline passed
   pending.filter(i=>i.deadline&&daysUntil(i.deadline)<0).forEach(i=>{
     alerts.push({
       level:"high",
-      icon:"🚨",
-      title:`OVERDUE — ${i.deadline}`,
+      icon:"ð¨",
+      title:`OVERDUE â ${i.deadline}`,
       msg:i.text,
-      sub:`${i.catLabel} · ${i.subLabel}`,
+      sub:`${i.catLabel} Â· ${i.subLabel}`,
       color:"#d50000",
       bg:"#fff0f0",
       border:"#ff445540",
@@ -1879,10 +1871,10 @@ function AlertsView({cats, setMainTab, setDetail}){
   pending.filter(i=>i.deadline&&daysUntil(i.deadline)>=0&&daysUntil(i.deadline)<=1).forEach(i=>{
     alerts.push({
       level:"high",
-      icon:"⏰",
-      title:"DUE " + (daysUntil(i.deadline)===0 ? "TODAY" : "TOMORROW — " + i.deadline),
+      icon:"â°",
+      title:"DUE " + (daysUntil(i.deadline)===0 ? "TODAY" : "TOMORROW â " + i.deadline),
       msg:i.text,
-      sub:`${i.catLabel} · ${i.subLabel}`,
+      sub:`${i.catLabel} Â· ${i.subLabel}`,
       color:"#cc4400",
       bg:"#fff5f0",
       border:"#ff770040",
@@ -1894,10 +1886,10 @@ function AlertsView({cats, setMainTab, setDetail}){
   pending.filter(i=>i.deadline&&daysUntil(i.deadline)>=2&&daysUntil(i.deadline)<=3).forEach(i=>{
     alerts.push({
       level:"medium",
-      icon:"📅",
-      title:`DUE IN ${daysUntil(i.deadline)} DAYS — ${i.deadline}`,
+      icon:"ð",
+      title:`DUE IN ${daysUntil(i.deadline)} DAYS â ${i.deadline}`,
       msg:i.text,
-      sub:`${i.catLabel} · ${i.subLabel}`,
+      sub:`${i.catLabel} Â· ${i.subLabel}`,
       color:"#aa7700",
       bg:"#fffbf0",
       border:"#ffcc4440",
@@ -1905,16 +1897,16 @@ function AlertsView({cats, setMainTab, setDetail}){
     });
   });
 
-  // MISSING FILES — has requiredFiles but not all attached
+  // MISSING FILES â has requiredFiles but not all attached
   pending.filter(i=>i.requiredFiles?.length>0&&!i.requiredFiles.every(r=>(i.files||[]).find(f=>f.label===r))).forEach(i=>{
     const missing = i.requiredFiles.filter(r=>!(i.files||[]).find(f=>f.label===r));
     alerts.push({
       level:"medium",
-      icon:"📎",
+      icon:"ð",
       title:"FILES NEEDED BEFORE EMAIL CAN SEND",
       msg:missing.map(m=>"- "+m).join("\n"),
 
-      sub:i.catLabel + " — " + i.text,
+      sub:i.catLabel + " â " + i.text,
       color:"#aa7700",
       bg:"#fffbf0",
       border:"#ffcc4440",
@@ -1922,14 +1914,14 @@ function AlertsView({cats, setMainTab, setDetail}){
     });
   });
 
-  // PENDING STATUS — waiting on someone
+  // PENDING STATUS â waiting on someone
   pending.filter(i=>i.status==="pending"&&i.isEmail).forEach(i=>{
     alerts.push({
       level:"medium",
-      icon:"⏳",
+      icon:"â³",
       title:"WAITING FOR REPLY",
       msg:`${i.sender||"Contact"} has not responded yet`,
-      sub:`${i.catLabel} — ${i.text}`,
+      sub:`${i.catLabel} â ${i.text}`,
       color:"#4488cc",
       bg:"#f0f6ff",
       border:"#4faaff40",
@@ -1938,14 +1930,14 @@ function AlertsView({cats, setMainTab, setDetail}){
     });
   });
 
-  // HIGH PRIORITY — no deadline but high priority
+  // HIGH PRIORITY â no deadline but high priority
   pending.filter(i=>i.priority==="high"&&!i.deadline&&i.status==="todo").forEach(i=>{
     alerts.push({
       level:"medium",
-      icon:"🔴",
-      title:"HIGH PRIORITY — NOT STARTED",
+      icon:"ð´",
+      title:"HIGH PRIORITY â NOT STARTED",
       msg:i.text,
-      sub:`${i.catLabel} · ${i.subLabel}`,
+      sub:`${i.catLabel} Â· ${i.subLabel}`,
       color:"#cc3344",
       bg:"#fff5f5",
       border:"#ff445530",
@@ -1970,12 +1962,12 @@ function AlertsView({cats, setMainTab, setDetail}){
         <div style={{display:"flex",gap:6,marginTop:10}}>
           <button onClick={()=>setDetail({item:a.item,cat:cats.find(c=>c.id===a.item.catId),sub:cats.find(c=>c.id===a.item.catId)?.subs.find(s=>s.id===a.item.subId)})}
             style={{flex:1,padding:"8px",borderRadius:9,border:`1px solid ${a.border}`,background:"#fff",color:a.color,fontSize:11,fontWeight:700,cursor:"pointer"}}>
-            Open Task →
+            Open Task â
           </button>
           {a.hasFollowUp&&(
             <button onClick={()=>{setMainTab("arc");}}
               style={{flex:1,padding:"8px",borderRadius:9,border:"none",background:a.color,color:"#fff",fontSize:11,fontWeight:700,cursor:"pointer"}}>
-              ✍️ Draft Follow-Up
+              âï¸ Draft Follow-Up
             </button>
           )}
         </div>
@@ -1987,7 +1979,7 @@ function AlertsView({cats, setMainTab, setDetail}){
     <div>
       {alerts.length===0&&(
         <div style={{textAlign:"center",padding:"50px 20px"}}>
-          <div style={{fontSize:40,marginBottom:12}}>✅</div>
+          <div style={{fontSize:40,marginBottom:12}}>â</div>
           <div style={{fontFamily:"'Syne',sans-serif",fontSize:16,fontWeight:800,color:"#111122"}}>All clear, Joe!</div>
           <div style={{fontSize:12,color:"#999088",marginTop:6}}>No urgent alerts right now.</div>
         </div>
@@ -1996,7 +1988,7 @@ function AlertsView({cats, setMainTab, setDetail}){
       {high.length>0&&(
         <div style={{marginBottom:16}}>
           <div style={{fontSize:9,fontWeight:800,color:"#d50000",letterSpacing:"0.1em",marginBottom:8,display:"flex",alignItems:"center",gap:6}}>
-            <span style={{background:"#d50000",color:"#fff",borderRadius:20,padding:"2px 8px"}}>🚨 URGENT — ACT NOW</span>
+            <span style={{background:"#d50000",color:"#fff",borderRadius:20,padding:"2px 8px"}}>ð¨ URGENT â ACT NOW</span>
           </div>
           {high.map((a,i)=><AlertCard key={i} a={a}/>)}
         </div>
@@ -2005,7 +1997,7 @@ function AlertsView({cats, setMainTab, setDetail}){
       {medium.length>0&&(
         <div style={{marginBottom:16}}>
           <div style={{fontSize:9,fontWeight:800,color:"#aa7700",letterSpacing:"0.1em",marginBottom:8,display:"flex",alignItems:"center",gap:6}}>
-            <span style={{background:"#ffcc44",color:"#553300",borderRadius:20,padding:"2px 8px"}}>📋 NEEDS ATTENTION</span>
+            <span style={{background:"#ffcc44",color:"#553300",borderRadius:20,padding:"2px 8px"}}>ð NEEDS ATTENTION</span>
           </div>
           {medium.map((a,i)=><AlertCard key={i} a={a}/>)}
         </div>
@@ -2028,12 +2020,12 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
   const [editText,setEditText]=useState("");
 
   const TASK_TYPES = [
-    {id:"email",    label:"📧 Email"},
-    {id:"call",     label:"📞 Phone Call"},
-    {id:"todo",     label:"✅ To-Do"},
-    {id:"followup", label:"🔄 Follow Up"},
-    {id:"legal",    label:"⚖️ Legal"},
-    {id:"financial",label:"💵 Financial"},
+    {id:"email",    label:"ð§ Email"},
+    {id:"call",     label:"ð Phone Call"},
+    {id:"todo",     label:"â To-Do"},
+    {id:"followup", label:"ð Follow Up"},
+    {id:"legal",    label:"âï¸ Legal"},
+    {id:"financial",label:"ðµ Financial"},
   ];
 
   const JOE_TONE = "Hi [Name], I wanted to reach out and be transparent about our current situation. [State the issue honestly]. We are actively working to resolve this as quickly as possible. I understand this is not ideal, and I want to be upfront rather than leave you guessing. As soon as we have clarity on next steps, I will update you right away. We appreciate your patience. Thank you, Joe";
@@ -2049,11 +2041,11 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
     const lm=text.match(/@(\S+)/);if(lm){loc=lm[1];text=text.replace(/@\S+/,"").trim();}
     const cat=cats.find(c=>c.id===catId);if(!cat){showToast("Category not found");return;}
     const sub=subId?cat.subs.find(s=>s.id===subId):cat.subs[0];if(!sub){showToast("Add a subcategory first");return;}
-    snap("➕ Quick add: "+(text||"New task").slice(0,25));
+    snap("â Quick add: "+(text||"New task").slice(0,25));
     const now=new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"});
-    setCats(prev=>prev.map(c=>c.id!==catId?c:{...c,subs:c.subs.map(s=>s.id!==sub.id?s:{...s,items:[...s.items,{id:uid(),text:text||"New task",done:false,priority,loc,notes:"New task — tap to add details",deadline:"",isEmail:false,status:"todo",files:[],requiredFiles:[],log:[`${now} — Task created`]}]})}));
+    setCats(prev=>prev.map(c=>c.id!==catId?c:{...c,subs:c.subs.map(s=>s.id!==sub.id?s:{...s,items:[...s.items,{id:uid(),text:text||"New task",done:false,priority,loc,notes:"New task â tap to add details",deadline:"",isEmail:false,status:"todo",files:[],requiredFiles:[],log:[`${now} â Task created`]}]})}));
     setMainTab(catId);setSubTabs(t=>({...t,[catId]:sub.id}));
-    showToast(`Added to ${cat.label} ✓`);
+    showToast(`Added to ${cat.label} â`);
   }
 
   async function generate(){
@@ -2061,9 +2053,9 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
     setBrainLoading(true);setBrainResult(null);setEditingVersion(null);
     const isEmail=brainType==="email";
     try{
-      const emailSchema = '{"taskTitle":"short task title","priority":"high or medium or low","actions":["action 1","action 2","action 3"],"emailSubject":"email subject line","sender":"sender full name","senderEmail":"sender email address","dateReceived":"Month Day e.g. Apr 10","v1":"Version 1 — Balanced tone. 3-5 short paragraphs. Full sign-off.","v2":"Version 2 — Shorter. 2-3 sentences per paragraph. Full sign-off."}';
+      const emailSchema = '{"taskTitle":"short task title","priority":"high or medium or low","actions":["action 1","action 2","action 3"],"emailSubject":"email subject line","sender":"sender full name","senderEmail":"sender email address","dateReceived":"Month Day e.g. Apr 10","v1":"Version 1 â Balanced tone. 3-5 short paragraphs. Full sign-off.","v2":"Version 2 â Shorter. 2-3 sentences per paragraph. Full sign-off."}';
       const taskSchema = '{"taskTitle":"short task title","priority":"high or medium or low","actions":["action 1","action 2","action 3"],"summary":"2-3 sentence summary","nextStep":"single most important next action"}';
-      const sysPrompt = "You are CLEO, Joe Le's personal assistant. Joe is Co-Founder of ARCannabis Store, Vancouver BC. Also runs Paper Pals and Amazon Seller. All business is in BC Canada. Ministry of Finance = BC Ministry of Finance. PST = BC Provincial Sales Tax. Never suggest phone calls unless Joe asks. Never use informal or slang language. Always sign off: Joe Le, Co-Founder ARCannabis Store, (778) 858-9591, joe@arcannabis.ca. JOE'S TONE: Plain English, honest, warm but professional, transparent, no fluff, in between formal and casual. TASK NOTES STRUCTURE — always format task notes exactly like this:\nCONTACT\n[Name, role, phone, email]\n\nSITUATION\n[What is happening, why it matters, any deadlines or fines]\n\nSTATUS\n[Current state — what has been done, what is pending]\n\nNEXT STEPS\n[Numbered list of exactly what Joe needs to do, in order]\n\nIF NO REPLY\n[Escalation plan — who to call, who to CC, when to act] Example: \"" + JOE_TONE + "\"" + (brainExtra ? " Additional context: " + brainExtra : "") + ". Task type: " + brainType + ". Return ONLY valid JSON, no markdown, no backticks: " + (isEmail ? emailSchema : taskSchema);
+      const sysPrompt = "You are CLEO, Joe Le's personal assistant. Joe is Co-Founder of ARCannabis Store, Vancouver BC. Also runs Paper Pals and Amazon Seller. All business is in BC Canada. Ministry of Finance = BC Ministry of Finance. PST = BC Provincial Sales Tax. Never suggest phone calls unless Joe asks. Never use informal or slang language. Always sign off: Joe Le, Co-Founder ARCannabis Store, (778) 858-9591, joe@arcannabis.ca. JOE'S TONE: Plain English, honest, warm but professional, transparent, no fluff, in between formal and casual. TASK NOTES STRUCTURE â always format task notes exactly like this:\nCONTACT\n[Name, role, phone, email]\n\nSITUATION\n[What is happening, why it matters, any deadlines or fines]\n\nSTATUS\n[Current state â what has been done, what is pending]\n\nNEXT STEPS\n[Numbered list of exactly what Joe needs to do, in order]\n\nIF NO REPLY\n[Escalation plan â who to call, who to CC, when to act] Example: \"" + JOE_TONE + "\"" + (brainExtra ? " Additional context: " + brainExtra : "") + ". Task type: " + brainType + ". Return ONLY valid JSON, no markdown, no backticks: " + (isEmail ? emailSchema : taskSchema);
       const qaKey=(lsGet(LS_KEY,"")||DEFAULT_KEY);
       if(!qaKey){const k=window.prompt("Enter your Anthropic API key for CLEO.\nconsole.anthropic.com/settings/keys");if(k&&k.trim())lsSet(LS_KEY,k.trim());else{setBrainLoading(false);return;}}
       const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":(lsGet(LS_KEY,"")||DEFAULT_KEY),"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
@@ -2073,7 +2065,7 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
       const d=await r.json();
       const raw=d.content?.find(b=>b.type==="text")?.text||"{}";
       setBrainResult(JSON.parse(raw.replace(/```json|```/g,"").trim()));
-    }catch(e){showToast("Error — try again");}
+    }catch(e){showToast("Error â try again");}
     setBrainLoading(false);
   }
 
@@ -2085,16 +2077,16 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
     const notes=isEmail
       ?`EMAIL DRAFT\n\nSubject: ${brainResult.emailSubject}\n\n${chosenContent}\n\nACTION ITEMS:\n${(brainResult.actions||[]).map((a,i)=>`${i+1}. ${a}`).join("\n")}`
       :`TASK SUMMARY\n\n${brainResult.summary||""}\n\nNEXT STEP: ${brainResult.nextStep||""}\n\nACTION ITEMS:\n${(brainResult.actions||[]).map((a,i)=>`${i+1}. ${a}`).join("\n")}`;
-    snap("🤖 AI Task: "+(brainResult.taskTitle||brainTitle||"New task").slice(0,25));
+    snap("ð¤ AI Task: "+(brainResult.taskTitle||brainTitle||"New task").slice(0,25));
     setCats(prev=>prev.map(c=>c.id!==cat.id?c:{...c,subs:c.subs.map(s=>s.id!==sub.id?s:{...s,items:[...s.items,{
       id:uid(),text:brainResult.taskTitle||brainTitle||"New task",
       done:false,priority:brainResult.priority||"high",loc:"",
       notes,deadline:"",isEmail:false,status:"todo",
-      log:[`${new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"})} — Task created via CLEO brain dump`]
+      log:[`${new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"})} â Task created via CLEO brain dump`]
     }]})}));
     setMainTab(cat.id);setSubTabs(t=>({...t,[cat.id]:sub.id}));
     setShowBrain(false);setBrainDump("");setBrainTitle("");setBrainResult(null);setBrainExtra("");
-    showToast("Task saved ✓");
+    showToast("Task saved â");
   }
 
   if(showBrain) return (
@@ -2102,10 +2094,10 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
       <div style={{background:"#ffffff",flex:1,display:"flex",flexDirection:"column",overflowY:"auto",padding:"14px"}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
         <div style={{display:"flex",alignItems:"center",gap:8}}>
-          <button onClick={()=>{setShowBrain(false);setBrainResult(null);setBrainExtra("");}} style={{background:"none",border:"none",cursor:"pointer",fontSize:18,color:"#777066",lineHeight:1,padding:0}}>←</button>
-          <div style={{fontWeight:700,fontSize:15,color:"#111122"}}>✍️ New Task</div>
+          <button onClick={()=>{setShowBrain(false);setBrainResult(null);setBrainExtra("");}} style={{background:"none",border:"none",cursor:"pointer",fontSize:18,color:"#777066",lineHeight:1,padding:0}}>â</button>
+          <div style={{fontWeight:700,fontSize:15,color:"#111122"}}>âï¸ New Task</div>
         </div>
-        <button onClick={()=>{setShowBrain(false);setBrainResult(null);setBrainExtra("");}} style={{background:"none",border:"none",cursor:"pointer",fontSize:24,color:"#999088",lineHeight:1}}>×</button>
+        <button onClick={()=>{setShowBrain(false);setBrainResult(null);setBrainExtra("");}} style={{background:"none",border:"none",cursor:"pointer",fontSize:24,color:"#999088",lineHeight:1}}>Ã</button>
       </div>
       <input value={brainTitle} onChange={e=>setBrainTitle(e.target.value)}
         placeholder="Task title"
@@ -2126,24 +2118,24 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
           </select>
         </div>
       </div>
-      <div style={{fontSize:10,color:"#999088",marginBottom:4,letterSpacing:"0.06em"}}>SITUATION — TELL ME WHAT'S GOING ON</div>
+      <div style={{fontSize:10,color:"#999088",marginBottom:4,letterSpacing:"0.06em"}}>SITUATION â TELL ME WHAT'S GOING ON</div>
       <textarea value={brainDump} onChange={e=>setBrainDump(e.target.value)}
-        placeholder="Just talk — tell me the situation in your own words. The more detail the better. I'll handle the rest."
+        placeholder="Just talk â tell me the situation in your own words. The more detail the better. I'll handle the rest."
         style={{width:"100%",background:"#f5f1ea",border:"1px solid #ccccdd",borderRadius:10,padding:"10px 12px",color:"#111122",fontSize:13,outline:"none",resize:"vertical",minHeight:90,maxHeight:300,lineHeight:1.65,fontFamily:"inherit",marginBottom:10}}/>
       <button onClick={generate} disabled={brainLoading}
         style={{width:"100%",background:brainLoading?"#ccc5b8":"#111122",border:"none",borderRadius:10,color:"#fff",fontWeight:700,fontSize:13,padding:"11px",cursor:brainLoading?"not-allowed":"pointer",marginBottom:brainResult?12:0}}>
-        {brainLoading?"🤖 CLEO is writing...":"🤖 Generate"}
+        {brainLoading?"ð¤ CLEO is writing...":"ð¤ Generate"}
       </button>
       {brainResult&&<div>
         <div style={{fontSize:10,color:"#999088",letterSpacing:"0.07em",marginBottom:8,marginTop:4}}>
-          {brainType==="email"?`📧 ${brainResult.emailSubject}`:"📋 TASK BREAKDOWN"}
+          {brainType==="email"?`ð§ ${brainResult.emailSubject}`:"ð TASK BREAKDOWN"}
         </div>
         {brainType==="email"?<>
           {["v1","v2"].map((vk,vi)=>(
             <div key={vk} style={{background:"#fff",border:"1px solid #ddd8cf",borderRadius:11,padding:"11px 13px",marginBottom:10}}>
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
                 <div style={{fontSize:10,fontWeight:700,color:vi===0?"#d50000":"#665e52",letterSpacing:"0.05em"}}>
-                  {vi===0?"VERSION 1 — BALANCED (JOE'S TONE)":"VERSION 2 — SHORTER"}
+                  {vi===0?"VERSION 1 â BALANCED (JOE'S TONE)":"VERSION 2 â SHORTER"}
                 </div>
                 <button onClick={()=>{setEditingVersion(editingVersion===vk?null:vk);setEditText(brainResult[vk]||"");}}
                   style={{background:"none",border:"1px solid #ccccdd",borderRadius:6,color:"#999088",fontSize:10,padding:"2px 8px",cursor:"pointer"}}>
@@ -2157,18 +2149,18 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
               }
               <button onClick={()=>saveTask(editingVersion===vk?editText:brainResult[vk])}
                 style={{width:"100%",background:vi===0?"#d50000":"#665e52",border:"none",borderRadius:8,color:"#fff",fontWeight:700,fontSize:12,padding:"8px",cursor:"pointer"}}>
-                ✓ Use This — Save Task
+                â Use This â Save Task
               </button>
             </div>
           ))}
           <div style={{background:"#fffbf0",border:"1px solid #ffe0a0",borderRadius:11,padding:"11px 13px",marginBottom:10}}>
-            <div style={{fontSize:10,fontWeight:700,color:"#aa7700",marginBottom:6,letterSpacing:"0.05em"}}>💬 WANT CHANGES? TELL ME</div>
+            <div style={{fontSize:10,fontWeight:700,color:"#aa7700",marginBottom:6,letterSpacing:"0.05em"}}>ð¬ WANT CHANGES? TELL ME</div>
             <textarea value={brainExtra} onChange={e=>setBrainExtra(e.target.value)}
               placeholder="e.g. Make it shorter, or Add that it's a BC Ministry of Finance issue, or More apologetic tone"
               style={{width:"100%",background:"#fff",border:"1px solid #ffe0a0",borderRadius:8,padding:"8px 10px",color:"#111122",fontSize:12,outline:"none",resize:"none",minHeight:60,lineHeight:1.6,fontFamily:"inherit",marginBottom:8}}/>
             <button onClick={generate} disabled={brainLoading}
               style={{width:"100%",background:brainLoading?"#ccc5b8":"#aa7700",border:"none",borderRadius:8,color:"#fff",fontWeight:700,fontSize:12,padding:"8px",cursor:brainLoading?"not-allowed":"pointer"}}>
-              {brainLoading?"Regenerating...":"🔄 Regenerate with Changes"}
+              {brainLoading?"Regenerating...":"ð Regenerate with Changes"}
             </button>
           </div>
         </>:<>
@@ -2185,7 +2177,7 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
             </div>}
             <button onClick={()=>saveTask("")}
               style={{width:"100%",marginTop:12,background:"#111122",border:"none",borderRadius:8,color:"#fff",fontWeight:700,fontSize:12,padding:"9px",cursor:"pointer"}}>
-              ✓ Save Task
+              â Save Task
             </button>
           </div>
         </>}
@@ -2202,10 +2194,10 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
 
   return (
     <div style={{position:"absolute",bottom:10,left:14,right:14,background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:16,padding:"8px 12px",display:"flex",gap:8,zIndex:50,boxShadow:"0 2px 12px #00000012"}}>
-      <input value={val} onChange={e=>setVal(e.target.value)} onKeyDown={e=>e.key==="Enter"&&go()} placeholder="Quick add — or tap ✍️ for full task" style={{flex:1,minWidth:0,background:"#f5f1ea",border:"1px solid #ccccdd",borderRadius:14,padding:"10px 13px",color:"#111122",fontSize:12,outline:"none"}}/>
+      <input value={val} onChange={e=>setVal(e.target.value)} onKeyDown={e=>e.key==="Enter"&&go()} placeholder="Quick add â or tap âï¸ for full task" style={{flex:1,minWidth:0,background:"#f5f1ea",border:"1px solid #ccccdd",borderRadius:14,padding:"10px 13px",color:"#111122",fontSize:12,outline:"none"}}/>
       <button onClick={()=>setShowBrain(true)} title="New task with AI"
-        style={{background:"#f5f1ea",border:"1px solid #ccccdd",borderRadius:14,color:"#665e52",fontSize:16,width:44,cursor:"pointer",flexShrink:0}}>✍️</button>
-      <button onClick={go} style={{background:"#d50000",border:"none",borderRadius:14,color:"#fff",fontWeight:900,fontSize:17,padding:"0 16px",cursor:"pointer",flexShrink:0}}>＋</button>
+        style={{background:"#f5f1ea",border:"1px solid #ccccdd",borderRadius:14,color:"#665e52",fontSize:16,width:44,cursor:"pointer",flexShrink:0}}>âï¸</button>
+      <button onClick={go} style={{background:"#d50000",border:"none",borderRadius:14,color:"#fff",fontWeight:900,fontSize:17,padding:"0 16px",cursor:"pointer",flexShrink:0}}>ï¼</button>
     </div>
   );
 }
