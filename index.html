@@ -277,7 +277,13 @@ function loadInitialCats(){
 
   /* ── v30 Migration: Add CLEO category between ARCannabis and Paper Pals ── */
   function migrateAddCleo(catsArr) {
-    if (catsArr.find(c => c.id === 'cleo')) return catsArr;
+    const existingCleo = catsArr.find(c => c.id === 'cleo');
+    if (existingCleo) {
+      let fixed = false;
+      if (existingCleo.subs) existingCleo.subs.forEach(s => { if (!s.items) { s.items = []; fixed = true; } });
+      if (fixed) { console.log('CLEO: Fixed missing items arrays'); fbSave({ cats: catsArr }); return [...catsArr]; }
+      return catsArr;
+    }
     const ppIdx = catsArr.findIndex(c => c.id === 'pp');
     const cleoObj = {
       id:"cleo", label:"CLEO", icon:"🤖", subs:[
