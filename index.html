@@ -100,7 +100,7 @@ const INITIAL_CATS = [
     ]
   },
   {
-    id:"cleo", label:"CLEO", icon:"🤖", subs:[
+    id:"cleo", label:"CLEO", icon:"🤖", color:"#7c3aed", subs:[
       {id:"cleo-features", label:"Features", icon:"⚡", items:[]},
       {id:"cleo-bugs", label:"Bugs", icon:"🐛", items:[]},
       {id:"cleo-ideas", label:"Ideas", icon:"💡", items:[]},
@@ -287,13 +287,14 @@ function loadInitialCats(){
     const existingCleo = catsArr.find(c => c.id === 'cleo');
     if (existingCleo) {
       let fixed = false;
+      if (!existingCleo.color) { existingCleo.color = "#7c3aed"; fixed = true; }
       if (existingCleo.subs) existingCleo.subs.forEach(s => { if (!s.items) { s.items = []; fixed = true; } });
       if (fixed) { console.log('CLEO: Fixed missing items arrays'); /* fbSave removed - migrations must not write to Firebase */ return [...catsArr]; }
       return catsArr;
     }
     const ppIdx = catsArr.findIndex(c => c.id === 'pp');
     const cleoObj = {
-      id:"cleo", label:"CLEO", icon:"🤖", subs:[
+      id:"cleo", label:"CLEO", icon:"🤖", color:"#7c3aed", subs:[
         {id:"cleo-features", label:"Features", icon:"⚡", items:[]},
         {id:"cleo-bugs", label:"Bugs", icon:"🐛", items:[]},
         {id:"cleo-ideas", label:"Ideas", icon:"💡", items:[]},
@@ -633,7 +634,7 @@ function App() {
           style={{display:"flex",gap:5,overflowX:"auto",flexShrink:0}}>
           {curCat.subs.map(s=>(
             <button key={s.id} className="pill" onClick={(e)=>{if(subDrag.state.current.moved){e.preventDefault();return;}setSub(s.id);}}
-              style={{flexShrink:0,padding:"5px 11px",borderRadius:10,border:`1px solid ${curSubId===s.id?curCat.color+"50":"transparent"}`,background:curSubId===s.id?curCat.color+"12":"transparent",color:curSubId===s.id?curCat.color:"#999088",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>
+              style={{flex:"1 1 0",padding:"5px 11px",textAlign:"center",borderRadius:10,border:`1px solid ${curSubId===s.id?curCat.color+"50":"transparent"}`,background:curSubId===s.id?curCat.color+"12":"transparent",color:curSubId===s.id?curCat.color:"#999088",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>
               {s.icon} {s.label}
             </button>
           ))}
