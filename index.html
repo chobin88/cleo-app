@@ -647,7 +647,7 @@ function App() {
           style={{display:"flex",gap:5,flexShrink:0}}>
           {curCat.subs.map(s=>(
             <button key={s.id} className="pill" onClick={(e)=>{if(subDrag.state.current.moved){e.preventDefault();return;}setSub(s.id);}}
-              style={{flex:"1 1 0",padding:"5px 11px",textAlign:"center",borderRadius:10,border:`1px solid ${curSubId===s.id?curCat.color+"50":"transparent"}`,background:curSubId===s.id?curCat.color+"12":"transparent",color:curSubId===s.id?curCat.color:"#999088",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>
+              style={{flex:"1 1 0",minWidth:0,padding:"5px 11px",textAlign:"center",borderRadius:10,border:`1px solid ${curSubId===s.id?curCat.color+"50":"transparent"}`,background:curSubId===s.id?curCat.color+"12":"transparent",color:curSubId===s.id?curCat.color:"#999088",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>
               {s.icon} {s.label}
             </button>
           ))}
