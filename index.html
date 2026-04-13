@@ -101,10 +101,10 @@ const INITIAL_CATS = [
   },
   {
     id:"cleo", label:"CLEO", icon:"🤖", subs:[
-      {id:"cleo-features", label:"Features", icon:"⚡"},
-      {id:"cleo-bugs", label:"Bugs", icon:"🐛"},
-      {id:"cleo-ideas", label:"Ideas", icon:"💡"},
-      {id:"cleo-changelog", label:"Changelog", icon:"📋"},
+      {id:"cleo-features", label:"Features", icon:"⚡", items:[]},
+      {id:"cleo-bugs", label:"Bugs", icon:"🐛", items:[]},
+      {id:"cleo-ideas", label:"Ideas", icon:"💡", items:[]},
+      {id:"cleo-changelog", label:"Changelog", icon:"📋", items:[]},
     ]
   },
   {
@@ -281,10 +281,10 @@ function loadInitialCats(){
     const ppIdx = catsArr.findIndex(c => c.id === 'pp');
     const cleoObj = {
       id:"cleo", label:"CLEO", icon:"🤖", subs:[
-        {id:"cleo-features", label:"Features", icon:"⚡"},
-        {id:"cleo-bugs", label:"Bugs", icon:"🐛"},
-        {id:"cleo-ideas", label:"Ideas", icon:"💡"},
-        {id:"cleo-changelog", label:"Changelog", icon:"📋"},
+        {id:"cleo-features", label:"Features", icon:"⚡", items:[]},
+        {id:"cleo-bugs", label:"Bugs", icon:"🐛", items:[]},
+        {id:"cleo-ideas", label:"Ideas", icon:"💡", items:[]},
+        {id:"cleo-changelog", label:"Changelog", icon:"📋", items:[]},
       ]
     };
     catsArr.splice(ppIdx >= 0 ? ppIdx : catsArr.length, 0, cleoObj);
