@@ -39,6 +39,45 @@ const { useState, useRef, useEffect } = React;
 
 const INITIAL_CATS = [
   {
+    id:"per", label:"Personal", icon:"🏠", color:"#039be5",
+    subs:[
+      { id:"per-todo", label:"To Do", icon:"✅", items:[]},
+      { id:"per-kids", label:"Kids", icon:"👶", items:[
+        {id:43,text:"Sign permission slip",priority:"high",done:false,loc:"",notes:"Elliott — school permission slip"},
+        {id:44,text:"Buy school supplies",priority:"medium",done:false,loc:"Target",notes:""},
+        {id:45,text:"Kids dentist appointment",priority:"high",done:false,loc:"Dentist",notes:"Elliott (7) & Evelyne (4)"},
+        {id:60,text:"Elliot's First Soccer Game",priority:"high",done:false,status:"inprog",deadline:"Apr 11, 2026",loc:"5755 Mountain View Blvd, Ladner BC",notes:"SITUATION\nElliot's first soccer game. Coach wants the team there 30 minutes early at 11:15am for warmup. First time at this field so need extra time to find it. Drive is about 40 minutes from home.\n\nLOCATION\n📍 5755 Mountain View Blvd, Ladner BC\nFirst time here — allow extra time to find the field and parking.\n\nSCHEDULE\n⚽ Game starts: 11:45am\n🏃 Arrive by: 11:15am (30 min early — coach's instructions)\n🚗 Leave home by: 10:35am (40 min drive)\n🔔 Reminders: 1 hour + 15 min before\n\nSTATUS\nIN PROGRESS — Calendar updated, planning complete. Ready to go.\n\nNEXT STEPS\n✅ Location added to Google Calendar\n✅ Leave time calculated — 10:35am (40 min drive)\n✅ Arrival time set — 11:15am (30 min early)\n✅ Reminders configured\n✅ Coach's warmup instructions noted\n• Pack snacks and gear\n• Leave home by 10:35am\n• Find field + parking on arrival",log:["Apr 10 — Task created","Apr 10 — 📅 Added to Google Calendar","Apr 11 — ⏰ Updated leave time to 10:30am + calendar updated","Apr 11 — 💬 Joe: coach wants 30 min early for warmup, arrive 11:15am","Apr 11 — 📝 Notes updated with coach instructions","Apr 11 — 💬 Joe: takes 40 min to get there, need to time departure from home","Apr 11 — 🤖 CLEO: Calculated leave time 10:35am based on 40 min drive to arrive by 11:15am","Apr 11 — 📅 Google Calendar updated — arrive 11:15am, leave 10:35am","Apr 11 — ◑ Status → IN PROGRESS"],chat:[
+          {from:"joe",text:"5755 mountain view boulevard ladner bc set a calender reminder to leave by 10 45 am at 1145am"},
+          {from:"cleo",text:"Done! I added it to your Google Calendar for tomorrow (Apr 11):\n\n📍 5755 Mountain View Blvd, Ladner BC\n⏰ Leave by 10:45am — Game at 11:45am\n🔔 Reminders set: 1 hour before + 15 min before\n\nYou're all set. Don't forget the snacks! ⚽"},
+          {from:"joe",text:"update and set reminder to leave at 1030am",ts:"2026-04-11T09:00:00"},
+          {from:"cleo",text:"Done! Updated your leave time to 10:30am and updated the Google Calendar event.\n\n📍 5755 Mountain View Blvd, Ladner BC\n⏰ Leave by 10:30am — Game at 11:45am\n🔔 Reminders still set: 1hr + 15min before\n\nYou've got an extra 15 minutes now. Have fun today! ⚽",ts:"2026-04-11T09:00:05"},
+          {from:"joe",text:"coach wants to arrive 30 minutes early so we can find the field and do a quick warm up.. so arrive at 1115.. takes 40 minutes to get there to time out when i need to leave from home",ts:"2026-04-11T09:30:00"},
+          {from:"cleo",text:"Updated! Here's your game day plan:\n\n⚽ Game: 11:45am\n🏃 Arrive: 11:15am (30 min early for warmup)\n🚗 Leave home: 10:35am (40 min drive)\n\nI moved your leave time to 10:35am based on the 40 min drive so you hit 11:15am. Calendar is updated too.\n\nSince you've never been to this field, maybe leave at 10:30am to give yourself 5 extra minutes to find parking. Good luck Elliot! ⚽",ts:"2026-04-11T09:30:05"}
+        ]},
+      ]},
+      { id:"per-groc", label:"Groceries", icon:"🛒", items:[
+        {id:37,text:"Toilet paper — Costco",priority:"high",done:false,loc:"Costco",notes:""},
+        {id:38,text:"Paper towels — Costco",priority:"medium",done:false,loc:"Costco",notes:""},
+        {id:39,text:"Olive oil — Costco",priority:"low",done:false,loc:"Costco",notes:""},
+        {id:40,text:"Eggs x2 dozen",priority:"high",done:false,loc:"Costco",notes:""},
+      ]},
+      { id:"per-health", label:"Health", icon:"💪", items:[
+        {id:35,text:"Morning workout",priority:"high",done:false,loc:"",notes:""},
+        {id:36,text:"Schedule doctor checkup",priority:"medium",done:false,loc:"",notes:""},
+      ]},
+      { id:"per-fin", label:"Finance", icon:"💰", items:[
+        {id:41,text:"Pay credit card bill",priority:"high",done:false,loc:"",notes:""},
+        {id:42,text:"Review monthly budget",priority:"medium",done:false,loc:"",notes:""},
+      ]},
+    ]
+  },    id:"cleo", label:"CLEO", icon:"🤖", color:"#7c3aed", subs:[
+      {id:"cleo-features", label:"Features", icon:"⚡", items:[]},
+      {id:"cleo-bugs", label:"Bugs", icon:"🐛", items:[]},
+      {id:"cleo-ideas", label:"Ideas", icon:"💡", items:[]},
+      {id:"cleo-changelog", label:"Changelog", icon:"📋", items:[]},
+    ]
+  },
+  {
     id:"arc", label:"ARCannabis", icon:"🌿", color:"#d50000",
     subs:[
       { id:"arc-ops", label:"Operations", icon:"⚙️", items:[
@@ -100,14 +139,6 @@ const INITIAL_CATS = [
     ]
   },
   {
-    id:"cleo", label:"CLEO", icon:"🤖", color:"#7c3aed", subs:[
-      {id:"cleo-features", label:"Features", icon:"⚡", items:[]},
-      {id:"cleo-bugs", label:"Bugs", icon:"🐛", items:[]},
-      {id:"cleo-ideas", label:"Ideas", icon:"💡", items:[]},
-      {id:"cleo-changelog", label:"Changelog", icon:"📋", items:[]},
-    ]
-  },
-  {
     id:"pp", label:"Paper Pals", icon:"📄", color:"#33b679",
     subs:[
       { id:"pp-ops", label:"Operations", icon:"⚙️", items:[
@@ -155,38 +186,7 @@ const INITIAL_CATS = [
     ]
   },
   {
-    id:"per", label:"Personal", icon:"🏠", color:"#039be5",
-    subs:[
-      { id:"per-todo", label:"To Do", icon:"✅", items:[]},
-      { id:"per-kids", label:"Kids", icon:"👶", items:[
-        {id:43,text:"Sign permission slip",priority:"high",done:false,loc:"",notes:"Elliott — school permission slip"},
-        {id:44,text:"Buy school supplies",priority:"medium",done:false,loc:"Target",notes:""},
-        {id:45,text:"Kids dentist appointment",priority:"high",done:false,loc:"Dentist",notes:"Elliott (7) & Evelyne (4)"},
-        {id:60,text:"Elliot's First Soccer Game",priority:"high",done:false,status:"inprog",deadline:"Apr 11, 2026",loc:"5755 Mountain View Blvd, Ladner BC",notes:"SITUATION\nElliot's first soccer game. Coach wants the team there 30 minutes early at 11:15am for warmup. First time at this field so need extra time to find it. Drive is about 40 minutes from home.\n\nLOCATION\n📍 5755 Mountain View Blvd, Ladner BC\nFirst time here — allow extra time to find the field and parking.\n\nSCHEDULE\n⚽ Game starts: 11:45am\n🏃 Arrive by: 11:15am (30 min early — coach's instructions)\n🚗 Leave home by: 10:35am (40 min drive)\n🔔 Reminders: 1 hour + 15 min before\n\nSTATUS\nIN PROGRESS — Calendar updated, planning complete. Ready to go.\n\nNEXT STEPS\n✅ Location added to Google Calendar\n✅ Leave time calculated — 10:35am (40 min drive)\n✅ Arrival time set — 11:15am (30 min early)\n✅ Reminders configured\n✅ Coach's warmup instructions noted\n• Pack snacks and gear\n• Leave home by 10:35am\n• Find field + parking on arrival",log:["Apr 10 — Task created","Apr 10 — 📅 Added to Google Calendar","Apr 11 — ⏰ Updated leave time to 10:30am + calendar updated","Apr 11 — 💬 Joe: coach wants 30 min early for warmup, arrive 11:15am","Apr 11 — 📝 Notes updated with coach instructions","Apr 11 — 💬 Joe: takes 40 min to get there, need to time departure from home","Apr 11 — 🤖 CLEO: Calculated leave time 10:35am based on 40 min drive to arrive by 11:15am","Apr 11 — 📅 Google Calendar updated — arrive 11:15am, leave 10:35am","Apr 11 — ◑ Status → IN PROGRESS"],chat:[
-          {from:"joe",text:"5755 mountain view boulevard ladner bc set a calender reminder to leave by 10 45 am at 1145am"},
-          {from:"cleo",text:"Done! I added it to your Google Calendar for tomorrow (Apr 11):\n\n📍 5755 Mountain View Blvd, Ladner BC\n⏰ Leave by 10:45am — Game at 11:45am\n🔔 Reminders set: 1 hour before + 15 min before\n\nYou're all set. Don't forget the snacks! ⚽"},
-          {from:"joe",text:"update and set reminder to leave at 1030am",ts:"2026-04-11T09:00:00"},
-          {from:"cleo",text:"Done! Updated your leave time to 10:30am and updated the Google Calendar event.\n\n📍 5755 Mountain View Blvd, Ladner BC\n⏰ Leave by 10:30am — Game at 11:45am\n🔔 Reminders still set: 1hr + 15min before\n\nYou've got an extra 15 minutes now. Have fun today! ⚽",ts:"2026-04-11T09:00:05"},
-          {from:"joe",text:"coach wants to arrive 30 minutes early so we can find the field and do a quick warm up.. so arrive at 1115.. takes 40 minutes to get there to time out when i need to leave from home",ts:"2026-04-11T09:30:00"},
-          {from:"cleo",text:"Updated! Here's your game day plan:\n\n⚽ Game: 11:45am\n🏃 Arrive: 11:15am (30 min early for warmup)\n🚗 Leave home: 10:35am (40 min drive)\n\nI moved your leave time to 10:35am based on the 40 min drive so you hit 11:15am. Calendar is updated too.\n\nSince you've never been to this field, maybe leave at 10:30am to give yourself 5 extra minutes to find parking. Good luck Elliot! ⚽",ts:"2026-04-11T09:30:05"}
-        ]},
-      ]},
-      { id:"per-groc", label:"Groceries", icon:"🛒", items:[
-        {id:37,text:"Toilet paper — Costco",priority:"high",done:false,loc:"Costco",notes:""},
-        {id:38,text:"Paper towels — Costco",priority:"medium",done:false,loc:"Costco",notes:""},
-        {id:39,text:"Olive oil — Costco",priority:"low",done:false,loc:"Costco",notes:""},
-        {id:40,text:"Eggs x2 dozen",priority:"high",done:false,loc:"Costco",notes:""},
-      ]},
-      { id:"per-health", label:"Health", icon:"💪", items:[
-        {id:35,text:"Morning workout",priority:"high",done:false,loc:"",notes:""},
-        {id:36,text:"Schedule doctor checkup",priority:"medium",done:false,loc:"",notes:""},
-      ]},
-      { id:"per-fin", label:"Finance", icon:"💰", items:[
-        {id:41,text:"Pay credit card bill",priority:"high",done:false,loc:"",notes:""},
-        {id:42,text:"Review monthly budget",priority:"medium",done:false,loc:"",notes:""},
-      ]},
-    ]
-  },
+
 ];
 
 const STATUS = {
@@ -307,8 +307,21 @@ function loadInitialCats(){
     return [...catsArr];
   }
 
+  /* v32 Migration: Reorder categories — Personal first, then CLEO, then rest */
+  function migrateReorder(catsArr) {
+    if (!Array.isArray(catsArr) || catsArr.length < 2) return catsArr;
+    const desired = ["per","cleo","arc","pp","amz"];
+    if (catsArr[0] && catsArr[0].id === "per") return catsArr;
+    const sorted = [];
+    desired.forEach(id => { const c = catsArr.find(x => x.id === id); if (c) sorted.push(c); });
+    catsArr.forEach(c => { if (!desired.includes(c.id)) sorted.push(c); });
+    if (sorted.length !== catsArr.length) return catsArr;
+    console.log("CLEO: Reordered categories — Personal first");
+    return sorted;
+  }
+
 function App() {
-  const [cats, setCats] = useState(()=>ensureItems(migrateAddCleo(migrateTodoLabel(migrateErrands(loadInitialCats())))));
+  const [cats, setCats] = useState(()=>migrateReorder(ensureItems(migrateAddCleo(migrateTodoLabel(migrateErrands(loadInitialCats()))))));
   const [mainTab, setMainTab] = useState("arc");
   const [subTabs, setSubTabs] = useState(()=>lsGet(LS_TABS,{arc:"arc-legal",pp:"pp-ops",amz:"amz-ops",per:"per-tasks"}));
   const [detail, setDetail] = useState(null);
@@ -360,7 +373,7 @@ function App() {
         console.log("CLEO: Local has more items (" + lsCount + " vs " + fbCount + "), pushed local to Firebase");
       } else {
         _skipFbRef.current = true;
-        setCats(ensureItems(migrateAddCleo(migrateTodoLabel(migrateErrands(fbCats)))));
+        setCats(migrateReorder(ensureItems(migrateAddCleo(migrateTodoLabel(migrateErrands(fbCats))))));
         if(fbData.archived) setArchived(fbData.archived);
         if(fbData.subTabs) setSubTabs(fbData.subTabs);
         if(fbData.nid) _nid = Math.max(_nid, fbData.nid);
@@ -373,7 +386,7 @@ function App() {
       const d = doc.data();
       if(d._lastWriter === _fbWriteId) return;
       _skipFbRef.current = true;
-      if(d.cats) setCats(ensureItems(migrateAddCleo(migrateTodoLabel(migrateErrands(d.cats)))));
+      if(d.cats) setCats(migrateReorder(ensureItems(migrateAddCleo(migrateTodoLabel(migrateErrands(d.cats))))));
       if(d.archived) setArchived(d.archived);
       if(d.subTabs) setSubTabs(d.subTabs);
       if(d.nid) _nid = Math.max(_nid, d.nid);
@@ -631,7 +644,7 @@ function App() {
         <div style={{margin:"8px 14px 0",background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:14,padding:"5px 6px",flexShrink:0,boxShadow:"0 1px 4px #00000008"}}>
         <div className="cat-carousel" ref={subDrag.ref}
           onMouseDown={subDrag.start} onMouseLeave={subDrag.end} onMouseUp={subDrag.end} onMouseMove={subDrag.move}
-          style={{display:"flex",gap:5,overflowX:"auto",flexShrink:0}}>
+          style={{display:"flex",gap:5,flexShrink:0}}>
           {curCat.subs.map(s=>(
             <button key={s.id} className="pill" onClick={(e)=>{if(subDrag.state.current.moved){e.preventDefault();return;}setSub(s.id);}}
               style={{flex:"1 1 0",padding:"5px 11px",textAlign:"center",borderRadius:10,border:`1px solid ${curSubId===s.id?curCat.color+"50":"transparent"}`,background:curSubId===s.id?curCat.color+"12":"transparent",color:curSubId===s.id?curCat.color:"#999088",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>
