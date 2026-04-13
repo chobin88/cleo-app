@@ -11,7 +11,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#eee9e0;font-family:'Outfit',system-ui,sans-serif}
+  body{background:#eee9e0;font-family:'Outfit',syhstem-ui,sans-serifh}
 </style>
 </head>
 <body>
@@ -644,10 +644,10 @@ function App() {
         <div style={{margin:"8px 14px 0",background:"#ffffff",border:"1px solid #ddd8cf",borderRadius:14,padding:"5px 6px",flexShrink:0,boxShadow:"0 1px 4px #00000008"}}>
         <div className="cat-carousel" ref={subDrag.ref}
           onMouseDown={subDrag.start} onMouseLeave={subDrag.end} onMouseUp={subDrag.end} onMouseMove={subDrag.move}
-          style={{display:"flex",gap:5,flexShrink:0}}>
+          style={{display:"flex",gap:5,overflowX:"auto",flexShrink:0}}>
           {curCat.subs.map(s=>(
             <button key={s.id} className="pill" onClick={(e)=>{if(subDrag.state.current.moved){e.preventDefault();return;}setSub(s.id);}}
-              style={{flex:"1 1 0",minWidth:0,padding:"5px 11px",textAlign:"center",borderRadius:10,border:`1px solid ${curSubId===s.id?curCat.color+"50":"transparent"}`,background:curSubId===s.id?curCat.color+"12":"transparent",color:curSubId===s.id?curCat.color:"#999088",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>
+              style={{flexShrink:0,padding:"5px 11px",borderRadius:10,border:`1px solid ${curSubId===s.id?curCat.color+"50":"transparent"}`,background:curSubId===s.id?curCat.color+"12":"transparent",color:curSubId===s.id?curCat.color:"#999088",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>
               {s.icon} {s.label}
             </button>
           ))}
