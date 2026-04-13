@@ -208,7 +208,8 @@ const LS_TABS = "cleo_tabs";
 const LS_NID  = "cleo_nid";
 const LS_VER  = "cleo_ver";
 const LS_KEY  = "cleo_api_key";
-const DEFAULT_KEY = "";
+let DEFAULT_KEY = "";
+if(window._db) window._db.doc("cleo/config").get().then(d => { if(d.exists && d.data().anthropicKey) DEFAULT_KEY = d.data().anthropicKey; });
 const CURRENT_VER = 25;
 
 function lsGet(key, fallback){
