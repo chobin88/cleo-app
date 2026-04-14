@@ -79,7 +79,7 @@ console.log("🔑 Global import hotkey ready: Ctrl+Shift+L loads a backup JSON")
 // When a fresh deploy is detected (DEPLOY_VERSION changed), wipe stale localStorage
 // so the fresh baked-in DATA_SNAPSHOT loads cleanly. Runs before React code.
 (function(){
-  var DEPLOY_VERSION = "v20260414_093634";
+  var DEPLOY_VERSION = "v20260414_094449";
   var stored = localStorage.getItem("cleo_deploy_ver");
   if(stored !== DEPLOY_VERSION){
     console.log("🚀 New deploy detected ("+DEPLOY_VERSION+"). Clearing stale localStorage so fresh DATA_SNAPSHOT loads.");
@@ -172,8 +172,17 @@ window.CleoSync = (function(){
     } catch(err){ console.warn("☁️ Gist push error:", err); return false; }
   }
 
+  var lastLocalChangeAt = 0; // track local edit time to prevent poll-overwrite
+  function noteLocalChange(){ lastLocalChangeAt = Date.now(); }
+  function safeToPull(){
+    // Don't pull if we have pending local changes OR just pushed
+    var recentLocal = Date.now() - lastLocalChangeAt < 8000;
+    var recentPush = Date.now() - lastSaveTs < 2000;
+    return !recentLocal && !recentPush;
+  }
   // Debounced save: call on any change, actually fires 3s after last call
   function saveDebounced(payload){
+    noteLocalChange();
     if(saveTimer) clearTimeout(saveTimer);
     saveTimer = setTimeout(function(){
       const hash = JSON.stringify(payload).length + ":" + JSON.stringify(payload).slice(-50);
@@ -238,7 +247,9 @@ window.CleoSync = (function(){
     saveDebounced: saveDebounced,
     initialPull: initialPull,
     setup: setupPrompt,
-    isConfigured: isConfigured
+    isConfigured: isConfigured,
+    safeToPull: safeToPull,
+    noteLocalChange: noteLocalChange
   };
 })();
 
@@ -256,21 +267,22 @@ window.addEventListener("DOMContentLoaded", function(){
   setTimeout(function(){ window.CleoSync.initialPull(); }, 500);
 });
 
-// ── LIVE SYNC: poll every 5s so changes from phone show up without clicks ──
+// ── LIVE SYNC: poll every 5s, but skip when local changes are pending ──
 (function(){
-  var lastPullAt = 0;
   function doPoll(){
     if(!window.CleoSync || !window.CleoSync.isConfigured()) return;
+    // CRITICAL: don't pull if we have unpushed local changes (would wipe them)
+    if(window.CleoSync.safeToPull && !window.CleoSync.safeToPull()){
+      return;
+    }
     window.CleoSync.initialPull();
   }
-  // Tab becomes visible → immediate pull
   document.addEventListener("visibilitychange", function(){
     if(document.visibilityState === "visible") doPoll();
   });
   window.addEventListener("focus", doPoll);
-  // Poll every 5 seconds always (even when tab is in background)
   setInterval(doPoll, 5000);
-  console.log("🔄 Live sync: polling every 5 seconds");
+  console.log("🔄 Live sync: polling every 5s, safe-guarded against local overwrites");
 })();
 </script>
 <!-- Transpiled module block removed — Babel transpiles text/babel at runtime -->
@@ -842,7 +854,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_093634";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_094449";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
@@ -887,7 +899,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_093634";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_094449";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
