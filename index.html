@@ -360,25 +360,10 @@ function App() {
       if(firstLoad) {
         firstLoad = false;
         _fbFirstLoadDone = true;
-        // FRESH DEPLOY: push DATA_SNAPSHOT to Firebase, ignore stale Firebase data
-        if(_freshDeploy) {
-          console.log("🚀 Fresh deploy — pushing DATA_SNAPSHOT to Firebase (ignoring stale FB data)");
-          localStorage.removeItem("cleo_deploy_fresh");
-          _freshDeploy = false;
-          fbSave(cats);
-          return;
-        }
-        // NORMAL LOAD: accept Firebase data
-        try {
-          const fbCats = JSON.parse(data.cats);
-          if(fbCats && Array.isArray(fbCats)) {
-            fbLoadFiles(fbCats).then(merged => {
-              setCats(merged);
-              lsSet(LS_CATS, merged);
-              console.log("✅ Firebase first load: data synced");
-            });
-          }
-        } catch(e) { console.warn("Firebase parse error:", e); _fbFirstLoadDone = true; }
+        // NEVER let Firebase overwrite on first load. Local/DATA_SNAPSHOT is king.
+        // Just push our current data TO Firebase so other devices get it.
+        console.log("✅ Firebase connected — pushing local data to Firebase (local data is king)");
+        fbSave(cats);
         return;
       }
       // Subsequent updates: skip if this was our own write
