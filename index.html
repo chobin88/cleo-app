@@ -79,7 +79,7 @@ console.log("🔑 Global import hotkey ready: Ctrl+Shift+L loads a backup JSON")
 // When a fresh deploy is detected (DEPLOY_VERSION changed), wipe stale localStorage
 // so the fresh baked-in DATA_SNAPSHOT loads cleanly. Runs before React code.
 (function(){
-  var DEPLOY_VERSION = "v20260414_073351";
+  var DEPLOY_VERSION = "v20260414_080547";
   var stored = localStorage.getItem("cleo_deploy_ver");
   if(stored !== DEPLOY_VERSION){
     console.log("🚀 New deploy detected ("+DEPLOY_VERSION+"). Clearing stale localStorage so fresh DATA_SNAPSHOT loads.");
@@ -98,10 +98,23 @@ console.log("🔑 Global import hotkey ready: Ctrl+Shift+L loads a backup JSON")
 // ── GITHUB GIST CLOUD SYNC ──
 // Syncs cleo_cats to a private GitHub Gist for cross-device access.
 // PAT is stored per-device in localStorage (never baked into HTML/public deploy).
-// Default Gist ID (you can override via SETUP_SYNC command):
+// Default Gist ID (safe to bake, it's just an identifier):
 (function(){
   if(!localStorage.getItem("cleo_gist_id")){
     localStorage.setItem("cleo_gist_id", "5314f4576b3ca5452c4e8fd545c6c41a");
+  }
+  // URL-HASH SETUP: open cleo-app/#pat=XXX&gist=YYY to auto-configure
+  if(location.hash && location.hash.indexOf("pat=") > -1){
+    try{
+      var params = new URLSearchParams(location.hash.slice(1));
+      var pat = params.get("pat");
+      var gist = params.get("gist");
+      if(pat) localStorage.setItem("cleo_gist_pat", pat);
+      if(gist) localStorage.setItem("cleo_gist_id", gist);
+      // Remove hash from URL immediately (doesn't get stored in server logs, but clean up history)
+      history.replaceState(null, document.title, location.pathname + location.search);
+      console.log("✅ Sync configured via URL hash");
+    }catch(e){ console.warn("Hash setup failed:", e); }
   }
 })();
 
@@ -812,7 +825,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_073351";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_080547";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
@@ -857,7 +870,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_073351";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_080547";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
@@ -2206,6 +2219,27 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
 
   async function go(){
     let raw=val.trim();if(!raw||loading)return;
+    // ── SETUP_SYNC chat command handler ──
+    if(raw==="SETUP_SYNC" || raw.startsWith("SETUP_SYNC ")){
+      setVal("");
+      const parts = raw.split(/\s+/);
+      if(parts.length === 3){
+        localStorage.setItem("cleo_gist_pat", parts[1]);
+        localStorage.setItem("cleo_gist_id", parts[2]);
+        const payload = {};
+        for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k!=="cleo_gist_pat"&&k!=="cleo_deploy_ver")payload[k]=localStorage.getItem(k);}
+        if(window.CleoSync){
+          window.CleoSync.pushToGist(payload).then(ok=>{
+            showToast(ok?"☁️✅ Sync set up + pushed!":"⚠️ Setup saved but push failed");
+          });
+        } else {
+          showToast("⚠️ Sync module not loaded - refresh page");
+        }
+        return;
+      }
+      showToast("Usage: SETUP_SYNC <PAT> <GistID>");
+      return;
+    }
     setLoading(true);
     const key=lsGet(LS_KEY,"") || DEFAULT_KEY;
     if(!key){
