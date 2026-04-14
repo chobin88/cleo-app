@@ -124,8 +124,10 @@ async function fbLoadFiles(cats) {
 }
 
 // ── Main save function ──
+let _fbFirstLoadDone = false; // BLOCK saves until Firebase has been read first
 function fbSave(cats) {
   if(!FB_DOC) return;
+  if(!_fbFirstLoadDone) { console.log("⏳ Waiting for Firebase first load before saving..."); return; }
   const id = Math.random().toString(36).slice(2);
   _fbWriteId = id;
   clearTimeout(_fbTimer);
@@ -300,6 +302,8 @@ function App() {
 
   /* ── Auto-save to localStorage + Firebase ── */
   useEffect(()=>{ lsSet(LS_CATS, cats); fbSave(cats); }, [cats]);
+  /* ── Fallback: if Firebase never responds, allow saves after 3s ── */
+  useEffect(()=>{ const t=setTimeout(()=>{ if(!_fbFirstLoadDone){ _fbFirstLoadDone=true; console.log("⚠️ Firebase timeout — allowing saves"); fbSave(cats); }}, 3000); return ()=>clearTimeout(t); }, []);
 
   /* ── Force upload local files to Firebase Storage on startup (runs once) ── */
   useEffect(()=>{
@@ -333,22 +337,37 @@ function App() {
     let firstLoad = true;
     const unsub = FB_DOC.onSnapshot(snap => {
       if(!snap.exists) {
-        // No Firebase data yet — push local data up
+        // No Firebase data yet — this device has the only copy, allow saves
+        _fbFirstLoadDone = true;
         fbSave(cats);
         return;
       }
       const data = snap.data();
-      // Skip if this was our own write
+      if(firstLoad) {
+        // FIRST LOAD: Always accept Firebase data (don't check _fbWriteId)
+        firstLoad = false;
+        _fbFirstLoadDone = true;
+        try {
+          const fbCats = JSON.parse(data.cats);
+          if(fbCats && Array.isArray(fbCats)) {
+            fbLoadFiles(fbCats).then(merged => {
+              setCats(merged);
+              lsSet(LS_CATS, merged);
+              console.log("✅ Firebase first load: data synced");
+            });
+          }
+        } catch(e) { console.warn("Firebase parse error:", e); _fbFirstLoadDone = true; }
+        return;
+      }
+      // Subsequent updates: skip if this was our own write
       if(data._fbWriteId === _fbWriteId) return;
       try {
         const fbCats = JSON.parse(data.cats);
         if(fbCats && Array.isArray(fbCats)) {
-          // Load file data from subcollection and merge
           fbLoadFiles(fbCats).then(merged => {
             setCats(merged);
             lsSet(LS_CATS, merged);
           });
-          firstLoad = false;
         }
       } catch(e) { console.warn("Firebase parse error:", e); }
     });
