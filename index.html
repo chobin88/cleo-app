@@ -74,6 +74,22 @@ window.addEventListener("keydown", function(e){
   }
 });
 console.log("🔑 Global import hotkey ready: Ctrl+Shift+L loads a backup JSON");
+
+// ── AUTO-REFRESH ON NEW DEPLOY ──
+// When a fresh deploy is detected (DEPLOY_VERSION changed), wipe stale localStorage
+// so the fresh baked-in DATA_SNAPSHOT loads cleanly. Runs before React code.
+(function(){
+  var DEPLOY_VERSION = "v20260414_045413";
+  var stored = localStorage.getItem("cleo_deploy_ver");
+  if(stored !== DEPLOY_VERSION){
+    console.log("🚀 New deploy detected ("+DEPLOY_VERSION+"). Clearing stale localStorage so fresh DATA_SNAPSHOT loads.");
+    // Preserve api key if user set one
+    var apiKey = localStorage.getItem("cleo_api_key");
+    localStorage.clear();
+    if(apiKey) localStorage.setItem("cleo_api_key", apiKey);
+    localStorage.setItem("cleo_deploy_ver", DEPLOY_VERSION);
+  }
+})();
 </script>
 <!-- Transpiled module block removed — Babel transpiles text/babel at runtime -->
 
@@ -630,6 +646,9 @@ function App() {
               const headEls=document.querySelectorAll("head > *");
               let headHTML="";
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
+              // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
+              const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "'+newVer+'";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
@@ -653,6 +672,9 @@ function App() {
               const headEls=document.querySelectorAll("head > *");
               let headHTML="";
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
+              // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
+              const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "'+newVer+'";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
