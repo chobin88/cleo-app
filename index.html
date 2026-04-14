@@ -79,7 +79,7 @@ console.log("🔑 Global import hotkey ready: Ctrl+Shift+L loads a backup JSON")
 // When a fresh deploy is detected (DEPLOY_VERSION changed), wipe stale localStorage
 // so the fresh baked-in DATA_SNAPSHOT loads cleanly. Runs before React code.
 (function(){
-  var DEPLOY_VERSION = "v20260414_095716";
+  var DEPLOY_VERSION = "v20260414_101109";
   var stored = localStorage.getItem("cleo_deploy_ver");
   if(stored !== DEPLOY_VERSION){
     console.log("🚀 New deploy detected ("+DEPLOY_VERSION+"). Clearing stale localStorage so fresh DATA_SNAPSHOT loads.");
@@ -165,10 +165,15 @@ window.CleoSync = (function(){
   async function pushToGist(payload){
     if(!isConfigured()){ return false; }
     try{
+      // Inject version + timestamp so we can detect stale pulls
+      const versionedPayload = Object.assign({}, payload, {
+        _cleo_version: getLocalVersion(),
+        _cleo_pushed_at: new Date().toISOString()
+      });
       const body = {
         files: {}
       };
-      body.files[GIST_FILE] = { content: JSON.stringify(payload, null, 2) };
+      body.files[GIST_FILE] = { content: JSON.stringify(versionedPayload, null, 2) };
       const r = await fetch("https://api.github.com/gists/"+getGistId(), {
         method: "PATCH",
         headers: {
@@ -186,9 +191,14 @@ window.CleoSync = (function(){
   }
 
   var lastLocalChangeAt = 0; // track local edit time to prevent poll-overwrite
-  function noteLocalChange(){ lastLocalChangeAt = Date.now(); }
+  function noteLocalChange(){ lastLocalChangeAt = Date.now(); bumpVersion(); }
+  function getLocalVersion(){ return parseInt(localStorage.getItem("cleo_version") || "0", 10) || 0; }
+  function bumpVersion(){
+    var v = getLocalVersion() + 1;
+    localStorage.setItem("cleo_version", String(v));
+    return v;
+  }
   function safeToPull(){
-    // Don't pull if we have pending local changes OR just pushed
     var recentLocal = Date.now() - lastLocalChangeAt < 8000;
     var recentPush = Date.now() - lastSaveTs < 2000;
     return !recentLocal && !recentPush;
@@ -214,18 +224,25 @@ window.CleoSync = (function(){
     }
     const remote = await pullFromGist();
     if(!remote) return;
-    // Merge: if remote has cleo_cats and it's different from local, use remote
+    // Version guard: only apply remote if it's NEWER than local
+    var remoteVer = parseInt(remote._cleo_version || "0", 10) || 0;
+    var localVer = getLocalVersion();
+    if(remoteVer <= localVer){
+      console.log("☁️ Skipping pull: remote v"+remoteVer+" ≤ local v"+localVer+" (stale or same)");
+      return;
+    }
     const remoteCats = remote.cleo_cats;
     if(remoteCats){
       const localCats = localStorage.getItem("cleo_cats");
       if(remoteCats !== localCats){
-        console.log("☁️ Applying remote state from Gist (overrides local)");
+        console.log("☁️ Applying remote v"+remoteVer+" (local was v"+localVer+")");
         for(var k in remote){
-          if(k !== "cleo_gist_pat" && k !== "cleo_gist_id" && k !== "cleo_deploy_ver"){
+          if(k !== "cleo_gist_pat" && k !== "cleo_gist_id" && k !== "cleo_deploy_ver" && !k.startsWith("_cleo_")){
             localStorage.setItem(k, remote[k]);
           }
         }
-        // Reload to show fresh data
+        // Update local version to remote's so we don't re-apply
+        localStorage.setItem("cleo_version", String(remoteVer));
         console.log("☁️ Reloading to apply pulled state...");
         location.reload();
       } else {
@@ -871,7 +888,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_095716";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_101109";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
@@ -916,7 +933,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_095716";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_101109";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
