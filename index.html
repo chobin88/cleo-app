@@ -79,7 +79,7 @@ console.log("🔑 Global import hotkey ready: Ctrl+Shift+L loads a backup JSON")
 // When a fresh deploy is detected (DEPLOY_VERSION changed), wipe stale localStorage
 // so the fresh baked-in DATA_SNAPSHOT loads cleanly. Runs before React code.
 (function(){
-  var DEPLOY_VERSION = "v20260414_094449";
+  var DEPLOY_VERSION = "v20260414_095716";
   var stored = localStorage.getItem("cleo_deploy_ver");
   if(stored !== DEPLOY_VERSION){
     console.log("🚀 New deploy detected ("+DEPLOY_VERSION+"). Clearing stale localStorage so fresh DATA_SNAPSHOT loads.");
@@ -129,22 +129,35 @@ window.CleoSync = (function(){
   function isConfigured(){ return !!getPat() && !!getGistId(); }
 
   async function pullFromGist(){
-    if(!isConfigured()){ console.log("☁️ Gist sync: PAT not set, skipping pull"); return null; }
+    var gid = getGistId();
+    if(!gid){ console.log("☁️ No gist ID"); return null; }
+    // Try auth API first (fresher, requires PAT). Fall back to raw URL (public read of secret gist, no PAT needed).
+    var pat = getPat();
+    var cb = "?t=" + Date.now();
+    var url, headers;
+    if(pat){
+      url = "https://api.github.com/gists/" + gid + cb;
+      headers = {"Authorization":"Bearer "+pat, "Accept":"application/vnd.github+json", "Cache-Control":"no-cache"};
+    } else {
+      // Read via raw URL — works for secret gists without auth
+      url = "https://gist.githubusercontent.com/" + "chobin88/" + gid + "/raw/" + GIST_FILE + cb;
+      headers = {"Cache-Control":"no-cache"};
+    }
     try{
-      const r = await fetch("https://api.github.com/gists/"+getGistId(), {
-        headers: {
-          "Authorization": "Bearer "+getPat(),
-          "Accept": "application/vnd.github+json"
-        }
-      });
+      const r = await fetch(url, {headers: headers, cache: "no-store"});
       if(!r.ok){ console.warn("☁️ Gist pull failed:", r.status, r.statusText); return null; }
-      const data = await r.json();
-      const file = data.files && data.files[GIST_FILE];
-      if(!file){ console.log("☁️ Gist pull: file not found"); return null; }
-      const content = file.content;
+      var content;
+      if(pat){
+        const data = await r.json();
+        const file = data.files && data.files[GIST_FILE];
+        if(!file){ console.log("☁️ Gist pull: file not found"); return null; }
+        content = file.content;
+      } else {
+        content = await r.text();
+      }
       if(!content || content === "{}"){ console.log("☁️ Gist pull: empty"); return null; }
       const parsed = JSON.parse(content);
-      console.log("☁️ Gist pull OK:", Object.keys(parsed).length, "keys");
+      console.log("☁️ Gist pull OK" + (pat?" (auth)":" (public raw)") + ":", Object.keys(parsed).length, "keys");
       return parsed;
     } catch(err){ console.warn("☁️ Gist pull error:", err); return null; }
   }
@@ -194,8 +207,9 @@ window.CleoSync = (function(){
 
   // Initial pull on startup + merge into localStorage BEFORE React loads
   async function initialPull(){
-    if(!isConfigured()){
-      console.log("☁️ Gist sync not configured. Type SETUP_SYNC in chat to configure.");
+    // Pull works with just gist ID (public read via raw URL); PAT only needed for writes
+    if(!getGistId()){
+      console.log("☁️ No gist ID configured");
       return;
     }
     const remote = await pullFromGist();
@@ -270,7 +284,10 @@ window.addEventListener("DOMContentLoaded", function(){
 // ── LIVE SYNC: poll every 5s, but skip when local changes are pending ──
 (function(){
   function doPoll(){
-    if(!window.CleoSync || !window.CleoSync.isConfigured()) return;
+    if(!window.CleoSync) return;
+    // Only require gist ID (not PAT) for reads — PAT needed only for writes
+    var hasGist = !!localStorage.getItem("cleo_gist_id");
+    if(!hasGist) return;
     // CRITICAL: don't pull if we have unpushed local changes (would wipe them)
     if(window.CleoSync.safeToPull && !window.CleoSync.safeToPull()){
       return;
@@ -854,7 +871,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_094449";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_095716";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
@@ -899,7 +916,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_094449";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_095716";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
