@@ -79,7 +79,7 @@ console.log("🔑 Global import hotkey ready: Ctrl+Shift+L loads a backup JSON")
 // When a fresh deploy is detected (DEPLOY_VERSION changed), wipe stale localStorage
 // so the fresh baked-in DATA_SNAPSHOT loads cleanly. Runs before React code.
 (function(){
-  var DEPLOY_VERSION = "v20260414_045413";
+  var DEPLOY_VERSION = "v20260414_071055";
   var stored = localStorage.getItem("cleo_deploy_ver");
   if(stored !== DEPLOY_VERSION){
     console.log("🚀 New deploy detected ("+DEPLOY_VERSION+"). Clearing stale localStorage so fresh DATA_SNAPSHOT loads.");
@@ -812,7 +812,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "'+newVer+'";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_071055";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
@@ -828,6 +828,25 @@ function App() {
             setCleoMenuOpen(false);
           }} style={{display:"flex",alignItems:"center",gap:8,background:"#111122",border:"none",borderRadius:9,color:"#fff",fontSize:12,fontWeight:700,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>💾 Save Full Backup</button>
           <button onClick={()=>{
+            setCleoMenuOpen(false);
+            if(!window.CleoSync || !window.CleoSync.isConfigured()){ setSyncMsg("⚠️ Sync not set up"); setTimeout(()=>setSyncMsg(""),3000); return; }
+            const payload={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k!=="cleo_gist_pat"&&k!=="cleo_deploy_ver")payload[k]=localStorage.getItem(k);}
+            setSyncMsg("☁️ Pushing...");
+            window.CleoSync.pushToGist(payload).then(ok=>{setSyncMsg(ok?"☁️✅ Saved to Cloud!":"☁️❌ Push failed");setTimeout(()=>setSyncMsg(""),4000);});
+          }} style={{display:"flex",alignItems:"center",gap:8,background:"#22aa44",border:"none",borderRadius:9,color:"#fff",fontSize:12,fontWeight:700,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>☁️⬆ Cloud Save Now</button>
+          <button onClick={()=>{
+            setCleoMenuOpen(false);
+            if(!window.CleoSync || !window.CleoSync.isConfigured()){ setSyncMsg("⚠️ Sync not set up"); setTimeout(()=>setSyncMsg(""),3000); return; }
+            setSyncMsg("☁️ Pulling...");
+            window.CleoSync.pullFromGist().then(data=>{
+              if(data && data.cleo_cats){
+                for(var k in data){if(k!=="cleo_gist_pat"&&k!=="cleo_deploy_ver")localStorage.setItem(k,data[k]);}
+                setSyncMsg("☁️✅ Loaded! Reloading...");
+                setTimeout(()=>location.reload(),800);
+              } else { setSyncMsg("☁️ Cloud empty"); setTimeout(()=>setSyncMsg(""),3000); }
+            });
+          }} style={{display:"flex",alignItems:"center",gap:8,background:"#aa5522",border:"none",borderRadius:9,color:"#fff",fontSize:12,fontWeight:700,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>☁️⬇ Cloud Load Now</button>
+          <button onClick={()=>{
             try{
               const scriptEl=document.querySelector('script[type="text/babel"]');
               const scriptSrc=scriptEl.textContent;
@@ -838,7 +857,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "'+newVer+'";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_071055";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
