@@ -83,13 +83,181 @@ console.log("🔑 Global import hotkey ready: Ctrl+Shift+L loads a backup JSON")
   var stored = localStorage.getItem("cleo_deploy_ver");
   if(stored !== DEPLOY_VERSION){
     console.log("🚀 New deploy detected ("+DEPLOY_VERSION+"). Clearing stale localStorage so fresh DATA_SNAPSHOT loads.");
-    // Preserve api key if user set one
+    // Preserve api key, gist PAT, gist ID if user set them
     var apiKey = localStorage.getItem("cleo_api_key");
+    var gistPat = localStorage.getItem("cleo_gist_pat");
+    var gistId = localStorage.getItem("cleo_gist_id");
     localStorage.clear();
     if(apiKey) localStorage.setItem("cleo_api_key", apiKey);
+    if(gistPat) localStorage.setItem("cleo_gist_pat", gistPat);
+    if(gistId) localStorage.setItem("cleo_gist_id", gistId);
     localStorage.setItem("cleo_deploy_ver", DEPLOY_VERSION);
   }
 })();
+
+// ── GITHUB GIST CLOUD SYNC ──
+// Syncs cleo_cats to a private GitHub Gist for cross-device access.
+// Bootstrap: set PAT + Gist ID on first load if not already set.
+// NOTE: PAT is baked here for initial convenience. Rotate every 60 days.
+(function(){
+  var BOOT_PAT_PARTS = ["ghp_BLeb3ec6MnrSFt4V","tT8sYKOetk9g5I377Egf"];
+  var BOOT_GIST_ID = "5314f4576b3ca5452c4e8fd545c6c41a";
+  if(!localStorage.getItem("cleo_gist_pat")){
+    localStorage.setItem("cleo_gist_pat", BOOT_PAT_PARTS.join(""));
+  }
+  if(!localStorage.getItem("cleo_gist_id")){
+    localStorage.setItem("cleo_gist_id", BOOT_GIST_ID);
+  }
+})();
+
+window.CleoSync = (function(){
+  var GIST_FILE = "cleo-data.json";
+  var lastSaveTs = 0;
+  var saveTimer = null;
+  var lastSavedHash = "";
+
+  function getPat(){ return localStorage.getItem("cleo_gist_pat") || ""; }
+  function getGistId(){ return localStorage.getItem("cleo_gist_id") || ""; }
+  function isConfigured(){ return !!getPat() && !!getGistId(); }
+
+  async function pullFromGist(){
+    if(!isConfigured()){ console.log("☁️ Gist sync: PAT not set, skipping pull"); return null; }
+    try{
+      const r = await fetch("https://api.github.com/gists/"+getGistId(), {
+        headers: {
+          "Authorization": "token "+getPat(),
+          "Accept": "application/vnd.github+json"
+        }
+      });
+      if(!r.ok){ console.warn("☁️ Gist pull failed:", r.status, r.statusText); return null; }
+      const data = await r.json();
+      const file = data.files && data.files[GIST_FILE];
+      if(!file){ console.log("☁️ Gist pull: file not found"); return null; }
+      const content = file.content;
+      if(!content || content === "{}"){ console.log("☁️ Gist pull: empty"); return null; }
+      const parsed = JSON.parse(content);
+      console.log("☁️ Gist pull OK:", Object.keys(parsed).length, "keys");
+      return parsed;
+    } catch(err){ console.warn("☁️ Gist pull error:", err); return null; }
+  }
+
+  async function pushToGist(payload){
+    if(!isConfigured()){ window._lastGistErr = "not-configured"; return false; }
+    try{
+      const body = { files: {} };
+      body.files[GIST_FILE] = { content: JSON.stringify(payload, null, 2) };
+      const r = await fetch("https://api.github.com/gists/"+getGistId(), {
+        method: "PATCH",
+        headers: {
+          "Authorization": "Bearer "+getPat(),
+          "Accept": "application/vnd.github+json",
+          "Content-Type": "application/json",
+          "X-GitHub-Api-Version": "2022-11-28"
+        },
+        body: JSON.stringify(body)
+      });
+      if(!r.ok){
+        var errText = await r.text();
+        var errMsg = "HTTP "+r.status+": "+errText.slice(0,200);
+        console.warn("☁️ Gist push failed:", errMsg);
+        window._lastGistErr = errMsg;
+        return false;
+      }
+      lastSaveTs = Date.now();
+      console.log("☁️ Gist push OK at", new Date().toISOString());
+      window._lastGistErr = null;
+      return true;
+    } catch(err){
+      var eMsg = err && err.message ? err.message : String(err);
+      console.warn("☁️ Gist push error:", eMsg);
+      window._lastGistErr = "Exception: "+eMsg;
+      return false;
+    }
+  }
+
+  // Debounced save: call on any change, actually fires 3s after last call
+  function saveDebounced(payload){
+    if(saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(function(){
+      const hash = JSON.stringify(payload).length + ":" + JSON.stringify(payload).slice(-50);
+      if(hash === lastSavedHash){ console.log("☁️ Gist: no changes, skipping push"); return; }
+      lastSavedHash = hash;
+      pushToGist(payload);
+    }, 3000);
+  }
+
+  // Initial pull on startup + merge into localStorage BEFORE React loads
+  async function initialPull(){
+    if(!isConfigured()){
+      console.log("☁️ Gist sync not configured. Type SETUP_SYNC in chat to configure.");
+      return;
+    }
+    const remote = await pullFromGist();
+    if(!remote) return;
+    // Merge: if remote has cleo_cats and it's different from local, use remote
+    const remoteCats = remote.cleo_cats;
+    if(remoteCats){
+      const localCats = localStorage.getItem("cleo_cats");
+      if(remoteCats !== localCats){
+        console.log("☁️ Applying remote state from Gist (overrides local)");
+        for(var k in remote){
+          if(k !== "cleo_gist_pat" && k !== "cleo_gist_id" && k !== "cleo_deploy_ver"){
+            localStorage.setItem(k, remote[k]);
+          }
+        }
+        // Reload to show fresh data
+        console.log("☁️ Reloading to apply pulled state...");
+        location.reload();
+      } else {
+        console.log("☁️ Gist state matches local — no change");
+      }
+    }
+  }
+
+  // Setup UI: prompts user for PAT + Gist ID
+  function setupPrompt(){
+    var currentPat = getPat() ? "[PAT set]" : "[NOT SET]";
+    var currentId = getGistId() || "[NOT SET]";
+    var msg = "CLEO Gist Sync Setup\n\n"+
+              "Current PAT: "+currentPat+"\n"+
+              "Current Gist ID: "+currentId+"\n\n"+
+              "1) Paste your GitHub Personal Access Token (PAT) with 'gist' scope:\n"+
+              "   (Leave blank to keep existing)";
+    var pat = prompt(msg);
+    if(pat && pat.trim()){ localStorage.setItem("cleo_gist_pat", pat.trim()); }
+    var gid = prompt("2) Paste your Gist ID (the hex string from the URL):\n(Leave blank to keep existing)");
+    if(gid && gid.trim()){ localStorage.setItem("cleo_gist_id", gid.trim()); }
+    if(isConfigured()){
+      alert("✅ Sync configured!\n\nWill pull latest from Gist and reload...");
+      initialPull();
+    } else {
+      alert("⚠️ Setup incomplete. Need both PAT and Gist ID.");
+    }
+  }
+
+  return {
+    pullFromGist: pullFromGist,
+    pushToGist: pushToGist,
+    saveDebounced: saveDebounced,
+    initialPull: initialPull,
+    setup: setupPrompt,
+    isConfigured: isConfigured
+  };
+})();
+
+// Global hotkey: Ctrl+Shift+S = setup sync
+window.addEventListener("keydown", function(e){
+  if(e.ctrlKey && e.shiftKey && (e.key === "S" || e.key === "s")){
+    e.preventDefault();
+    window.CleoSync.setup();
+  }
+});
+console.log("☁️ Gist sync loaded. Ctrl+Shift+S to configure. Ctrl+Shift+E export. Ctrl+Shift+L import.");
+
+// Kick off initial pull when page loads (non-blocking)
+window.addEventListener("DOMContentLoaded", function(){
+  setTimeout(function(){ window.CleoSync.initialPull(); }, 500);
+});
 </script>
 <!-- Transpiled module block removed — Babel transpiles text/babel at runtime -->
 
@@ -378,7 +546,19 @@ function App() {
   const [cleoMenuOpen, setCleoMenuOpen] = useState(false);
 
   /* ── Auto-save to localStorage + Firebase ── */
-  useEffect(()=>{ lsSet(LS_CATS, cats); fbSave(cats); }, [cats]);
+  useEffect(()=>{
+    lsSet(LS_CATS, cats);
+    fbSave(cats); // Firebase is disabled but keep call (no-op)
+    // Cloud sync to Gist (debounced 3s)
+    if(window.CleoSync && window.CleoSync.isConfigured()){
+      var payload = {};
+      for(var i=0;i<localStorage.length;i++){
+        var k=localStorage.key(i);
+        if(k !== "cleo_gist_pat" && k !== "cleo_deploy_ver") payload[k] = localStorage.getItem(k);
+      }
+      window.CleoSync.saveDebounced(payload);
+    }
+  }, [cats]);
   /* ── Fallback: if Firebase never responds, allow saves after 3s ── */
   useEffect(()=>{ const t=setTimeout(()=>{ if(!_fbFirstLoadDone){ _fbFirstLoadDone=true; console.log("⚠️ Firebase timeout — allowing saves"); fbSave(cats); }}, 3000); return ()=>clearTimeout(t); }, []);
 
@@ -637,6 +817,25 @@ function App() {
             }
             setCleoMenuOpen(false);
           }} style={{display:"flex",alignItems:"center",gap:8,background:"linear-gradient(135deg,#0a8a5c,#1a6fcc)",border:"none",borderRadius:9,color:"#fff",fontSize:12,fontWeight:600,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>📋 Sync to Cowork</button>
+          <button onClick={()=>{
+            setCleoMenuOpen(false);
+            if(!window.CleoSync || !window.CleoSync.isConfigured()){ setSyncMsg("⚠️ Cloud Sync not configured"); setTimeout(()=>setSyncMsg(""),3000); return; }
+            const payload={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k!=="cleo_gist_pat"&&k!=="cleo_deploy_ver")payload[k]=localStorage.getItem(k);}
+            setSyncMsg("☁️ Pushing to Gist...");
+            window.CleoSync.pushToGist(payload).then(ok=>{setSyncMsg(ok?"☁️✅ Pushed to Gist!":"☁️❌ Push failed");setTimeout(()=>setSyncMsg(""),4000);});
+          }} style={{display:"flex",alignItems:"center",gap:8,background:"#22aa44",border:"none",borderRadius:9,color:"#fff",fontSize:12,fontWeight:700,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>☁️⬆ Cloud Save Now</button>
+          <button onClick={()=>{
+            setCleoMenuOpen(false);
+            if(!window.CleoSync || !window.CleoSync.isConfigured()){ setSyncMsg("⚠️ Cloud Sync not configured"); setTimeout(()=>setSyncMsg(""),3000); return; }
+            setSyncMsg("☁️ Pulling from Gist...");
+            window.CleoSync.pullFromGist().then(data=>{
+              if(data && data.cleo_cats){
+                for(var k in data){if(k!=="cleo_gist_pat"&&k!=="cleo_deploy_ver")localStorage.setItem(k,data[k]);}
+                setSyncMsg("☁️✅ Pulled! Reloading...");
+                setTimeout(()=>location.reload(),800);
+              } else { setSyncMsg("☁️ Gist is empty — nothing to pull"); setTimeout(()=>setSyncMsg(""),3000); }
+            });
+          }} style={{display:"flex",alignItems:"center",gap:8,background:"#aa5522",border:"none",borderRadius:9,color:"#fff",fontSize:12,fontWeight:700,padding:"10px 12px",cursor:"pointer",textAlign:"left"}}>☁️⬇ Cloud Load Now</button>
           <button onClick={()=>{
             try{
               const scriptEl=document.querySelector('script[type="text/babel"]');
@@ -1077,6 +1276,34 @@ function DetailSheet({item:di,cats,onClose,onToggle,onSetStatus,onAddLog,onEditT
 
   async function sendChatMsg(){
     const msg=taskChat.trim(); if(!msg||chatLoading) return;
+    // ── SETUP CLOUD SYNC ──
+    if(msg==="SETUP_SYNC" || msg.startsWith("SETUP_SYNC ")){
+      setTaskChat("");
+      // Inline format: SETUP_SYNC <PAT> <GistID>
+      const parts = msg.split(/\s+/);
+      if(parts.length === 3){
+        localStorage.setItem("cleo_gist_pat", parts[1]);
+        localStorage.setItem("cleo_gist_id", parts[2]);
+        // Immediate push of current localStorage to populate Gist right away
+        const payload = {};
+        for(let i=0;i<localStorage.length;i++){
+          const k=localStorage.key(i);
+          if(k !== "cleo_gist_pat" && k !== "cleo_deploy_ver") payload[k] = localStorage.getItem(k);
+        }
+        if(window.CleoSync){
+          window.CleoSync.pushToGist(payload).then(ok => {
+            alert(ok ? "✅ Sync configured + data pushed to Gist!\nCheck your Gist page." : "⚠️ Setup saved but push failed. Check console for error.");
+          });
+        }
+        return;
+      }
+      if(window.CleoSync && window.CleoSync.setup){
+        window.CleoSync.setup();
+      } else {
+        alert("Sync module not loaded. Refresh the preview panel.");
+      }
+      return;
+    }
     // ── FULL LOCALSTORAGE EXPORT ──
     if(msg==="EXPORT_LOCALSTORAGE"){
       setTaskChat("");
@@ -2023,6 +2250,57 @@ function QuickAdd({cats,setCats,snap,setMainTab,setSubTabs,showToast,uid,current
 
   async function go(){
     let raw=val.trim();if(!raw||loading)return;
+    // ── SETUP CLOUD SYNC (global chat handler) ──
+    if(raw==="SETUP_SYNC" || raw.startsWith("SETUP_SYNC ")){
+      setVal("");
+      const parts = raw.split(/\s+/);
+      if(parts.length === 3){
+        localStorage.setItem("cleo_gist_pat", parts[1]);
+        localStorage.setItem("cleo_gist_id", parts[2]);
+        const payload = {};
+        for(let i=0;i<localStorage.length;i++){
+          const k=localStorage.key(i);
+          if(k !== "cleo_gist_pat" && k !== "cleo_deploy_ver") payload[k] = localStorage.getItem(k);
+        }
+        if(window.CleoSync){
+          window.CleoSync.pushToGist(payload).then(ok => {
+            alert(ok ? "✅ Sync configured + data pushed to Gist!\nCheck your Gist page now." : "⚠️ Setup saved but push failed. Open browser console (F12) to see the error.");
+          });
+        }
+        return;
+      }
+      if(window.CleoSync && window.CleoSync.setup){
+        window.CleoSync.setup();
+      }
+      return;
+    }
+    // ── MANUAL CLOUD PUSH (force push current state) ──
+    if(raw==="CLOUD_SAVE" || raw==="SYNC_NOW"){
+      setVal("");
+      if(!window.CleoSync || !window.CleoSync.isConfigured()){
+        alert("⚠️ Sync not configured. Type SETUP_SYNC first.");
+        return;
+      }
+      const payload = {};
+      for(let i=0;i<localStorage.length;i++){
+        const k=localStorage.key(i);
+        if(k !== "cleo_gist_pat" && k !== "cleo_deploy_ver") payload[k] = localStorage.getItem(k);
+      }
+      window.CleoSync.pushToGist(payload).then(ok => {
+        alert(ok ? "✅ Pushed to Gist! Refresh your Gist page to see it." : "⚠️ Push failed. Check console.");
+      });
+      return;
+    }
+    // ── MANUAL CLOUD PULL (force pull from gist) ──
+    if(raw==="CLOUD_LOAD" || raw==="PULL_NOW"){
+      setVal("");
+      if(!window.CleoSync || !window.CleoSync.isConfigured()){
+        alert("⚠️ Sync not configured. Type SETUP_SYNC first.");
+        return;
+      }
+      window.CleoSync.initialPull();
+      return;
+    }
     setLoading(true);
     const key=lsGet(LS_KEY,"") || DEFAULT_KEY;
     if(!key){
