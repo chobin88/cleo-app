@@ -79,7 +79,7 @@ console.log("🔑 Global import hotkey ready: Ctrl+Shift+L loads a backup JSON")
 // When a fresh deploy is detected (DEPLOY_VERSION changed), wipe stale localStorage
 // so the fresh baked-in DATA_SNAPSHOT loads cleanly. Runs before React code.
 (function(){
-  var DEPLOY_VERSION = "v20260414_091815";
+  var DEPLOY_VERSION = "v20260414_093634";
   var stored = localStorage.getItem("cleo_deploy_ver");
   if(stored !== DEPLOY_VERSION){
     console.log("🚀 New deploy detected ("+DEPLOY_VERSION+"). Clearing stale localStorage so fresh DATA_SNAPSHOT loads.");
@@ -256,29 +256,21 @@ window.addEventListener("DOMContentLoaded", function(){
   setTimeout(function(){ window.CleoSync.initialPull(); }, 500);
 });
 
-// ── LIVE SYNC: auto-pull when tab becomes active or page regains focus ──
-// This makes switching tabs / returning from another device pull the latest automatically.
+// ── LIVE SYNC: poll every 5s so changes from phone show up without clicks ──
 (function(){
   var lastPullAt = 0;
-  var PULL_COOLDOWN_MS = 4000; // Don't spam API
-  function maybePull(){
+  function doPoll(){
     if(!window.CleoSync || !window.CleoSync.isConfigured()) return;
-    var now = Date.now();
-    if(now - lastPullAt < PULL_COOLDOWN_MS) return;
-    lastPullAt = now;
     window.CleoSync.initialPull();
   }
-  // Tab becomes visible (switched back to this tab)
+  // Tab becomes visible → immediate pull
   document.addEventListener("visibilitychange", function(){
-    if(document.visibilityState === "visible") maybePull();
+    if(document.visibilityState === "visible") doPoll();
   });
-  // Window regains focus
-  window.addEventListener("focus", maybePull);
-  // Light polling every 20s while tab is active
-  setInterval(function(){
-    if(document.visibilityState === "visible") maybePull();
-  }, 20000);
-  console.log("🔄 Live sync ready: auto-pull on focus + every 20s while active");
+  window.addEventListener("focus", doPoll);
+  // Poll every 5 seconds always (even when tab is in background)
+  setInterval(doPoll, 5000);
+  console.log("🔄 Live sync: polling every 5 seconds");
 })();
 </script>
 <!-- Transpiled module block removed — Babel transpiles text/babel at runtime -->
@@ -850,7 +842,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_091815";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_093634";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
@@ -895,7 +887,7 @@ function App() {
               headEls.forEach(el=>{headHTML+=el.outerHTML+"\n";});
               // Auto-bump DEPLOY_VERSION so live site detects new data and refreshes
               const newVer="v"+new Date().toISOString().replace(/[-:T.Z]/g,"").slice(0,14);
-              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_091815";');
+              headHTML=headHTML.replace(/var DEPLOY_VERSION = "[^"]*";/,'var DEPLOY_VERSION = "v20260414_093634";');
               const suppressScript=document.querySelector("script:not([type])");
               const sc="scr"+"ipt";const fullHTML="<!DOCTYPE html>\n<html>\n<head>\n"+headHTML+"</head>\n<body>\n<div id=\"root\"></div>\n"+(suppressScript?"<"+sc+">"+suppressScript.textContent+"</"+sc+">\n":"")+"<"+sc+" type=\"text/babel\" data-type=\"module\">\n"+updatedScript+"\n</"+sc+">\n</body>\n</html>";
               const blob=new Blob([fullHTML],{type:"text/html"});
